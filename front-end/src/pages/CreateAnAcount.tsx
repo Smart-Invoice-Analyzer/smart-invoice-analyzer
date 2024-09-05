@@ -1,15 +1,12 @@
 import React from 'react';
 import { Box, Typography, Button, Grid, Container } from '@mui/material';
-import LoginForm from '../components/Login/LoginForm';
+import CreateAccountForm from '../components/CreateanAccount/CreateAccountForm';
 import '../styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 
+const CreateAccountPage: React.FC = () => {
 
-const LoginPage: React.FC = () => {
-
-  const navigate = useNavigate();
-
-  
+    const navigate = useNavigate();
 
   return (
     <Grid container sx={{ height: '100vh' }}>
@@ -42,7 +39,7 @@ const LoginPage: React.FC = () => {
         </Box>
       </Grid>
 
-      {/* Right side with the login form */}
+      {/* Right side with the create account form */}
       <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Container maxWidth="xs">
           <Box
@@ -55,21 +52,21 @@ const LoginPage: React.FC = () => {
             }}
           >
             <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#01579b' }}>
-              Login
+              Create an Account
             </Typography>
-            <LoginForm />
+            <CreateAccountForm />
             <Box mt={4}>
               <Typography variant="body1" align="center">
-                Don't have an account?
+                Already have an account?
               </Typography>
               <Button
                 variant="outlined"
                 color="primary"
                 fullWidth
                 sx={{ marginTop: '10px', borderColor: '#01579b', color: '#01579b' }}
-                onClick={() => navigate('/create')}
+                onClick={() => navigate('/')}
               >
-                Create an Account
+                Login
               </Button>
             </Box>
           </Box>
@@ -79,4 +76,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default CreateAccountPage;

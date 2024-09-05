@@ -1,14 +1,16 @@
+
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { TextField, Button, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Snackbar, Alert, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/authSlice';
+import { login } from '../../store/authSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import '../styles/Login.css'
+import 'C://Users//f.bayramov//Desktop//smart-invoice-analyzer//front-end//src//styles//Login.css';
+
 interface User {
   email: string;
   name: string;
@@ -16,6 +18,7 @@ interface User {
 
 interface LoginFormInputs {
   email: string;
+  password: string;
 }
 
 const LoginForm: React.FC = () => {
@@ -36,6 +39,7 @@ const LoginForm: React.FC = () => {
 
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
@@ -69,25 +73,34 @@ const LoginForm: React.FC = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          label="Email"
-          {...register('email')}
-          error={!!errors.email}
-          helperText={errors.email?.message}
-          fullWidth
-        />
-        <TextField
-        label = "Password"
-        fullWidth
-        />
-        
-        <Button type="submit" variant="contained" color="primary">
+        <Box mb={2}>
+          <TextField
+            label="Email"
+            {...register('email')}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            fullWidth
+            sx={{ borderColor: '01579b' }}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Password"
+            type="password"
+            {...register('password')}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            fullWidth
+            sx={{ borderColor: '01579b' }}
+          />
+        </Box>
+        <Button type="submit" variant="contained" fullWidth sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#596e60' } }}>
           Login
         </Button>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={4000}>
         <Alert onClose={handleCloseSnackbar} severity="error">
-          Incorrect email.
+          Incorrect email or password.
         </Alert>
       </Snackbar>
     </>
