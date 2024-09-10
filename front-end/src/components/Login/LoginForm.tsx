@@ -11,9 +11,13 @@ import { login } from '../../store/authSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import 'C://Users//f.bayramov//Desktop//smart-invoice-analyzer//front-end//src//styles//Login.css';
 
-interface User {
+export interface User {
   email: string;
   name: string;
+  surname: string;
+  password: string;
+  username: string;
+  userId: string;
 }
 
 interface LoginFormInputs {
@@ -28,7 +32,7 @@ const LoginForm: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get<User[]>('https://jsonplaceholder.typicode.com/users')
+    axios.get<User[]>('/usersdata.json')
       .then(response => {
         setValidUsers(response.data);
       })
@@ -48,8 +52,9 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = (data: LoginFormInputs) => {
     const user = validUsers.find(user => user.email === data.email);
-    if (user) {
-      dispatch(login({ email: user.email, name: user.name }));
+    const pass = validUsers.find(user => user.password === data.password)
+    if (user && pass) {
+      dispatch(login({ email: user.email, name: user.name, password: user.password,username: user.username,surname: user.surname,userId: user.userId}));
       navigate('/home');
     } else {
       setOpenSnackbar(true);

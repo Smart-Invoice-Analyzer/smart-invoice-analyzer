@@ -33,7 +33,7 @@ const CreateAccountForm: React.FC = () => {
 
   const onSubmit = (data: CreateAccountInputs) => {
     // Axios POST request to create a new account
-    axios.post('https://jsonplaceholder.typicode.com/users', {
+    axios.post('http://localhost:5000/users', {
       email: data.email,
       password: data.password
     })

@@ -3,6 +3,9 @@ import React from 'react';
 import { Box, TextField, InputAdornment, IconButton, Typography, Avatar } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
+import { useAuth } from '../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 interface TopbarProps {
   sidebarOpen: boolean;
@@ -10,6 +13,9 @@ interface TopbarProps {
 }
 
 const Topbar: React.FC<TopbarProps> = ({ sidebarOpen, darkMode }) => {
+
+  const topbarname = useSelector ((state: RootState) => state.auth.username);
+
   return (
     <Box sx={{
       position: 'fixed',
@@ -43,7 +49,7 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen, darkMode }) => {
       {/* Profile */}
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="body1" sx={{ marginRight: 2 }} fontFamily={'Jaro'}>
-          Name Surname
+          {topbarname}
         </Typography>
         <Avatar>
           <PersonIcon />

@@ -1,0 +1,104 @@
+[
+    {
+      "userId": "1",
+      "name": "Leanne Graham",
+      "username": "Bret",
+      "email": "Sincere@april.biz",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "2",
+      "name": "Ervin Howell",
+      "username": "Antonette",
+      "email": "Shanna@melissa.tv",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "3",
+      "name": "Clementine Bauch",
+      "username": "Samantha",
+      "email": "Nathan@yesenia.net",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "4",
+      "name": "Patricia Lebsack",
+      "username": "Karianne",
+      "email": "Julianne.OConner@kory.org",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "5",
+      "name": "Chelsey Dietrich",
+      "username": "Kamren",
+      "email": "Lucio_Hettinger@annie.ca",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "6",
+      "name": "Mrs. Dennis Schulist",
+      "username": "Leopoldo_Corkery",
+      "email": "Karley_Dach@jasper.info",
+      "password":"12345678"
+      
+    },
+
+
+    {
+      "userId": "7",
+      "name": "Kurtis Weissnat",
+      "username": "Elwyn.Skiles",
+      "email": "Telly.Hoeger@billy.biz",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "8",
+      "name": "Nicholas Runolfsdottir V",
+      "username": "Maxime_Nienow",
+      "email": "Sherwood@rosamond.me",
+      "password":"12345678"
+    },
+
+
+    {
+      "userId": "9",
+      "name": "Glenna Reichert",
+      "surname": "Bayramov",
+      "username": "Delphine",
+      "email": "Chaim_McDermott@dana.io",
+      "password":"12345678"
+    },
+    
+
+    {
+      "userId": "10",
+      "name": "Clementina DuBuque",
+      "surname": "Bayramov",
+      "username": "Moriah.Stanton",
+      "email": "Rey.Padberg@karina.biz",
+      "password":"12345678"
+    },
+    
+    
+    {
+      "userId": "11",
+      "name": "Farid",
+      "surname": "Bayramov",
+      "username": "ba1ramovv",
+      "email": "feridbayramov333@gmail.com",
+      "password":"12345678"
+      
+    }
+  ]

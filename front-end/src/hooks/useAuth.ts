@@ -6,11 +6,11 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  const loginUser = (email: string,name: string,password:string) => {
-    dispatch(login({email,name}));
+  const loginUser = (email: string,name: string, password: string,username:string, surname:string,userId: string) => {
+    dispatch(login({email,name,password,username,surname,userId}));
   };
 
-  const logoutUser = () => {
+  const logoutUser = (email: string,name: string, password: string,username:string) => {
     dispatch(logout());
   };
 

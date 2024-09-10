@@ -10,6 +10,8 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import BarChartIcon from '@mui/icons-material/BarChart'
+import { logout } from '../store/authSlice';
+import { useDispatch, UseDispatch } from 'react-redux';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -25,7 +27,18 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
     const toprofile = () => navigate('/profile');
     const tonotification = () => navigate('/notifications');
     const toinvoices = () => navigate('/invoices');
-    const toexpences = () => navigate('/report');
+    const toexpences = () => navigate('/reports');
+    const tologin = () => navigate('/');
+    const dispatch = useDispatch();
+
+    const logoutt = () => {
+
+      dispatch(logout());
+      tologin();
+
+    }
+
+    
 
   return (
     <Box
@@ -41,6 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
         overflowX: 'hidden',
         zIndex: 1000,
         display: { xs: 'none', sm: 'block' }, // Hide sidebar on mobile
+        cursor: 'pointer'
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 3, marginTop: '40px', marginLeft: '10px' }}>
@@ -48,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
           <MenuIcon />
         </IconButton>
       </Box>
-      <List sx={{ paddingRight: sidebarOpen ? 5 : 4.5 }}>
+      <List sx={{ paddingRight: sidebarOpen ? 5 : 4.5 ,cursor: 'pointer'}}>
         <ListItem
           onClick={tohome}
           component='button'
@@ -58,11 +72,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             marginLeft: '18px',
             border: '0px',
             paddingLeft: sidebarOpen ? 0 : 0,
-            '&:hover': { backgroundColor: darkMode ? '#666' : '#f0f0f0' },
+            '&:hover': { backgroundColor: sidebarOpen ? (darkMode ? '#666' : '#f0f0f0') : 'transparent',
+              transform: sidebarOpen ? 'none' : 'scale(1.3)' },
+            cursor: 'pointer'
           }}
           
         >
-          <HomeIcon sx={{ marginRight: sidebarOpen ? 2 : 0, transition: 'transform 0.3s ease' }} />
+          <HomeIcon sx={{ marginRight: sidebarOpen ? 2 : 0, transition: 'transform 0.3s ease', }} />
           {sidebarOpen && <ListItemText primary="Home" />}
         </ListItem>
         <ListItem
@@ -74,7 +90,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             backgroundColor: darkMode ? 'transparent' : 'transparent',
             border: '0px',
             paddingLeft: sidebarOpen ? 0 : 0,
-            '&:hover': { backgroundColor: darkMode ? '#666' : '#f0f0f0' },
+            '&:hover': { backgroundColor: sidebarOpen ? (darkMode ? '#666' : '#f0f0f0') : 'transparent',
+              transform: sidebarOpen ? 'none' : 'scale(1.3)' },
+            cursor: 'pointer'
           }}
         >
           <PersonIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
@@ -89,7 +107,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             backgroundColor: darkMode ? 'transparent' : 'transparent',
             border: '0px',
             paddingLeft: sidebarOpen ? 0 : 0,
-            '&:hover': { backgroundColor: darkMode ? '#666' : '#f0f0f0' },
+            '&:hover': {backgroundColor: sidebarOpen ? (darkMode ? '#666' : '#f0f0f0') : 'transparent',
+              transform: sidebarOpen ? 'none' : 'scale(1.3)'},
+            cursor: 'pointer'
           }}
         >
           <ReceiptIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
@@ -104,7 +124,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             backgroundColor: darkMode ? 'transparent' : 'transparent',
             border: '0px',
             paddingLeft: sidebarOpen ? 0 : 0,
-            '&:hover': { backgroundColor: darkMode ? '#666' : '#f0f0f0' },
+            '&:hover': { backgroundColor: sidebarOpen ? (darkMode ? '#666' : '#f0f0f0') : 'transparent',
+              transform: sidebarOpen ? 'none' : 'scale(1.3)' },
+              cursor: 'pointer'
           }}
         >
           <BarChartIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
@@ -119,7 +141,10 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             backgroundColor: darkMode ? 'transparent' : 'transparent',
             border: '0px',
             paddingLeft: sidebarOpen ? 0 : 0,
-            '&:hover': { backgroundColor: darkMode ? '#666' : '#f0f0f0' },
+            '&:hover': { backgroundColor: sidebarOpen ? (darkMode ? '#666' : '#f0f0f0') : 'transparent',
+              transform: sidebarOpen ? 'none' : 'scale(1.3)' },
+            cursor: 'pointer'
+            
           }}
         >
           <NotificationsIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
@@ -142,6 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             transition: 'margin-left 0.3s',
             paddingRight: 1
           }}
+          onClick={logoutt}
         >
           {sidebarOpen && 'Log Out'}
         </Button>
