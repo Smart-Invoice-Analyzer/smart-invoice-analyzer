@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+
 interface AuthState {
  
   user: string | null;
-  userName: string | null;
+  userName: string| null;
   surname: string | null;
   password: string | null;
   username: string | null;
@@ -54,7 +55,14 @@ const authSlice = createSlice({
       localStorage.removeItem('surname');
       localStorage.removeItem('name');
     },
+
+   
   },
+});
+
+export const updateProfile = (name: string, surname: string) => ({
+  type: 'UPDATE_PROFILE',
+  payload: { name, surname }
 });
 
 export const { login, logout } = authSlice.actions;

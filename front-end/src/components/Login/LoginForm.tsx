@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { TextField, Button, Snackbar, Alert, Box } from '@mui/material';
+import { TextField, Button, Snackbar, Alert, Box, circularProgressClasses, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -28,6 +28,9 @@ interface LoginFormInputs {
 const LoginForm: React.FC = () => {
   const [validUsers, setValidUsers] = useState<User[]>([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loading,setLoading] = useState (false);
+
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -53,11 +56,29 @@ const LoginForm: React.FC = () => {
   const onSubmit = (data: LoginFormInputs) => {
     const user = validUsers.find(user => user.email === data.email);
     const pass = validUsers.find(user => user.password === data.password)
+    setLoading(true);
     if (user && pass) {
-      dispatch(login({ email: user.email, name: user.name, password: user.password,username: user.username,surname: user.surname,userId: user.userId}));
+      
+      setTimeout(() => {
+        dispatch(login({ 
+           email: user.email,
+           name: user.name, 
+           password: user.password,
+           username: user.username,
+           surname: user.surname,
+           userId: user.userId}));
+
       navigate('/home');
+      setLoading(false);
+      }, 2000);
+      
     } else {
-      setOpenSnackbar(true);
+      setTimeout(() => {
+        setLoading(false);
+        setOpenSnackbar(true);
+      }, 2000);
+      setOpenSnackbar(false);
+      
     }
   };
 
@@ -99,11 +120,14 @@ const LoginForm: React.FC = () => {
             sx={{ borderColor: '01579b' }}
           />
         </Box>
-        <Button type="submit" variant="contained" fullWidth sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#596e60' } }}>
-          Login
+        <Button type="submit" variant="contained" fullWidth 
+                sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#596e60' } }}
+                disabled={loading}>
+                {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Login'}
+          
         </Button>
       </form>
-      <Snackbar open={openSnackbar} autoHideDuration={4000}>
+      <Snackbar open={openSnackbar} >
         <Alert onClose={handleCloseSnackbar} severity="error">
           Incorrect email or password.
         </Alert>

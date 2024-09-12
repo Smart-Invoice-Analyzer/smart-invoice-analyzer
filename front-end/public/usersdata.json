@@ -1,104 +1,66 @@
 [
-    {
-      "userId": "1",
-      "name": "Leanne Graham",
-      "username": "Bret",
-      "email": "Sincere@april.biz",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "2",
-      "name": "Ervin Howell",
-      "username": "Antonette",
-      "email": "Shanna@melissa.tv",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "3",
-      "name": "Clementine Bauch",
-      "username": "Samantha",
-      "email": "Nathan@yesenia.net",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "4",
-      "name": "Patricia Lebsack",
-      "username": "Karianne",
-      "email": "Julianne.OConner@kory.org",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "5",
-      "name": "Chelsey Dietrich",
-      "username": "Kamren",
-      "email": "Lucio_Hettinger@annie.ca",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "6",
-      "name": "Mrs. Dennis Schulist",
-      "username": "Leopoldo_Corkery",
-      "email": "Karley_Dach@jasper.info",
-      "password":"12345678"
-      
-    },
-
-
-    {
-      "userId": "7",
-      "name": "Kurtis Weissnat",
-      "username": "Elwyn.Skiles",
-      "email": "Telly.Hoeger@billy.biz",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "8",
-      "name": "Nicholas Runolfsdottir V",
-      "username": "Maxime_Nienow",
-      "email": "Sherwood@rosamond.me",
-      "password":"12345678"
-    },
-
-
-    {
-      "userId": "9",
-      "name": "Glenna Reichert",
-      "surname": "Bayramov",
-      "username": "Delphine",
-      "email": "Chaim_McDermott@dana.io",
-      "password":"12345678"
-    },
-    
-
-    {
-      "userId": "10",
-      "name": "Clementina DuBuque",
-      "surname": "Bayramov",
-      "username": "Moriah.Stanton",
-      "email": "Rey.Padberg@karina.biz",
-      "password":"12345678"
-    },
-    
-    
-    {
-      "userId": "11",
-      "name": "Farid",
-      "surname": "Bayramov",
-      "username": "ba1ramovv",
-      "email": "feridbayramov333@gmail.com",
-      "password":"12345678"
-      
-    }
-  ]
+  {
+    "userId": 999514,
+    "name": "Fariddy",
+    "surname": "Bayramovich",
+    "username": "ba1ramovv",
+    "email": "feridbayramov333@gmail.com",
+    "password": "farid2004"
+  },
+  {
+    "userId": 821798,
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "email": "email@email.email",
+    "password": "yege2002"
+  },
+  {
+    "userId": 770335,
+    "name": "ss",
+    "surname": "s",
+    "username": "s",
+    "email": "feridbaramov333@gmail.com",
+    "password": "ferid123"
+  },
+  {
+    "userId": 981038,
+    "name": "s",
+    "surname": "s",
+    "username": "aa",
+    "email": "feridbayramssov333@gmail.com",
+    "password": "123456"
+  },
+  {
+    "userId": 773810,
+    "name": "sa",
+    "surname": "aaa",
+    "username": "faridbayramov@marun.edu.trs",
+    "email": "feridbayramov333@gmail.coms",
+    "password": "123456"
+  },
+  {
+    "userId": 807749,
+    "name": "1",
+    "surname": "2",
+    "username": "3",
+    "email": "feridbayrameov333@gmail.com",
+    "password": "123456"
+  },
+  {
+    "userId": 980298,
+    "name": "23",
+    "surname": "1",
+    "username": "1",
+    "email": "d@d.com",
+    "password": "123456"
+  },
+  {
+    "userId": 230399,
+    "name": "kj",
+    "surname": "cc",
+    "username": "dkjfk@mail.ru",
+    "email": "dkjfk@mail.ru",
+    "password": "123456"
+  }
+]

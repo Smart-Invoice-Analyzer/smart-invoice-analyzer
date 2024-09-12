@@ -9,13 +9,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import ModalComponent from '../components/Modal/Modal';
+import axios from 'axios';
 
 
 const ProfilePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -26,9 +26,23 @@ const ProfilePage: React.FC = () => {
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
   const handleSaveProfile = () => {
-    // Save profile logic
-    setSnackbarOpen(true);
-    setEditing(false);
+    const updatedProfile = {
+      name,
+      surname,
+      email,  
+      password
+    };
+  
+    axios.post('http://localhost:5000/users/update', updatedProfile)
+      .then(response => {
+        setSnackbarOpen(true);
+        setEditing(false);
+        // Başarılı bir şekilde kaydedildiğinde redux state'i de güncellenebilir.
+      })
+      .catch(error => {
+        console.error('Error updating profile:', error);
+        setSnackbarOpen(true);
+      });
   };
 
 
@@ -48,9 +62,12 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const name = useSelector ((state: RootState) => state.auth.userName);
+  const [name, setName] = useState<string | null>(useSelector((state: RootState) => state.auth.userName) || '');
+  const [surname, setSurname] = useState<string | null>(useSelector((state: RootState) => state.auth.surname) || '');
+
   const email = useSelector((state: RootState) => state.auth.user);
-  const surname = useSelector((state: RootState)=> state.auth.surname );
+  const [password,setPassword] = useState <string | null> (useSelector((state: RootState) => state.auth.password) || '');
+ 
   
 
   return (
@@ -95,6 +112,7 @@ const ProfilePage: React.FC = () => {
               value={name}
               variant="outlined"
               disabled={!editing}
+              onChange={(e) => setName(e.target.value)} 
             />
           </Grid>
 
@@ -106,6 +124,8 @@ const ProfilePage: React.FC = () => {
               value={surname}
               variant="outlined"
               disabled={!editing}
+              onChange={(e) => setSurname(e.target.value)} 
+            
             />
           </Grid>
 
@@ -137,8 +157,8 @@ const ProfilePage: React.FC = () => {
                   label="Current Password"
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   variant="outlined"
+                  disabled
                 />
               </Grid>
 
@@ -149,7 +169,7 @@ const ProfilePage: React.FC = () => {
                   label="New Password"
                   type="password"
                   value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  onChange={(e) => (setNewPassword(e.target.value) ,setPassword(e.target.value) )}
                   variant="outlined"
                 />
               </Grid>

@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { TextField, Button, Box, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Box, Snackbar, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
 interface CreateAccountInputs {
+  
+  name: string;
+  surname: string;
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -16,10 +21,16 @@ const CreateAccountForm: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+  const [loading,setLoading] = useState (false);
   const navigate = useNavigate();
+  const [hidden, setHidden] = useState(false);
 
   // Validation schema for the form
   const schema = Yup.object().shape({
+    
+    name: Yup.string().required('Name is required'),
+    surname: Yup.string().required('Surname is required'),
+    username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     confirmPassword: Yup.string()
@@ -32,24 +43,37 @@ const CreateAccountForm: React.FC = () => {
   });
 
   const onSubmit = (data: CreateAccountInputs) => {
+
+    const userId = Math.floor(Math.random() * 1000000);
+
     // Axios POST request to create a new account
     axios.post('http://localhost:5000/users', {
+      userId,
+      name: data.name,
+      surname: data.surname,
+      username: data.username,
       email: data.email,
       password: data.password
-    })
-    .then(response => {
+    }, { withCredentials: true })
+    .then((response) => {
+      // Set loading state to true
+      setLoading(true);
       setSnackbarMessage('Account successfully created!');
       setSnackbarSeverity('success');
       setOpenSnackbar(true);
-      
-      // Redirect to login or home after account creation
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      navigate('/');
+      setHidden(true);
+    
+     
     })
+    
+    
     .catch(error => {
-      console.error('Error creating account:', error);
-      setSnackbarMessage('Error creating account. Please try again.');
+      if (error.response && error.response.status === 400) {
+        setSnackbarMessage('Email or Username already exists.');
+      } else {
+        setSnackbarMessage('Error creating account. Please try again.');
+      }
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
     });
@@ -64,11 +88,42 @@ const CreateAccountForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb={2}>
           <TextField
+            label="Name"
+            {...register('name')}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            fullWidth
+            hidden ={hidden}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Surname"
+            {...register('surname')}
+            error={!!errors.surname}
+            helperText={errors.surname?.message}
+            fullWidth
+            hidden ={hidden}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Username"
+            {...register('username')}
+            error={!!errors.username}
+            helperText={errors.username?.message}
+            fullWidth
+            hidden ={hidden}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
             label="Email"
             {...register('email')}
             error={!!errors.email}
             helperText={errors.email?.message}
             fullWidth
+            hidden ={hidden}
           />
         </Box>
         <Box mb={2}>
@@ -79,6 +134,7 @@ const CreateAccountForm: React.FC = () => {
             error={!!errors.password}
             helperText={errors.password?.message}
             fullWidth
+            hidden ={hidden}
           />
         </Box>
         <Box mb={2}>
@@ -89,10 +145,11 @@ const CreateAccountForm: React.FC = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword?.message}
             fullWidth
+            hidden ={hidden}
           />
         </Box>
         <Button type="submit" variant="contained" fullWidth sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#0288d1' } }}>
-          Create Account
+        {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Create Account'}
         </Button>
       </form>
       
