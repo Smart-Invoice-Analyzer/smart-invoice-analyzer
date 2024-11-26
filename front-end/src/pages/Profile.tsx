@@ -21,6 +21,7 @@ const ProfilePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const user_id = useSelector ((state: RootState) => state.auth.userId);
   
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleDarkMode = () => setDarkMode(!darkMode);
@@ -231,8 +232,8 @@ const ProfilePage: React.FC = () => {
 
         <ModalComponent
           isOpen={isModalOpen}
-          onClose={handleModalClose}
-        />
+          onClose={handleModalClose} 
+          userId={user_id}        />
 
         {/* Snackbar for profile updates */}
         <Snackbar

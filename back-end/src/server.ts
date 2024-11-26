@@ -104,3 +104,42 @@ app.post('/users/update', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Sunucu http://localhost:${PORT} adresinde çalışıyor`);
 });
+
+app.delete('/users/:userId', (req, res) => {
+  const { userId } = req.params; // Extract userId from URL parameters
+  const dataPath = path.join(__dirname, '../../front-end/public/usersdata.json');
+
+  fs.readFile(dataPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Dosya okuma hatası:', err);
+      return res.status(500).json({ message: 'Data dosyası okunamadı' });
+    }
+
+    let users;
+    try {
+      users = JSON.parse(data);
+    } catch (parseError) {
+      console.error('JSON parse hatası:', parseError);
+      return res.status(500).json({ message: 'JSON parse hatası' });
+    }
+
+    // Find the user by userId
+    const userIndex = users.findIndex((user: { userId: number; }) => user.userId === parseInt(userId, 10));
+    if (userIndex === -1) {
+      return res.status(404).json({ message: 'Kullanıcı bulunamadı' });
+    }
+
+    // Remove the user from the list
+    users.splice(userIndex, 1);
+
+    // Write the updated user list back to the JSON file
+    fs.writeFile(dataPath, JSON.stringify(users, null, 2), (err) => {
+      if (err) {
+        console.error('Dosya yazma hatası:', err);
+        return res.status(500).json({ message: 'Data dosyasına yazılamadı' });
+      }
+
+      res.status(200).json({ message: 'Kullanıcı başarıyla silindi' });
+    });
+  });
+});

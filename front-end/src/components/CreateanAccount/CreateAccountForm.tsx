@@ -62,7 +62,7 @@ const CreateAccountForm: React.FC = () => {
       setSnackbarSeverity('success');
       setOpenSnackbar(true);
       navigate('/');
-      setHidden(true);
+      
     
      
     })

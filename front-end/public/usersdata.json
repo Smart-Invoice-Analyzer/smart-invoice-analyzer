@@ -1,19 +1,11 @@
 [
   {
     "userId": 999514,
-    "name": "Fariddy",
-    "surname": "Bayramovich",
+    "name": "Faridd",
+    "surname": "Bayramov",
     "username": "ba1ramovv",
     "email": "feridbayramov333@gmail.com",
     "password": "farid2004"
-  },
-  {
-    "userId": 821798,
-    "name": "Name",
-    "surname": "Surname",
-    "username": "Username",
-    "email": "email@email.email",
-    "password": "yege2002"
   },
   {
     "userId": 770335,
@@ -48,19 +40,19 @@
     "password": "123456"
   },
   {
-    "userId": 980298,
-    "name": "23",
-    "surname": "1",
-    "username": "1",
-    "email": "d@d.com",
-    "password": "123456"
-  },
-  {
     "userId": 230399,
     "name": "kj",
     "surname": "cc",
     "username": "dkjfk@mail.ru",
     "email": "dkjfk@mail.ru",
     "password": "123456"
+  },
+  {
+    "userId": 493832,
+    "name": "test",
+    "surname": "test",
+    "username": "test",
+    "email": "test@test.test",
+    "password": "testtest"
   }
 ]
