@@ -1,35 +1,23 @@
 import React, { useState } from 'react';
-import { Box, Grid, Button, IconButton, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Box } from '@mui/material';
 import Sidebar from '../components/sidebar';
 import Topbar from '../components/topbar';
 import AddButton from '../components/addbutton';
-import { boolean } from 'yup';
+import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 const HomePage: React.FC = () => {
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const toggleDarkMode = () => setDarkMode(!darkMode);
-
- 
+  const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
 
   return (
-    // Dıştaki kapsayıcıdan 'height: 100vh' ve 'overflow: hidden' kaldırıldı
+
     <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#444' : '#e0e0e0' }}>
-      {/* Sidebar */}
       <Sidebar
         sidebarOpen={sidebarOpen}
-        darkMode={darkMode}
         toggleSidebar={toggleSidebar}
-        toggleDarkMode={toggleDarkMode}
       />
-
-      {/* Main content */}
-      {/* Burada 'height: 100vh' ve 'overflowY: auto' kaldırıldı */}
       <Box
         sx={{
           flexGrow: 1,
@@ -40,11 +28,8 @@ const HomePage: React.FC = () => {
           position: 'relative',
         }}
       >
-        {/* Topbar */}
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
 
-
-        {/* Add New Button */}
         <AddButton darkMode={darkMode} />
       </Box>
     </Box>

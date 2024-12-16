@@ -10,11 +10,15 @@ import { RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import ModalComponent from '../components/Modal/Modal';
 import axios from 'axios';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 
 const ProfilePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  
   const [editing, setEditing] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -22,29 +26,60 @@ const ProfilePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const user_id = useSelector ((state: RootState) => state.auth.userId);
-  
+  const [snackbarMessage,setSnackbarMessage] = useState('');
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  
+  
+  const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
+    const schema = Yup.object().shape({
+      name: Yup.string().required('Name is required'),
+      surname: Yup.string().required('Surname is required'),
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+    });
+  
     const updatedProfile = {
       name,
       surname,
-      email,  
-      password
+      email,
+      password: newPassword,
     };
   
-    axios.post('http://localhost:5000/users/update', updatedProfile)
-      .then(response => {
+    try {
+      // Yup ile doğrulama
+      await schema.validate(updatedProfile, { abortEarly: false });
+  
+      if (newPassword === confirmNewPassword) {
+        axios
+          .post('http://localhost:5000/users/update', updatedProfile)
+          .then((response) => {
+            setSnackbarMessage('Profile updated successfully.');
+            setSnackbarOpen(true);
+            setEditing(false);
+          })
+          .catch((error) => {
+            console.error('Error updating profile:', error);
+            setSnackbarMessage('Error updating profile.');
+            setSnackbarOpen(true);
+          });
+      } else {
+        setSnackbarMessage('Passwords did not match.');
         setSnackbarOpen(true);
-        setEditing(false);
-        // Başarılı bir şekilde kaydedildiğinde redux state'i de güncellenebilir.
-      })
-      .catch(error => {
-        console.error('Error updating profile:', error);
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        setSnackbarMessage(error.errors.join(', ')); // Tüm doğrulama hatalarını göster
         setSnackbarOpen(true);
-      });
+      } else {
+        console.error('Unexpected validation error:', error);
+      }
+    }
   };
+  
 
 
 
@@ -73,15 +108,14 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#444' : '#e0e0e0' }}>
-      {/* Sidebar */}
+      
       <Sidebar
         sidebarOpen={sidebarOpen}
-        darkMode={darkMode}
+        
         toggleSidebar={toggleSidebar}
-        toggleDarkMode={toggleDarkMode}
+        
       />
 
-      {/* Main content */}
       <Box
         sx={{
           flexGrow: 1,
@@ -93,10 +127,9 @@ const ProfilePage: React.FC = () => {
          
         }}
       >
-        {/* Topbar */}
+      
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
 
-        {/* Profile Section */}
         <Grid container spacing={3} marginTop={'60px'}>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
@@ -105,45 +138,39 @@ const ProfilePage: React.FC = () => {
             <Divider sx={{ marginBottom: 2 }} />
           </Grid>
 
-          {/* Name Field */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label={"Name"}
               value={name}
               variant="outlined"
-              disabled={!editing}
               onChange={(e) => setName(e.target.value)} 
             />
           </Grid>
 
-           {/* Name Field */}
            <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="Surname"
               value={surname}
               variant="outlined"
-              disabled={!editing}
               onChange={(e) => setSurname(e.target.value)} 
             
             />
           </Grid>
 
-          {/* Email Field */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="Email"
               value={email}
               variant="outlined"
-              disabled={!editing}
             />
           </Grid>
 
           {editing && (
             <>
-              {/* Password Fields */}
+
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Change Password
@@ -151,7 +178,7 @@ const ProfilePage: React.FC = () => {
                 <Divider sx={{ marginBottom: 2 }} />
               </Grid>
 
-              {/* Current Password */}
+      
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -163,7 +190,7 @@ const ProfilePage: React.FC = () => {
                 />
               </Grid>
 
-              {/* New Password */}
+        
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -175,7 +202,6 @@ const ProfilePage: React.FC = () => {
                 />
               </Grid>
 
-              {/* Confirm New Password */}
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -189,7 +215,6 @@ const ProfilePage: React.FC = () => {
             </>
           )}
 
-          {/* Save and Edit/Delete Buttons */}
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
             {editing ? (
               <>
@@ -210,15 +235,23 @@ const ProfilePage: React.FC = () => {
                 </Button>
               </>
             ) : (
-              <>
+              <> <Box sx={{display:"flex",gap:"20px"}}>
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<EditIcon />}
+                  startIcon={<SaveIcon />}
+                  onClick={handleSaveProfile}
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<LockResetIcon />}
                   onClick={() => setEditing(true)}
                 >
-                  Edit Profile
-                </Button>
+                  Change password
+                </Button> </Box>
                 <IconButton color="error" onClick={handleDeleteAccount}>
                   <DeleteIcon />
                   <Typography variant="button" color="error">
@@ -235,12 +268,11 @@ const ProfilePage: React.FC = () => {
           onClose={handleModalClose} 
           userId={user_id}        />
 
-        {/* Snackbar for profile updates */}
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
           onClose={() => setSnackbarOpen(false)}
-          message="Profile updated successfully"
+          message={snackbarMessage}
         />
       </Box>
     </Box>

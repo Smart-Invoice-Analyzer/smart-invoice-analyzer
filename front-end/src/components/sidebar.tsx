@@ -4,7 +4,6 @@ import { Box, Button, List, ListItem, ListItemText, IconButton, Typography } fro
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,20 +11,23 @@ import { useNavigate } from 'react-router-dom';
 import BarChartIcon from '@mui/icons-material/BarChart'
 import { logout } from '../store/authSlice';
 import { useDispatch, UseDispatch } from 'react-redux';
+import HelpIcon from '@mui/icons-material/Help';
+import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 interface SidebarProps {
   sidebarOpen: boolean;
-  darkMode: boolean;
   toggleSidebar: () => void;
-  toggleDarkMode: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar, toggleDarkMode }) => {
+const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar}) => {
+ 
+  
+   const { darkMode, toggleDarkMode } = useDarkMode();
 
     const navigate = useNavigate();
     const tohome = () => navigate('/home');
     const toprofile = () => navigate('/profile');
-    const tonotification = () => navigate('/notifications');
+    const tohelp = () => navigate('/help');
     const toinvoices = () => navigate('/invoices');
     const toexpences = () => navigate('/reports');
     const tologin = () => navigate('/');
@@ -133,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
           {sidebarOpen && <ListItemText primary="Expenses" />}
         </ListItem>
         <ListItem
-        onClick={tonotification}
+        onClick={tohelp}
           component='button'
           sx={{
             marginBottom: 1.5,
@@ -147,8 +149,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
             
           }}
         >
-          <NotificationsIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
-          {sidebarOpen && <ListItemText primary="Notifications" />}
+          <HelpIcon sx={{ marginRight: sidebarOpen ? 2 : 0 }} />
+          {sidebarOpen && <ListItemText primary="Support" />}
         </ListItem>
       </List>
 
@@ -156,11 +158,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, darkMode, toggleSidebar,
       <Box sx={{ position: 'absolute', width: '100%', bottom: 80, textAlign: sidebarOpen ? 'left' : 'center' }}>
         <Button
           variant="contained"
-          startIcon={<ExitToAppIcon />}
+          startIcon={<ExitToAppIcon/>}
           sx={{
             justifyContent: sidebarOpen ? 'flex-start' : 'center',
             borderRadius: '30px',
-            width: sidebarOpen ? '150px' : '25px',
+            width: sidebarOpen ? '120px' : '10px',
             marginLeft: sidebarOpen ? '15px' : '0px',
             backgroundColor: darkMode ? '#888' : '#01579b',
             ':hover': { backgroundColor: darkMode ? '#666' : '#0288d1' },

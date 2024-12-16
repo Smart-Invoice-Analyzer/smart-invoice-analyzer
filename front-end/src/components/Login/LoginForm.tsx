@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { TextField, Button, Snackbar, Alert, Box, circularProgressClasses, CircularProgress } from '@mui/material';
+import { TextField, Button, Snackbar, Alert, Box, circularProgressClasses, CircularProgress, FormGroup, FormControlLabel, Checkbox, InputAdornment, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import 'C://Users//f.bayramov//Desktop//smart-invoice-analyzer//front-end//src//styles//Login.css';
+import { CheckBox } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export interface User {
   email: string;
@@ -26,15 +28,18 @@ interface LoginFormInputs {
 }
 
 const LoginForm: React.FC = () => {
+
   const [validUsers, setValidUsers] = useState<User[]>([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading,setLoading] = useState (false);
-
+  const [savePassword, setSavePassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
+   useEffect(() => {
+    // Fetch user data
     axios.get<User[]>('/usersdata.json')
       .then(response => {
         setValidUsers(response.data);
@@ -42,6 +47,15 @@ const LoginForm: React.FC = () => {
       .catch(error => {
         console.error('Error fetching user data:', error);
       });
+
+    // Check for saved credentials
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+    if (savedEmail && savedPassword) {
+      setValue('email', savedEmail);
+      setValue('password', savedPassword);
+      setSavePassword(true);
+    }
   }, []);
 
   const schema = Yup.object().shape({
@@ -49,7 +63,7 @@ const LoginForm: React.FC = () => {
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+  const { register, handleSubmit, formState: { errors },setValue } = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
   });
 
@@ -57,8 +71,19 @@ const LoginForm: React.FC = () => {
     const user = validUsers.find(user => user.email === data.email);
     const pass = validUsers.find(user => user.password === data.password)
     setLoading(true);
+
     if (user && pass) {
-      
+
+      if (savePassword) {
+        const savedCredentials = {
+         email: data.email,
+         password: data.password,
+   };
+  localStorage.setItem('credentials', JSON.stringify(savedCredentials));
+      } else {
+        localStorage.removeItem('credentials');
+      }
+
       setTimeout(() => {
         dispatch(login({ 
            email: user.email,
@@ -80,6 +105,24 @@ const LoginForm: React.FC = () => {
       setOpenSnackbar(false);
       
     }
+  };
+
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem('credentials');
+    if (savedCredentials) {
+      const { email, password } = JSON.parse(savedCredentials);
+      setValue('email', email);
+      setValue('password', password);
+      setSavePassword(true);
+    }
+  }, []);
+
+  const handleSavePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSavePassword(event.target.checked);
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -112,11 +155,20 @@ const LoginForm: React.FC = () => {
         <Box mb={2}>
           <TextField
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             {...register('password')}
             error={!!errors.password}
             helperText={errors.password?.message}
             fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             sx={{ borderColor: '01579b' }}
           />
         </Box>
@@ -126,6 +178,12 @@ const LoginForm: React.FC = () => {
                 {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Login'}
           
         </Button>
+        <FormGroup>
+  <FormControlLabel 
+  control={<Checkbox 
+  onChange={handleSavePasswordChange}/>} 
+  label="Save password" />
+</FormGroup>
       </form>
       <Snackbar open={openSnackbar} >
         <Alert onClose={handleCloseSnackbar} severity="error">

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
+import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 
 const StyledBox = styled(Box)(({ theme }) => ({
@@ -37,14 +38,16 @@ const NotFoundPage: React.FC = () => {
     navigate('/home');
   };
 
+  const { darkMode, toggleDarkMode } = useDarkMode();
+  
   return (
-    <StyledBox>
+    <StyledBox sx={{background: darkMode ? '#444' : '#e0e0e0'}} >
       <StyledTypography variant="h1">404</StyledTypography>
       <Typography variant="h6" color="textSecondary" gutterBottom>
-        Aradığınız sayfa bulunamadı!
+      Unfortunately, the page you were looking for was not found. You can return below.
       </Typography>
-      <StyledButton variant="contained" color="info" onClick={goHome}>
-        Ana Sayfaya Dön
+      <StyledButton sx={{backgroundColor: darkMode ? '#888' : '#01579b'}} variant="contained" color="info" onClick={goHome}>
+      back to home page
       </StyledButton>
     </StyledBox>
   );

@@ -46,23 +46,16 @@ const authSlice = createSlice({
       state.username = null;
       state.password =null;
       state.userId = null;
-      localStorage.removeItem('user');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('password');
-      localStorage.removeItem('username');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('email');
-      localStorage.removeItem('surname');
-      localStorage.removeItem('name');
+      
     },
 
    
   },
 });
 
-export const updateProfile = (name: string, surname: string) => ({
+export const updateProfile = (name: string, surname: string,password:string,email:string) => ({
   type: 'UPDATE_PROFILE',
-  payload: { name, surname }
+  payload: { name, surname,password,email }
 });
 
 export const { login, logout } = authSlice.actions;

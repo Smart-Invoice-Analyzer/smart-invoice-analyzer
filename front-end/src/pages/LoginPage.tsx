@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <Grid container sx={{ height: '100vh' }}>
-      {/* Left side with branding or design elements */}
+   
       <Grid
         item
         xs={12}
@@ -42,7 +42,6 @@ const LoginPage: React.FC = () => {
         </Box>
       </Grid>
 
-      {/* Right side with the login form */}
       <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Container maxWidth="xs">
           <Box

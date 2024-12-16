@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 const CreateAccountPage: React.FC = () => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <Grid container sx={{ height: '100vh' }}>
-      {/* Left side with branding or design elements */}
+
       <Grid
         item
         xs={12}
@@ -39,7 +39,6 @@ const CreateAccountPage: React.FC = () => {
         </Box>
       </Grid>
 
-      {/* Right side with the create account form */}
       <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Container maxWidth="xs">
           <Box
