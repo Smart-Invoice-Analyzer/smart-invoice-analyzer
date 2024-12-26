@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import 'C://Users//f.bayramov//Desktop//smart-invoice-analyzer//front-end//src//styles//Login.css';
+import '../../../src/styles/Login.css';
 import { CheckBox } from '@mui/icons-material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
