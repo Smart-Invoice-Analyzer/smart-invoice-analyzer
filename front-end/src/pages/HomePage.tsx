@@ -36,9 +36,9 @@ const HomePage: React.FC = () => {
                 <Typography variant="h6" sx={{ color: darkMode ? 'white' : 'black' }}>
                   Fatura Yükleme Durumu
                 </Typography>
-                <LinearProgress variant="determinate" value={60} sx={{ marginTop: 2 }} />
+                <LinearProgress variant="determinate" value={20} sx={{ marginTop: 2 }} />
                 <Typography variant="body2" sx={{ color: darkMode ? 'white' : 'black', marginTop: 1 }}>
-                  Yüklenen Faturalar: 30 / 50
+                  Yüklenen Faturalar: 10 / 50
                 </Typography>
               </CardContent>
             </Card>

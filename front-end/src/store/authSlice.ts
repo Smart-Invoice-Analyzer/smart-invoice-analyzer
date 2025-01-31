@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
 interface AuthState {
- 
   user: string | null;
-  userName: string| null;
+  userName: string | null;
   surname: string | null;
   password: string | null;
   username: string | null;
-  userId : string| null;
+  userId: string | null;
 }
 
 const initialState: AuthState = {
@@ -17,46 +15,84 @@ const initialState: AuthState = {
   user: localStorage.getItem('email'),
   surname: localStorage.getItem('surname'),
   password: localStorage.getItem('password'),
-  username: localStorage.getItem('username')
- 
+  username: localStorage.getItem('username'),
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ email: string, name: string, password: string,username: string, surname: string,userId: string}>) => {
+    login: (
+      state,
+      action: PayloadAction<{
+        email: string;
+        name: string;
+        password: string;
+        username: string;
+        surname: string;
+        userId: string;
+      }>
+    ) => {
+      const { email, name, password, username, surname, userId } = action.payload;
 
-      state.userId = action.payload.userId;
-      state.user = action.payload.email;
-      state.userName = action.payload.name;
-      state.surname = action.payload.surname;
-      state.password = action.payload.password;
-      state.username = action.payload.username;
-      localStorage.setItem('email', action.payload.email);
-      localStorage.setItem('name', action.payload.name);
-      localStorage.setItem('password',action.payload.password);
-      localStorage.setItem('username',action.payload.username);
-      localStorage.setItem('surname',action.payload.surname);
-      localStorage.setItem('userId',action.payload.userId);
+      // State güncelleme
+      state.userId = userId;
+      state.user = email;
+      state.userName = name;
+      state.surname = surname;
+      state.password = password;
+      state.username = username;
+
+      // localStorage güncelleme
+      localStorage.setItem('email', email);
+      localStorage.setItem('name', name);
+      localStorage.setItem('password', password);
+      localStorage.setItem('username', username);
+      localStorage.setItem('surname', surname);
+      localStorage.setItem('userId', userId);
     },
     logout: (state) => {
+      // State sıfırlama
       state.user = null;
       state.userName = null;
       state.username = null;
-      state.password =null;
+      state.password = null;
       state.userId = null;
-      
-    },
+      state.surname = null;
 
-   
+      // localStorage temizleme
+      localStorage.removeItem('email');
+      localStorage.removeItem('name');
+      localStorage.removeItem('password');
+      localStorage.removeItem('username');
+      localStorage.removeItem('surname');
+      localStorage.removeItem('userId');
+    },
+    updateProfile: (
+      state,
+      action: PayloadAction<{
+        name: string;
+        surname: string;
+        password: string;
+        email: string;
+      }>
+    ) => {
+      const { name, surname, password, email } = action.payload;
+
+      // State güncelleme
+      state.userName = name;
+      state.surname = surname;
+      state.password = password;
+      state.user = email;
+
+      // localStorage güncelleme
+      localStorage.setItem('name', name);
+      localStorage.setItem('surname', surname);
+      localStorage.setItem('password', password);
+      localStorage.setItem('email', email);
+    },
   },
 });
 
-export const updateProfile = (name: string, surname: string,password:string,email:string) => ({
-  type: 'UPDATE_PROFILE',
-  payload: { name, surname,password,email }
-});
-
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updateProfile } = authSlice.actions;
 export default authSlice.reducer;
