@@ -10,6 +10,9 @@ const corsOptions = {
   credentials: true,
 };
 
+const invoicesPath = path.resolve(__dirname, '../../front-end/public/invoicedata.json');
+
+
 const app = express();
 const PORT = 5000;
 
@@ -140,6 +143,51 @@ app.delete('/users/:userId', (req, res) => {
       }
 
       res.status(200).json({ message: 'Kullanıcı başarıyla silindi' });
+    });
+  });
+});
+
+// Faturaları listeleme (GET)
+app.get('/invoices', (req, res) => {
+  fs.readFile(invoicesPath, 'utf8', (err, data) => {
+      if (err) {
+          console.error('Faturalar okunamadı:', err);
+          return res.status(500).json({ message: 'Sunucu hatası' });
+      }
+      const invoices = JSON.parse(data || '[]');
+      res.status(200).json(invoices);
+  });
+});
+
+// Yeni fatura ekleme (POST)
+app.post('/invoices', (req, res) => {
+  const qrData = req.body;
+
+  console.log(qrData);
+  console.log(typeof qrData !== 'string');
+  console.log(typeof qrData !== 'object');
+  if (!qrData || (typeof qrData !== 'string' && typeof qrData !== 'object')) {
+    return res.status(400).json({ message: 'Geçersiz QR kod verisi' });
+  }
+
+  fs.readFile(invoicesPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Faturalar okunamadı:', err.message);
+      return res.status(500).json({ message: 'Sunucu hatası' });
+    }
+
+    const invoices = JSON.parse(data || '[]');
+    const newInvoice = { id: Math.floor(Math.random() * 1000000), ...qrData };
+
+    invoices.push(newInvoice);
+
+    fs.writeFile(invoicesPath, JSON.stringify(invoices, null, 2), (err) => {
+      if (err) {
+        console.error('Fatura kaydedilemedi:', err.message);
+        return res.status(500).json({ message: 'Sunucu hatası' });
+      }
+
+      res.status(201).json({ message: 'Fatura başarıyla eklendi', invoice: newInvoice });
     });
   });
 });

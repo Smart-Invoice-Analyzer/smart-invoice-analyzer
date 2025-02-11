@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
         </Grid>
         </Box>
 
-        <AddButton darkMode={darkMode} />
+        <AddButton darkMode={darkMode} userId={'174934'} />
       </Box>
     </Box>
   );

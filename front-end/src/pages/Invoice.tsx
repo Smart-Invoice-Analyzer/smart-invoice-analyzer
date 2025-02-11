@@ -33,7 +33,7 @@ const Invoice: React.FC = () => {
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode}  />
 
 
-        <AddButton darkMode={darkMode} />
+        <AddButton darkMode={darkMode} userId={''} />
       </Box>
     </Box>
   );

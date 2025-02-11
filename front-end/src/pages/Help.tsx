@@ -190,7 +190,7 @@ const Help: React.FC = () => {
         </Box>
 
         {/* Add New Button */}
-        <AddButton darkMode={darkMode} />
+        <AddButton darkMode={darkMode} userId={''} />
       </Box>
     </Box>
   );

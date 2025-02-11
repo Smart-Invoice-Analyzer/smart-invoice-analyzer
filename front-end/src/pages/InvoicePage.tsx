@@ -223,7 +223,7 @@ const InvoicePage: React.FC = () => {
           </Grid> </Box>
 
         {/* Add New Button */}
-        <AddButton darkMode={darkMode} />
+        <AddButton darkMode={darkMode} userId={''} />
       </Box>
     </Box>
   );

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Html5QrcodeScanner } from "html5-qrcode";
+import axios from 'axios';
 
 interface AddButtonProps {
   darkMode: boolean;
+  userId: string; 
 }
 
-const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
+const AddButton: React.FC<AddButtonProps> = ({ darkMode, userId }) => {
   const [scannerVisible, setScannerVisible] = useState(false);
 
   useEffect(() => {
@@ -20,21 +22,53 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
         scanner.render(
           (decodedText) => {
-            
-            console.log(decodedText);
-            
+            handleQRCodeScan(decodedText);
+            scanner.clear();
             setScannerVisible(false);
           },
           (errorMessage) => {
-            
             console.error(errorMessage);
           }
         );
-      }, 300); // scan dan once 300ms bekletmek lazim yoksa cakisiyor
+      }, 300);
 
       return () => clearTimeout(timer);
     }
   }, [scannerVisible]);
+
+  const handleQRCodeScan = async (qrCode: string) => {
+    console.log('Taranan QR kod verisi:', qrCode);
+
+    try {
+      const parsedData = typeof qrCode === 'string' ? JSON.parse(qrCode) : qrCode;
+      
+      const formattedInvoice = {
+        invoice_id: parsedData.invoice_code || "", 
+        user_id: userId, 
+        invoice_title: parsedData.gst_number || "", 
+        date: parsedData.created || "", 
+        amount: parsedData.total || null, 
+        currency: parsedData.currency || "USD", 
+        items: parsedData.line_items
+          ? [
+              {
+                description: parsedData.hsn_code || "",
+                quantity: parsedData.line_items || 0,
+                price: parsedData.total || 0,
+              },
+            ]
+          : [],
+        status: parsedData.payment === "COD" ? "unpaid" : "paid",
+      };
+
+      console.log("Formatlanmış fatura:", formattedInvoice);
+
+      const response = await axios.post("http://localhost:5000/invoices", formattedInvoice);
+      console.log("Fatura başarıyla kaydedildi:", response.data);
+    } catch (error) {
+      console.error("QR kod işleme hatası:", error);
+    }
+  };
 
   return (
     <>
@@ -52,12 +86,11 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
           minHeight: '50px',
           zIndex: 1000
         }}
-        onClick={() => setScannerVisible(true)} 
+        onClick={() => setScannerVisible(true)}
       >
         <AddIcon />
       </Button>
 
-      
       <Modal open={scannerVisible} onClose={() => setScannerVisible(false)}>
         <Box sx={{
           position: 'fixed',
@@ -74,7 +107,7 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <div id="reader" style={{ width: '50%', height: '100%',overflow:"auto" }}></div>
+          <div id="reader" style={{ width: '50%', height: '100%', overflow: "auto" }}></div>
         </Box>
       </Modal>
     </>
