@@ -3,15 +3,18 @@ import { Button, Modal, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 interface AddButtonProps {
   darkMode: boolean;
-  userId: string; 
 }
 
-const AddButton: React.FC<AddButtonProps> = ({ darkMode, userId }) => {
+const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
   const [scannerVisible, setScannerVisible] = useState(false);
 
+  const userID = useSelector((state: RootState) => state.auth.userId);
+  
   useEffect(() => {
     if (scannerVisible) {
       const timer = setTimeout(() => {
@@ -44,7 +47,7 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode, userId }) => {
       
       const formattedInvoice = {
         invoice_id: parsedData.invoice_code || "", 
-        user_id: userId, 
+        user_id: userID, 
         invoice_title: parsedData.gst_number || "", 
         date: parsedData.created || "", 
         amount: parsedData.total || null, 
