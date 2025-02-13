@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Bağımlılıkları kuruyoruz
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Uygulama dosyalarını kopyalıyoruz
 COPY . .
