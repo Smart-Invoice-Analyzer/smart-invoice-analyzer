@@ -27,7 +27,7 @@ const ReportPage: React.FC = () => {
           sidebarOpen={sidebarOpen}
           darkMode={darkMode}    />
 
-        <AddButton darkMode={darkMode} />
+        <AddButton darkMode={darkMode}  />
       </Box>
     </Box>
   );

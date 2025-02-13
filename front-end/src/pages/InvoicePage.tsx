@@ -13,7 +13,7 @@ import SearchBarr from '../components/SearchBar';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 interface Invoice {
-  status: ReactNode;
+  status: 'paid' | 'unpaid';
   invoice_id: string;
   invoice_title: string;
   date: string;
@@ -34,23 +34,27 @@ const InvoicePage: React.FC = () => {
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   const toinvoice = () => {
-    navigate(`/invoices/${invoiceId}`);
+    navigate(`/invoice/${invoiceId}`);
     console.log("hello world");
   }
 
   const userId = useSelector((state: RootState) => state.auth.userId);
 
+  const [filters, setFilters] = useState({ Paid: false, Unpaid: false });
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
-    //get data with axios
-    axios.get<Invoice[]>('/invoicedata.json')
-      .then((response) => {
-        setInvoices(response.data.filter(invoice => invoice.user_id === userId));
-      })
-      .catch((error) => {
-        console.error("Error fetching invoice data:", error);
-      });
-  }, []);
+    if (userId) {
+      setLoading(true);
+      axios.get<Invoice[]>('/invoicedata.json')
+        .then((response) => {
+          setInvoices(response.data.filter(invoice => invoice.user_id === userId));
+        })
+        .catch((error) => {
+          console.error("Error fetching invoice data:", error);
+        });
+    }
+  }, [userId]);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -58,9 +62,22 @@ const InvoicePage: React.FC = () => {
     setSearchQuery(query);
   };
 
-  const filteredInvoices = invoices.filter((invoice) =>
-    invoice.invoice_title.toLowerCase().includes(searchQuery.toLowerCase()) 
-  );
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilters({
+      ...filters,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  // Filtrelenmiş faturalar
+  const filteredInvoices = invoices.filter((invoice) => {
+    const matchesSearch = invoice.invoice_title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter =
+      (!filters.Paid && !filters.Unpaid) || // Hiçbir checkbox seçili değilse hepsini göster
+      (filters.Paid && invoice.status === 'paid') || 
+      (filters.Unpaid && invoice.status === 'unpaid');
+    return matchesSearch && matchesFilter;
+  });
 
 
   return (
@@ -90,8 +107,28 @@ const InvoicePage: React.FC = () => {
             <SearchBarr onSearch={handleSearch} /> 
             <Box>
             <FormGroup row>
-  <FormControlLabel control={<Checkbox />} label="Paid" />
-  <FormControlLabel control={<Checkbox />} label="Unpaid" />
+  <FormControlLabel 
+  control={<Checkbox 
+    name="Paid"
+                    checked={filters.Paid}
+                    onChange={handleFilterChange}
+   sx={{
+    "&.Mui-checked": {
+      color: "#01579b"
+    },
+  }}
+  />} label="Paid" />
+  <FormControlLabel 
+  control={<Checkbox 
+    name="Unpaid"
+                    checked={filters.Unpaid}
+                    onChange={handleFilterChange}
+   sx={{
+    "&.Mui-checked": {
+      color: "#01579b"
+    },
+  }}
+  />} label="Unpaid" />
   
 </FormGroup></Box>
           </Box>

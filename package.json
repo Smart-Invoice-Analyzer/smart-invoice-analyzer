@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "react-chartjs-2": "^5.3.0",
+    "react-is": "^19.0.0",
+    "rechart": "^0.0.1",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@types/recharts": "^1.8.29"
+  }
+}
