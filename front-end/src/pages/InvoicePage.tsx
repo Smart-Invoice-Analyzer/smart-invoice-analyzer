@@ -13,7 +13,7 @@ import SearchBarr from '../components/SearchBar';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
 
 interface Invoice {
-  status: 'paid' | 'unpaid';
+  status: 'paid' | 'unpaid' | 'overdue';
   invoice_id: string;
   invoice_title: string;
   date: string;
