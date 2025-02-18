@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.post('/users', (req, res) => {
   console.log('Yeni kullanıcı oluşturma isteği:', req.body);
   const { email, username } = req.body;
-  const dataPath = path.join(__dirname, '../../front-end/public/usersdata.json');
+  const dataPath = path.join(__dirname, '../../public/usersdata.json');
 
   fs.readFile(dataPath, 'utf8', (err, data) => {
     if (err) {
@@ -64,7 +64,7 @@ app.post('/users', (req, res) => {
 
 app.post('/users/update', (req, res) => {
   const { email, name, surname, password } = req.body;
-  const dataPath = path.join(__dirname, '../../front-end/public/usersdata.json');
+  const dataPath = path.join(__dirname, '../../public/usersdata.json');
 
   fs.readFile(dataPath, 'utf8', (err, data) => {
     if (err) {
@@ -110,7 +110,7 @@ app.listen(PORT, () => {
 
 app.delete('/users/:userId', (req, res) => {
   const { userId } = req.params; // Extract userId from URL parameters
-  const dataPath = path.join(__dirname, '../../front-end/public/usersdata.json');
+  const dataPath = path.join(__dirname, '../../public/usersdata.json');
 
   fs.readFile(dataPath, 'utf8', (err, data) => {
     if (err) {

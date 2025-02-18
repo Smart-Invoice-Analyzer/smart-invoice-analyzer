@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ./back-end
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./front-end/public:/app/public
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./front-end
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end/public:/app/public
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
