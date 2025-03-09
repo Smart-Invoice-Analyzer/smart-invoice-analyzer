@@ -66,7 +66,7 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
       console.log("Formatlanmış fatura:", formattedInvoice);
 
-      const response = await axios.post("/invoicedata.json", formattedInvoice);
+      const response = await axios.post("localhost:5000/invoices", formattedInvoice);
       console.log("Fatura başarıyla kaydedildi:", response.data);
     } catch (error) {
       console.error("QR kod işleme hatası:", error);
