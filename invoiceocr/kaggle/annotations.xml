@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <segments>
+        <segment>
+          <id>34880</id>
+          <start>0</start>
+          <stop>19</stop>
+          <url>https://cvat2.trainingdata.solutions/api/jobs/34880</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>TrainingData</username>
+        <email/>
+      </owner>
+      
+      <labels>
+        <label>
+          <name>receipt</name>
+          <color>#33ddff</color>
+          <type>polygon</type>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>shop</name>
+          <color>#24b353</color>
+          <type>rectangle</type>
+          <attributes>
+            <attribute>
+              <name>text</name>
+              <mutable>False</mutable>
+              <input_type>text</input_type>
+              <default_value/>
+              <values/>
+            </attribute>
+          </attributes>
+        </label>
+        <label>
+          <name>item</name>
+          <color>#f59331</color>
+          <type>rectangle</type>
+          <attributes>
+            <attribute>
+              <name>text</name>
+              <mutable>False</mutable>
+              <input_type>text</input_type>
+              <default_value/>
+              <values/>
+            </attribute>
+          </attributes>
+        </label>
+        <label>
+          <name>date_time</name>
+          <color>#ff355e</color>
+          <type>rectangle</type>
+          <attributes>
+            <attribute>
+              <name>text</name>
+              <mutable>False</mutable>
+              <input_type>text</input_type>
+              <default_value/>
+              <values/>
+            </attribute>
+          </attributes>
+        </label>
+        <label>
+          <name>total</name>
+          <color>#fa32b7</color>
+          <type>rectangle</type>
+          <attributes>
+            <attribute>
+              <name>text</name>
+              <mutable>False</mutable>
+              <input_type>text</input_type>
+              <default_value/>
+              <values/>
+            </attribute>
+          </attributes>
+        </label>
+      </labels>
+    </task>
+    <dumped>2023-09-11 11:15:48.678690+00:00</dumped>
+  </meta>
+  <image id="0" name="images/0.jpg" width="612" height="1023">
+    <polygon label="receipt" source="manual" occluded="0" points="39.15,93.53;186.88,67.24;270.27,54.55;332.35,48.66;447.00,54.10;537.19,63.62;593.83,73.13;609.24,67.24;612.00,71.84;612.00,784.65;605.62,862.11;596.10,926.01;589.75,936.89;514.98,931.90;388.54,926.01;196.85,918.31;91.72,913.32;83.56,895.65;72.68,852.60;67.24,800.48;87.64,776.01;118.45,725.71;148.82,680.39;155.61,643.23;153.35,605.16;144.28,587.49;133.41,571.63;108.94,562.56;91.72,561.66;71.78,582.96;50.93,593.38;44.13,521.33;34.16,431.14;25.10,325.10;21.93,270.72;21.93,220.87;25.10,157.43;31.90,110.30" z_order="0">
+    </polygon>
+    <box label="shop" source="manual" occluded="0" xtl="153.76" ytl="194.59" xbr="481.86" ybr="245.40" rotation="358.70" z_order="0">
+      <attribute name="text">WALMART</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="351.28" ytl="604.95" xbr="525.83" ybr="624.91" rotation="1.10" z_order="0">
+      <attribute name="text">TOTAL 5.11</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="106.25" ytl="517.30" xbr="555.10" ybr="541.35" z_order="0">
+      <attribute name="text">FRAP 001200010451 F 5.48 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="104.28" ytl="473.20" xbr="556.78" ybr="519.90" z_order="0">
+      <attribute name="text">BANANAS 000000004011KF 0.41 lb @ 1 lb /0.49 0.20 N</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="214.25" ytl="881.94" xbr="437.99" ybr="894.78" rotation="2.30" z_order="0">
+      <attribute name="text">08/20/10 13:12:01</attribute>
+    </box>
+  </image>
+  <image id="1" name="images/1.jpg" width="688" height="1024">
+    <box label="total" source="manual" occluded="0" xtl="144.02" ytl="774.05" xbr="529.69" ybr="790.61" rotation="356.90" z_order="0">
+      <attribute name="text">TOTAL $38.68</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="131.92" ytl="427.14" xbr="467.70" ybr="445.28" rotation="357.30" z_order="0">
+      <attribute name="text">MINI-PEARL TOMATOES.. 2.49</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="133.05" ytl="446.09" xbr="468.00" ybr="464.23" rotation="357.30" z_order="0">
+      <attribute name="text">PKG SHREDDED MOZZARELLA LITE T 3.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="135.57" ytl="464.57" xbr="468.70" ybr="482.71" rotation="357.30" z_order="0">
+      <attribute name="text">EGGS 1 DOZ ORGANIC BROWN. 3.79</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="134.82" ytl="482.46" xbr="469.30" ybr="500.59" rotation="357.30" z_order="0">
+      <attribute name="text">BEANS GARBANZO 0.89</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="137.05" ytl="573.04" xbr="476.54" ybr="610.19" rotation="357.90" z_order="0">
+      <attribute name="text">GROCERY NON TAXABLE 0.98 2@ 0.49</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="134.70" ytl="516.99" xbr="471.62" ybr="535.13" rotation="357.90" z_order="0">
+      <attribute name="text">A-AVOCADOS HASS BAG 4CT 3.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="135.40" ytl="499.11" xbr="469.96" ybr="517.25" rotation="357.90" z_order="0">
+      <attribute name="text">SPROUTED CA STYLE 2.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="137.80" ytl="612.19" xbr="479.53" ybr="648.84" rotation="357.90" z_order="0">
+      <attribute name="text">BANANAS ORGANIC 0.87 3EA @ 0.29/EA</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="138.48" ytl="650.09" xbr="483.00" ybr="669.13" rotation="357.70" z_order="0">
+      <attribute name="text">CREAMY SALTED PEANUT BUTTER 2.49</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="139.70" ytl="670.27" xbr="484.79" ybr="688.40" rotation="357.40" z_order="0">
+      <attribute name="text">WHL WHT PITA BREAD 1.69</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="140.97" ytl="690.80" xbr="487.34" ybr="728.60" rotation="357.00" z_order="0">
+      <attribute name="text">GROCERY NON TAXABLE 1.38 2 2@ 0.69</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="124.85" ytl="331.06" xbr="465.45" ybr="349.20" rotation="357.30" z_order="0">
+      <attribute name="text">R-CARROTS SHREDDED 10 OZ 1.29</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="190.45" ytl="138.30" xbr="495.73" ybr="166.24" rotation="358.00" z_order="0">
+      <attribute name="text">TRADER JOE'S</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="135.04" ytl="535.29" xbr="474.52" ybr="553.42" rotation="357.90" z_order="0">
+      <attribute name="text">A-APPLE BAG JAZZ 2 LB 2.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="135.41" ytl="553.76" xbr="474.89" ybr="571.90" rotation="357.90" z_order="0">
+      <attribute name="text">A-PEPPER BELL EACH XL RED 0.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="125.88" ytl="350.66" xbr="466.47" ybr="368.80" rotation="357.30" z_order="0">
+      <attribute name="text">R-CUCUMBERS PERSIAN 1 LB 1.99</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="127.66" ytl="370.77" xbr="466.60" ybr="388.91" rotation="357.30" z_order="0">
+      <attribute name="text">TOMATOES CRUSHED NO SALT 1.59</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="129.01" ytl="389.61" xbr="467.95" ybr="407.75" rotation="357.30" z_order="0">
+      <attribute name="text">TOMATOES WHOLE NO SALT W/BASIL 1.59</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="103.27,39.13;106.96,38.71;111.71,42.08;111.60,43.88;184.93,41.34;261.20,38.92;273.54,36.60;319.01,35.86;436.43,32.17;516.40,28.68;528.32,110.97;534.02,194.10;538.55,263.52;540.03,330.51;540.56,392.44;541.40,442.76;541.40,496.14;546.67,548.78;556.06,631.28;565.03,734.35;569.99,824.34;571.15,877.30;570.52,931.53;567.25,973.20;504.90,976.26;415.01,982.80;313.53,987.97;243.79,992.51;187.25,994.19;148.84,994.93;143.15,953.79;138.19,874.77;132.81,789.95;128.06,698.38;126.06,617.36;123.74,528.95;121.63,457.32;116.77,405.10;112.24,353.51;108.76,296.01;104.85,238.41;102.43,181.55;100.32,120.68;101.69,62.02" z_order="0">
+    </polygon>
+    <box label="date_time" source="manual" occluded="0" xtl="150.25" ytl="878.85" xbr="327.94" ybr="895.80" rotation="357.50" z_order="0">
+      <attribute name="text">06-28-2014 12:34PM</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="130.10" ytl="409.01" xbr="468.19" ybr="427.15" rotation="357.30" z_order="0">
+      <attribute name="text">ORGANIC OLD FASHIONED OATMEAL 2.69</attribute>
+    </box>
+  </image>
+  <image id="10" name="images/10.jpg" width="900" height="1200">
+    <box label="item" source="manual" occluded="0" xtl="179.99" ytl="486.63" xbr="520.53" ybr="505.55" rotation="358.10" z_order="0">
+      <attribute name="text">SMOKED VIENNAS 500GR 33.99 A</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="280.99" ytl="276.71" xbr="411.94" ybr="301.07" z_order="0">
+      <attribute name="text">SPAR</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="180.62" ytl="753.43" xbr="514.07" ybr="769.70" rotation="358.40" z_order="0">
+      <attribute name="text">TOTAL FOR 14 ITEMS 338.16</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="180.44" ytl="506.68" xbr="520.98" ybr="525.60" rotation="358.10" z_order="0">
+      <attribute name="text">PEALED PEACHES 400G 82.99 A</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="179.00" ytl="467.11" xbr="519.54" ybr="485.50" rotation="358.10" z_order="0">
+      <attribute name="text">MILKY BAR CHOC 80GR 16.99 A</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="177.59" ytl="446.18" xbr="518.13" ybr="465.10" rotation="358.10" z_order="0">
+      <attribute name="text">LAZENBY WORCESTER SALICE 125ML 17.99 A</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="181.21" ytl="526.63" xbr="521.75" ybr="545.56" rotation="358.10" z_order="0">
+      <attribute name="text">MEDITERRANEAN MIX 1KG 44.99 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="181.73" ytl="547.78" xbr="522.27" ybr="564.60" rotation="358.10" z_order="0">
+      <attribute name="text">SPAR COOKING OIL 375ML 14.99 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="183.16" ytl="568.21" xbr="523.69" ybr="584.60" rotation="358.10" z_order="0">
+      <attribute name="text">F/L ENGLISH CUCUMB 1'S 12.99 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="183.74" ytl="587.33" xbr="524.28" ybr="604.20" rotation="358.10" z_order="0">
+      <attribute name="text">NESTLE AERO 85GR 20.99 A</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.56" ytl="607.07" xbr="524.57" ybr="623.70" rotation="358.10" z_order="0">
+      <attribute name="text">CADBURY DAIRY MI 80 GR 16.99 A</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="165.17,190.27;162.70,194.72;162.82,256.78;163.32,301.04;163.94,419.23;168.02,543.48;170.74,608.76;168.02,723.48;168.26,848.72;167.28,920.30;162.58,968.89;161.71,989.16;166.66,1036.51;174.32,1072.86;181.74,1089.67;194.47,1101.30;213.27,1105.38;225.50,1109.83;257.65,1110.44;305.37,1109.58;346.29,1104.14;388.94,1102.04;403.90,1102.90;418.49,1101.79;434.31,1099.57;465.35,1100.68;493.29,1097.71;524.69,1093.26;544.72,1089.06;569.69,1087.08;571.67,1068.78;572.29,1035.03;571.79,999.30;568.08,949.36;567.34,905.71;566.10,849.59;564.25,797.41;561.04,742.28;558.19,683.55;554.48,578.84;551.64,523.20;548.42,481.17;548.92,453.23;547.93,414.90;544.10,314.39;539.65,176.05;501.69,182.11;423.81,192.74;360.76,191.14;316.62,193.48;287.94,196.58;282.99,195.71;257.15,199.30;172.84,200.66;171.35,197.07" z_order="0">
+    </polygon>
+    <box label="date_time" source="manual" occluded="0" xtl="398.99" ytl="945.70" xbr="528.23" ybr="962.00" rotation="358.30" z_order="0">
+      <attribute name="text">23.02.21 16:17</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="181.62" ytl="691.56" xbr="528.68" ybr="705.41" rotation="358.10" z_order="0">
+      <attribute name="text">CARRIER BAG 24L 1"S 0.75 A</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.57" ytl="711.54" xbr="530.02" ybr="750.08" rotation="358.10" z_order="0">
+      <attribute name="text">BANANAS LOOSE 17KG 0.596kg @ 15.99 R /kg 9.53 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.94" ytl="628.19" xbr="525.05" ybr="643.73" rotation="358.10" z_order="0">
+      <attribute name="text">GRAPES MIXED TUB TUB 24.99 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.34" ytl="649.85" xbr="526.62" ybr="665.06" rotation="358.10" z_order="0">
+      <attribute name="text">TASTIC RICE 500GR 11.99 *</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="181.34" ytl="669.78" xbr="527.90" ybr="684.80" rotation="358.10" z_order="0">
+      <attribute name="text">BLACK CAT SMOOTH 270GR 27.99 A</attribute>
+    </box>
+  </image>
+  <image id="11" name="images/11.jpg" width="622" height="768">
+    <box label="item" source="manual" occluded="0" xtl="102.40" ytl="477.80" xbr="498.46" ybr="492.49" z_order="0">
+      <attribute name="text">*WT PLUMS BLACK CV 2.15 B</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="27.84,768.00;52.07,658.33;62.95,553.88;76.90,455.90;92.89,368.13;111.60,259.26;127.93,167.74;143.58,67.72;150.39,18.73;154.13,18.39;157.87,23.83;160.60,34.04;165.02,37.44;170.12,42.88;242.59,42.20;326.62,41.52;384.80,38.12;472.57,30.29;480.40,99.36;491.28,201.42;502.51,309.27;513.40,413.71;525.99,543.00;529.39,610.70;542.32,687.25;552.95,768.00" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="133.90" ytl="279.24" xbr="481.23" ybr="292.46" z_order="0">
+      <attribute name="text">* CAGE FREE ALL WHIT 3.69 B</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="232.52" ytl="101.87" xbr="387.75" ybr="177.00" z_order="0">
+      <attribute name="text">WHOLE FOODS MARKET</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="135.04" ytl="260.21" xbr="479.66" ybr="273.43" z_order="0">
+      <attribute name="text">* PL TORTILLA'S 6.99 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="130.80" ytl="299.72" xbr="482.55" ybr="312.94" z_order="0">
+      <attribute name="text">* BLACK BEANS 1.29 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="127.30" ytl="319.86" xbr="484.53" ybr="333.08" z_order="0">
+      <attribute name="text">* Frozen Mangoes 16o 2.99 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="124.90" ytl="341.00" xbr="486.51" ybr="354.22" z_order="0">
+      <attribute name="text">* Whole Strawberries 2.99 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="121.00" ytl="362.46" xbr="487.83" ybr="375.68" z_order="0">
+      <attribute name="text">* OG LF COTTAGE CHEE 3.49 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="117.80" ytl="384.59" xbr="489.81" ybr="397.80" z_order="0">
+      <attribute name="text">* MAHI MAHI FILLETS 8.99 B</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="110.00" ytl="430.65" xbr="494.25" ybr="443.87" z_order="0">
+      <attribute name="text">* California Harvest 2.69 B</attribute>
+    </box>
+  </image>
+  <image id="12" name="images/12.jpg" width="768" height="1024">
+    <box label="date_time" source="manual" occluded="0" xtl="249.73" ytl="894.56" xbr="466.46" ybr="913.30" rotation="359.30" z_order="0">
+      <attribute name="text">10/20/07 13:48:43</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.00" ytl="447.51" xbr="540.97" ybr="464.50" z_order="0">
+      <attribute name="text">TOOTHBRUSH 003500055500 0.96 X</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="153.69,129.43;252.60,127.54;401.29,120.93;464.29,114.63;525.09,121.56;552.81,117.78;586.52,114.94;597.86,175.11;601.64,205.04;600.69,320.96;604.16,422.40;605.73,529.50;612.66,664.33;621.17,752.21;623.06,872.55;623.06,885.46;607.31,931.77;603.84,949.73;588.72,951.30;542.10,975.56;529.50,984.38;473.43,992.57;404.44,996.35;294.50,1002.96;240.63,1003.28;154.64,1002.96;125.97,1002.96;125.65,923.90;127.86,791.91;127.23,735.83;133.53,635.66;137.31,520.68;148.33,366.95;150.23,326.00" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="179.20" ytl="481.17" xbr="541.80" ybr="497.80" z_order="0">
+      <attribute name="text">WOMEN SLIPPE 009725614790 9.86 X</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="381.95" ytl="549.48" xbr="523.41" ybr="564.98" rotation="0.40" z_order="0">
+      <attribute name="text">TOTAL 18.75</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.50" ytl="429.60" xbr="541.10" ybr="448.10" z_order="0">
+      <attribute name="text">SW FIGURES 065356920144 6.63 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="220.01" ytl="225.89" xbr="541.01" ybr="271.10" rotation="359.50" z_order="0">
+      <attribute name="text">WALMART</attribute>
+    </box>
+  </image>
+  <image id="13" name="images/13.jpg" width="737" height="745">
+    <box label="shop" source="manual" occluded="0" xtl="216.19" ytl="105.60" xbr="426.40" ybr="146.72" rotation="0.40" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="168.53,12.49;557.83,17.64;562.98,15.66;560.60,78.63;559.02,151.10;557.04,192.29;553.08,214.47;557.04,249.32;553.47,311.89;549.91,419.22;547.13,490.11;544.36,604.56;541.19,720.99;538.91,745.00;166.95,745.00;166.95,675.45;164.97,589.91;164.57,475.06;164.57,336.05;164.57,239.82;167.74,132.89" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="197.46" ytl="262.67" xbr="504.31" ybr="276.20" rotation="0.70" z_order="0">
+      <attribute name="text">GIFT CARD 087458604333 50.00 0</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="260.50" ytl="594.41" xbr="423.04" ybr="606.80" rotation="359.30" z_order="0">
+      <attribute name="text">08/11/17 19:22:40</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="365.85" ytl="294.67" xbr="486.41" ybr="308.73" rotation="0.40" z_order="0">
+      <attribute name="text">TOTAL 50.00</attribute>
+    </box>
+  </image>
+  <image id="14" name="images/14.jpg" width="2448" height="2475">
+    <box label="total" source="manual" occluded="0" xtl="1260.36" ytl="1185.94" xbr="1585.85" ybr="1218.28" rotation="357.30" z_order="0">
+      <attribute name="text">TOTAL 26.60</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="803.65" ytl="923.22" xbr="1616.62" ybr="961.59" rotation="357.20" z_order="0">
+      <attribute name="text">VFUS ENG POM 005100024543 F 7.48 N</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="1001.65" ytl="1903.35" xbr="1465.73" ybr="1940.50" rotation="358.20" z_order="0">
+      <attribute name="text">05/04/17 19:54:18</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="810.23" ytl="1073.88" xbr="1624.40" ybr="1114.01" rotation="357.20" z_order="0">
+      <attribute name="text">LINT ROLLER2 005114123488 5.78 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="805.47" ytl="961.33" xbr="1618.45" ybr="1000.50" rotation="357.20" z_order="0">
+      <attribute name="text">DAWN ORIG 003700011045 5.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="802.14" ytl="885.28" xbr="1615.12" ybr="925.40" rotation="357.20" z_order="0">
+      <attribute name="text">EQUATE LINER 068113186503 3.88 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="872.78" ytl="503.80" xbr="1380.72" ybr="599.52" rotation="357.50" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="808.20" ytl="1036.75" xbr="1622.40" ybr="1076.87" rotation="357.20" z_order="0">
+      <attribute name="text">5OYD PKGTAPE 007535307841 1.12 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="807.30" ytl="999.05" xbr="1620.28" ybr="1037.80" rotation="357.20" z_order="0">
+      <attribute name="text">5OYD PKGTAPE 007535307841 1.12 X</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="690.39,51.53;699.62,46.91;706.73,49.80;720.96,48.64;723.07,54.03;729.99,53.64;737.49,52.11;789.98,50.95;935.13,50.37;1026.83,47.49;1142.18,43.26;1237.35,38.26;1333.29,30.00;1403.84,25.00;1498.82,15.77;1623.95,0.00;1718.98,0.00;1732.79,256.66;1741.82,468.72;1750.67,659.63;1759.90,871.30;1768.16,1085.09;1772.97,1238.89;1788.16,1385.58;1797.77,1536.31;1807.58,1690.49;1825.26,1916.58;1836.80,2090.00;1853.52,2312.43;1861.98,2446.24;1696.84,2441.24;1521.31,2440.67;1342.13,2440.28;1179.29,2438.55;1053.56,2440.86;886.68,2447.01;779.21,2452.20;769.98,2443.74;766.33,2438.55;763.44,2434.71;761.33,2434.32;761.14,2431.63;762.68,2429.71;759.79,2427.79;757.68,2426.63;752.29,2428.94;749.22,2427.79;751.72,2426.44;752.87,2422.79;750.95,2422.21;741.72,2426.63;741.72,2327.81;740.95,2210.16;739.80,2112.68;739.41,2001.75;737.30,1866.02;736.14,1735.48;734.61,1618.78;733.07,1513.23;731.34,1399.23;729.03,1279.84;727.69,1171.22;729.61,1154.30;725.96,1135.84;714.61,760.18;696.54,334.33" z_order="0">
+
+
+    </polygon>
+  </image>
+  <image id="15" name="images/15.jpg" width="750" height="1000">
+    <polygon label="receipt" source="manual" occluded="0" points="190.37,24.29;201.66,27.24;204.10,28.98;208.09,29.32;270.29,37.84;305.90,41.14;345.34,41.14;354.02,41.14;358.37,36.79;387.55,41.31;412.75,46.18;440.37,44.79;455.83,40.44;495.61,28.28;518.72,11.08;515.25,7.09;525.15,2.57;541.13,30.54;550.69,75.19;553.12,134.60;556.94,193.50;557.98,218.52;564.76,257.43;564.24,329.70;569.80,406.14;576.40,457.92;577.96,492.66;585.43,578.14;590.47,716.08;593.42,790.61;591.51,842.21;589.89,1000.00;440.77,1000.00;430.29,999.26;326.58,989.70;211.05,976.85;185.68,974.59;183.42,972.33;181.16,972.68;179.08,970.25;175.26,972.33;173.35,971.98;175.78,957.22;184.99,912.57;196.63,835.95;208.79,816.67;217.65,792.00;218.86,777.06;211.91,764.55;201.66,754.82;199.93,723.03;196.10,687.93;191.41,639.29;189.68,560.94;192.80,495.27;191.07,454.96;193.67,399.19;197.08,314.44;191.15,94.33" z_order="0">
+    </polygon>
+    <box label="date_time" source="manual" occluded="0" xtl="290.51" ytl="748.07" xbr="456.38" ybr="761.80" rotation="1.70" z_order="0">
+      <attribute name="text">07/22/16 20:53:11</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="253.77" ytl="196.59" xbr="432.27" ybr="237.27" rotation="358.30" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="225.49" ytl="334.68" xbr="514.77" ybr="353.60" rotation="358.30" z_order="0">
+      <attribute name="text">DIABETES 068113131172H 12.58 N</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="383.82" ytl="363.60" xbr="499.61" ybr="377.30" rotation="356.50" z_order="0">
+      <attribute name="text">TOTAL 12.58</attribute>
+    </box>
+  </image>
+  <image id="16" name="images/16.jpg" width="598" height="1600">
+    <box label="date_time" source="manual" occluded="0" xtl="214.90" ytl="974.30" xbr="436.42" ybr="991.90" z_order="0">
+      <attribute name="text">11/13/17 12:34:04</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.54" ytl="499.36" xbr="534.06" ybr="517.36" z_order="0">
+      <attribute name="text">ASST 27 063099656595 4.88 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="148.11" ytl="273.55" xbr="426.68" ybr="327.90" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.10" ytl="520.50" xbr="533.20" ybr="538.80" z_order="0">
+      <attribute name="text">CUTIE CAR 063099656644 12.88 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.93" ytl="478.90" xbr="534.00" ybr="496.90" z_order="0">
+      <attribute name="text">6 WING PLATE 020108870398 3.98 P</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="90.43,63.37;215.05,61.23;347.26,58.15;502.97,55.77;586.05,54.58;590.56,108.94;591.99,208.40;593.89,372.90;594.60,507.25;595.78,591.99;595.78,733.46;596.26,831.73;598.00,861.68;598.00,1505.09;503.92,1501.82;400.19,1500.16;377.41,1499.21;280.32,1498.26;165.67,1494.70;46.28,1492.56;42.48,1445.33;41.77,1394.77;44.38,1304.80;49.84,1212.94;55.30,1118.47;60.52,1016.88;62.89,942.58;70.01,718.98;71.68,583.44;77.13,464.52;74.76,333.26;75.95,250.89;82.83,109.42" z_order="0">
+    </polygon>
+    <box label="total" source="manual" occluded="0" xtl="349.46" ytl="604.83" xbr="512.66" ybr="621.45" z_order="0">
+      <attribute name="text">TOTAL 23.19</attribute>
+    </box>
+  </image>
+  <image id="17" name="images/17.jpg" width="900" height="1200">
+    <polygon label="receipt" source="manual" occluded="0" points="253.00,70.34;329.91,79.10;441.42,87.44;533.28,82.74;624.08,69.28;665.31,69.06;668.73,233.77;672.79,440.14;677.91,634.33;684.96,793.06;691.16,949.44;695.00,1090.22;628.14,1086.38;514.91,1086.16;333.11,1082.10;239.11,1084.67;222.02,1067.36;214.97,1012.03;221.17,824.25;227.58,715.30;240.40,549.52;242.53,413.44;241.68,269.45" z_order="0">
+    </polygon>
+    <box label="total" source="manual" occluded="0" xtl="469.91" ytl="726.31" xbr="606.64" ybr="740.90" z_order="0">
+      <attribute name="text">TOTAL 38.68</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.97" ytl="499.86" xbr="618.87" ybr="514.40" z_order="0">
+      <attribute name="text">CAMPARI TOM 073447501213 I 2.98 R</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.40" ytl="468.20" xbr="619.30" ybr="483.20" z_order="0">
+      <attribute name="text">OSCRAN POM 003120027015 F 2.00 R</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="320.89" ytl="264.00" xbr="528.29" ybr="302.43" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.65" ytl="421.30" xbr="618.27" ybr="450.57" z_order="0">
+      <attribute name="text">BANANAS 000000004011KI 1.75 lb @ 1 lb /0.54 0.95 R</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="283.20" ytl="453.00" xbr="619.10" ybr="466.20" z_order="0">
+      <attribute name="text">BEVERAGE 003120002133 F 2.00 R</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.25" ytl="485.19" xbr="618.15" ybr="498.39" z_order="0">
+      <attribute name="text">STRWBRY CC 076471782200 F 0.96 Y</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="347.40" ytl="861.91" xbr="544.59" ybr="878.08" z_order="0">
+      <attribute name="text">01/15/17 14:26:03</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="278.70" ytl="643.03" xbr="622.40" ybr="658.30" z_order="0">
+      <attribute name="text">INJECTR CLNR 004980710003 8.87 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="278.60" ytl="626.79" xbr="621.48" ybr="642.00" z_order="0">
+      <attribute name="text">HAND CLEANER 004125100005 1.67 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="279.60" ytl="610.81" xbr="621.62" ybr="625.80" z_order="0">
+      <attribute name="text">SH NYLON COL 007417024836 2.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="279.50" ytl="594.58" xbr="621.35" ybr="609.30" z_order="0">
+      <attribute name="text">PILLS WHITE 068113113619 F 1.00Y</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="281.51" ytl="564.90" xbr="621.00" ybr="593.20" z_order="0">
+      <attribute name="text">AVOCADO 000000004046KI 4 AT 1 FOR 0.44 1.76 R</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="281.90" ytl="548.02" xbr="619.60" ybr="563.10" z_order="0">
+      <attribute name="text">HARD SALAMI 020533960343 F 3.43 Y</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.50" ytl="532.51" xbr="619.47" ybr="547.90" z_order="0">
+      <attribute name="text">44500982114 004450098211 F 3.98 Y</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="282.30" ytl="516.49" xbr="619.83" ybr="531.50" z_order="0">
+      <attribute name="text">KFT SINGLES 002100061526 F 3.78 Y</attribute>
+    </box>
+  </image>
+  <image id="18" name="images/18.jpg" width="756" height="1008">
+    <box label="item" source="manual" occluded="0" xtl="203.49" ytl="314.39" xbr="504.79" ybr="332.80" rotation="4.60" z_order="0">
+      <attribute name="text">GV VEG OIL 007874221000 F 7.82 N</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="181.82,34.67;262.57,42.56;321.79,47.23;406.85,59.61;540.90,78.10;543.59,107.70;546.10,147.36;546.10,219.86;547.72,302.41;548.97,358.40;551.49,389.62;548.62,429.28;547.54,495.32;549.51,580.38;551.13,661.13;554.54,765.21;556.87,905.72;463.20,909.49;410.08,913.44;383.70,915.77;344.58,915.95;285.72,915.05;202.28,910.75;145.03,907.88;143.42,861.94;143.24,814.74;144.31,748.70;147.54,666.69;151.31,591.32;154.54,503.93;158.13,428.38;161.54,336.68;165.49,249.47;171.05,150.59;176.25,77.20" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="205.88" ytl="268.97" xbr="503.91" ybr="286.29" rotation="5.60" z_order="0">
+      <attribute name="text">GREAT VALUE 007874206203 F 2.84 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="204.69" ytl="284.48" xbr="504.20" ybr="302.44" rotation="5.10" z_order="0">
+      <attribute name="text">GAIN LFE 003700077007 6.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="204.53" ytl="298.99" xbr="504.04" ybr="316.95" rotation="4.60" z_order="0">
+      <attribute name="text">GAIN 003700076954 4.94 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="202.87" ytl="328.18" xbr="504.65" ybr="348.27" rotation="3.50" z_order="0">
+      <attribute name="text">SNICKER FS 004000050533 F 3.78 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="199.22" ytl="467.51" xbr="503.10" ybr="485.60" rotation="1.40" z_order="0">
+      <attribute name="text">SPREADS 002740026499 F 3.46 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="199.20" ytl="453.24" xbr="503.33" ybr="471.33" rotation="2.00" z_order="0">
+      <attribute name="text">CRNBRY SAUCE 003120001605 F 1.58 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="199.75" ytl="435.08" xbr="503.95" ybr="455.10" rotation="2.70" z_order="0">
+      <attribute name="text">GV 20Z MINI 007874219999 2.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="200.37" ytl="420.18" xbr="503.30" ybr="439.90" rotation="2.70" z_order="0">
+      <attribute name="text">BATTERIES 001280051783 10.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="201.12" ytl="403.46" xbr="504.05" ybr="424.00" rotation="2.70" z_order="0">
+      <attribute name="text">HY RSTLEG PM 035497333521H 9.97 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="201.93" ytl="387.78" xbr="505.01" ybr="408.90" rotation="2.70" z_order="0">
+      <attribute name="text">GAIN 003700082365 1.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="201.42" ytl="373.22" xbr="505.17" ybr="393.90" rotation="2.70" z_order="0">
+      <attribute name="text">CHERRIES 004326880002 F 1.78 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="201.98" ytl="359.72" xbr="504.92" ybr="377.80" rotation="2.70" z_order="0">
+      <attribute name="text">MIXED CHOC 004000047587 F 13.24 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="202.29" ytl="342.94" xbr="504.32" ybr="364.55" rotation="2.70" z_order="0">
+      <attribute name="text">GDBR FS 6PK 003400029305 F 4.76 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="207.53" ytl="225.54" xbr="504.30" ybr="240.42" rotation="5.60" z_order="0">
+      <attribute name="text">GV WATER 007874235191 F 0.98 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="206.93" ytl="240.43" xbr="504.02" ybr="255.69" rotation="5.60" z_order="0">
+      <attribute name="text">GV WATER 007874235191 F 0.98 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="206.20" ytl="254.17" xbr="504.23" ybr="269.05" rotation="5.60" z_order="0">
+      <attribute name="text">GREAT VALUE 007874206203 F 2.84 N</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="295.00" ytl="135.88" xbr="401.99" ybr="156.35" rotation="5.10" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="198.04" ytl="484.21" xbr="502.80" ybr="502.29" rotation="1.40" z_order="0">
+      <attribute name="text">EGGS 6CT 007874212709 F 0.9 0</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="271.79" ytl="736.47" xbr="435.54" ybr="750.30" rotation="357.30" z_order="0">
+      <attribute name="text">10/31/21 10:08:22</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="368.40" ytl="535.80" xbr="487.59" ybr="549.82" z_order="0">
+      <attribute name="text">TOTAL 86.35</attribute>
+    </box>
+  </image>
+  <image id="19" name="images/19.jpg" width="736" height="981">
+    <box label="item" source="manual" occluded="0" xtl="204.37" ytl="467.10" xbr="538.30" ybr="508.01" rotation="1.70" z_order="0">
+      <attribute name="text">RED GRAPE 000000004023 KF 2.51 lb @ 1 lb /1.44 3.61 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="205.88" ytl="432.20" xbr="538.40" ybr="456.32" rotation="1.70" z_order="0">
+      <attribute name="text">FIBER CHOICE 036926600094 12.94 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="207.48" ytl="414.80" xbr="538.09" ybr="438.92" rotation="1.70" z_order="0">
+      <attribute name="text">GRILL COVER 471288396027 14.97 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="304.78" ytl="317.80" xbr="421.30" ybr="342.50" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="195.75,234.17;213.50,234.17;222.52,230.38;228.93,223.11;268.80,223.40;329.35,225.73;401.39,227.47;425.84,242.17;438.50,244.94;464.99,244.50;483.18,239.99;502.54,240.43;527.57,245.96;542.85,246.97;568.32,244.50;582.00,247.70;588.55,261.38;591.02,295.73;593.50,350.01;594.66,399.35;594.66,443.16;594.95,470.08;596.41,512.00;599.46,532.37;600.48,557.11;602.23,591.31;605.29,645.45;608.49,684.02;613.00,736.41;616.49,775.71;618.24,833.63;622.60,840.76;625.95,860.12;627.55,893.59;582.29,892.87;534.70,892.72;501.81,890.68;485.22,887.34;477.36,886.32;464.41,887.34;443.74,887.04;422.49,884.86;405.75,883.26;374.90,880.79;345.65,881.51;311.16,882.10;261.38,881.08;194.58,879.33;167.37,880.79;133.31,880.64;134.62,833.78;137.68,786.62;142.92,734.23;145.54,692.32;150.34,641.23;154.85,595.53;160.96,535.14;167.22,459.46;174.06,396.59;176.39,392.66;174.64,389.31;175.08,383.49;177.99,379.12;176.83,368.06;180.90,344.48;190.51,290.20;190.94,269.68" z_order="0">
+    </polygon>
+    <box label="total" source="manual" occluded="0" xtl="386.54" ytl="543.62" xbr="521.09" ybr="560.70" rotation="4.10" z_order="0">
+      <attribute name="text">TOTAL 35.05</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="205.29" ytl="449.60" xbr="537.66" ybr="473.09" rotation="1.70" z_order="0">
+      <attribute name="text">CELERY HEART 003338365301 2.48 N</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="263.01" ytl="807.00" xbr="467.98" ybr="828.67" rotation="2.30" z_order="0">
+      <attribute name="text">10/16/21 11:22:45</attribute>
+    </box>
+  </image>
+  <image id="2" name="images/2.jpg" width="482" height="720">
+    <box label="date_time" source="manual" occluded="0" xtl="143.22" ytl="691.14" xbr="299.94" ybr="706.80" z_order="0">
+      <attribute name="text">10/18/20 11:30:46</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="241.42" ytl="261.93" xbr="355.37" ybr="273.98" z_order="0">
+      <attribute name="text">TOTAL 49.90</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="41.20,0.00;45.60,720.00;411.24,718.68;416.54,308.23;416.67,137.85;420.14,0.00" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="79.00" ytl="199.60" xbr="371.50" ybr="213.54" z_order="0">
+      <attribute name="text">M ATHLETICS 019104567781 24.97 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="160.16" ytl="82.48" xbr="264.62" ybr="102.22" z_order="0">
+      <attribute name="text">Waalmart</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="78.97" ytl="170.40" xbr="371.08" ybr="184.10" z_order="0">
+      <attribute name="text">GV OATMEAL 007874243408 F 1.76 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="78.65" ytl="214.65" xbr="370.76" ybr="229.60" z_order="0">
+      <attribute name="text">DEXAS 15X20 008429710921 12.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="79.50" ytl="184.68" xbr="371.61" ybr="198.38" z_order="0">
+      <attribute name="text">OT 200Z TUM 081236803115 6.74 X</attribute>
+    </box>
+  </image>
+  <image id="3" name="images/3.jpg" width="720" height="960">
+    <box label="item" source="manual" occluded="0" xtl="182.03" ytl="192.37" xbr="478.69" ybr="210.90" rotation="1.40" z_order="0">
+      <attribute name="text">TATER TOTS 001312000026 F 2.96 O</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="161.76,34.65;168.88,27.64;174.46,28.24;177.07,30.61;238.43,31.92;298.24,33.46;375.51,37.14;418.83,42.60;465.35,47.94;511.52,52.92;533.36,53.75;535.37,71.91;535.49,153.21;533.12,265.72;529.92,352.01;524.81,444.46;524.81,499.41;526.00,594.12;527.54,682.42;528.97,761.35;528.97,885.61;525.05,951.24;475.44,951.48;413.13,951.48;336.70,951.24;302.04,951.01;288.39,948.28;245.90,946.02;207.69,943.89;178.13,939.97;160.69,937.83;131.14,936.88;123.30,931.66;123.30,866.03;126.39,797.55;129.24,729.90;134.82,655.48;141.22,566.23;146.09,505.70;148.11,461.43;150.13,383.58;151.55,308.57;152.86,244.48;155.94,162.35;159.86,66.45" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="178.51" ytl="363.45" xbr="472.95" ybr="378.10" rotation="1.40" z_order="0">
+      <attribute name="text">HARD/PROV/DC 007874219410 F 2.68 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="177.76" ytl="405.98" xbr="471.42" ybr="420.33" rotation="1.40" z_order="0">
+      <attribute name="text">STOK LT SWT 004127102774 F 4.42 T</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="176.71" ytl="434.06" xbr="470.37" ybr="448.42" rotation="1.40" z_order="0">
+      <attribute name="text">AVO VERDE 061611206143 F 2.98 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="177.49" ytl="392.25" xbr="471.15" ybr="406.60" rotation="1.40" z_order="0">
+      <attribute name="text">APPLE 3 BAG 084747300184 F 6.47 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="177.93" ytl="378.18" xbr="472.30" ybr="391.97" rotation="1.40" z_order="0">
+      <attribute name="text">DV RSE OIL M 001111101220 6.94 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="171.90" ytl="529.75" xbr="469.21" ybr="545.14" rotation="1.40" z_order="0">
+      <attribute name="text">ACCESSORY 007515161216 0.97 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="170.62" ytl="545.26" xbr="469.24" ybr="573.20" rotation="1.40" z_order="0">
+      <attribute name="text">CHEEZE IT 002410053523 F 4.00 0 WAS 4.54 YOU SAVED 0.64</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="168.57" ytl="572.29" xbr="469.62" ybr="588.71" rotation="1.40" z_order="0">
+      <attribute name="text">RITZ 004400088210 F 2.78 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="167.44" ytl="602.10" xbr="469.32" ybr="617.86" rotation="1.40" z_order="0">
+      <attribute name="text">GV HNY GRMS 007874207253 F 1.28 N</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="275.43" ytl="109.80" xbr="379.54" ybr="134.15" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="223.71" ytl="765.47" xbr="395.47" ybr="779.99" z_order="0">
+      <attribute name="text">04/27/19 12:59:46</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="177.20" ytl="419.38" xbr="470.86" ybr="433.73" rotation="1.40" z_order="0">
+      <attribute name="text">PEANUT BUTTR 005150025499 F 5.44 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="183.40" ytl="205.76" xbr="478.00" ybr="224.30" rotation="1.40" z_order="0">
+      <attribute name="text">HARD/PROV/DC 007874219410 F 2.68 O</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.26" ytl="219.93" xbr="478.92" ybr="238.46" rotation="1.40" z_order="0">
+      <attribute name="text">SNACK BARS 002190848816 F 4.98 T</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="179.61" ytl="305.68" xbr="474.87" ybr="323.60" rotation="1.40" z_order="0">
+      <attribute name="text">HRI CL PEP 003120507000 F 5.88 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="180.45" ytl="291.61" xbr="475.12" ybr="308.90" rotation="1.40" z_order="0">
+      <attribute name="text">HRI 12 U SG 003120535000 F 5.88 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="180.70" ytl="277.46" xbr="475.37" ybr="295.99" rotation="1.40" z_order="0">
+      <attribute name="text">HRI CL CHS 003120506000 F 5.88-0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="181.60" ytl="248.86" xbr="477.19" ybr="267.40" rotation="1.40" z_order="0">
+      <attribute name="text">HRI CL CHS 003120506000 F 5.88 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="182.30" ytl="234.06" xbr="477.70" ybr="252.59" rotation="1.40" z_order="0">
+      <attribute name="text">HRI CL CHS 003120506000 F 5.88 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="173.07" ytl="515.88" xbr="469.20" ybr="530.23" rotation="1.40" z_order="0">
+      <attribute name="text">GV SLIDERS 007874201525 2.98 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="174.86" ytl="502.76" xbr="469.20" ybr="517.12" rotation="1.40" z_order="0">
+      <attribute name="text">BAGELS 001376402801 F 4.56 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="175.90" ytl="474.89" xbr="469.56" ybr="489.24" rotation="1.40" z_order="0">
+      <attribute name="text">GALE 000000000003K 32.00 T</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="175.91" ytl="461.24" xbr="469.57" ybr="475.59" rotation="1.40" z_order="0">
+      <attribute name="text">BTS DRY BLON 501072452746 6.58 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="176.33" ytl="447.33" xbr="469.99" ybr="461.69" rotation="1.40" z_order="0">
+      <attribute name="text">ROLLS 007874219415 F 1.28 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="179.60" ytl="320.91" xbr="474.63" ybr="337.00" rotation="1.40" z_order="0">
+      <attribute name="text">EARBUDS 068113100946 4.88 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="168.21" ytl="587.30" xbr="469.72" ybr="603.44" rotation="1.40" z_order="0">
+      <attribute name="text">RUFFLES 002840020942 F 250 N</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="179.30" ytl="335.18" xbr="473.67" ybr="350.70" rotation="1.40" z_order="0">
+      <attribute name="text">SC BCN CHDDR 007874202906 F 6.98 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="178.93" ytl="348.46" xbr="473.22" ybr="364.30" rotation="1.40" z_order="0">
+      <attribute name="text">ABF THINBRST 022451710972 F 9.72 0</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="335.11" ytl="647.44" xbr="453.65" ybr="661.40" rotation="0.80" z_order="0">
+      <attribute name="text">TOTAL 144.02</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="175.48" ytl="488.64" xbr="469.14" ybr="503.00" rotation="1.40" z_order="0">
+      <attribute name="text">TR HS FRM 4 002240062190 2.74 X</attribute>
+    </box>
+  </image>
+  <image id="4" name="images/4.jpg" width="450" height="600">
+    <box label="item" source="manual" occluded="0" xtl="89.61" ytl="149.48" xbr="351.51" ybr="163.51" rotation="1.40" z_order="0">
+      <attribute name="text">SW HRO FGHTR 063050940732 6.94 T</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="120.24" ytl="21.50" xbr="285.39" ybr="53.10" rotation="2.00" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="136.46" ytl="477.31" xbr="284.40" ybr="490.99" z_order="0">
+      <attribute name="text">12/08/15 12:39:26</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="233.88" ytl="190.41" xbr="336.43" ybr="202.20" rotation="1.10" z_order="0">
+      <attribute name="text">TOTAL 7.43</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="55.73,0.00;53.34,51.05;51.81,160.51;49.90,220.22;45.69,310.54;39.95,398.58;31.91,513.01;33.06,519.52;34.21,521.05;34.21,535.21;43.01,557.80;47.22,584.20;51.78,600.00;377.15,600.00;379.82,582.29;382.12,538.66;381.35,492.35;385.18,492.35;382.88,446.04;384.03,392.83;384.80,313.22;385.18,210.65;386.33,90.09;385.94,23.87;386.66,0.00" z_order="0">
+    </polygon>
+  </image>
+  <image id="5" name="images/5.jpg" width="2268" height="4032">
+    <box label="item" source="manual" occluded="0" xtl="293.27" ytl="844.55" xbr="1846.97" ybr="925.55" z_order="0">
+      <attribute name="text">KITL SEA SALT POT CHP $1.29 F</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="961.30" ytl="3235.17" xbr="1733.34" ybr="3306.78" z_order="0">
+      <attribute name="text">02/10/2021 07:10 PM</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="846.90" ytl="1317.19" xbr="1796.92" ybr="1387.50" rotation="359.30" z_order="0">
+      <attribute name="text">Total : $28.28</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="254.51,0.00;260.74,190.11;214.23,618.21;211.64,1191.01;194.42,1269.40;186.66,1440.81;184.94,1537.28;190.97,1540.73;186.66,1548.48;172.88,1882.69;167.71,2085.11;162.54,2216.03;161.68,2272.88;163.41,2333.18;171.16,2399.50;178.05,2557.13;183.22,2686.34;172.88,2854.30;170.30,2916.32;169.44,3009.35;163.41,3147.17;158.24,3319.44;153.93,3450.37;150.49,3609.72;148.76,3730.31;159.10,3864.68;173.54,4032.00;2168.85,4032.00;2172.11,3977.52;2174.69,3890.52;2174.69,3784.58;2173.83,3697.58;2169.52,3597.66;2164.35,3468.46;2155.74,3326.33;2145.40,3218.66;2139.37,3123.91;2135.07,3016.24;2134.21,2888.76;2133.34,2696.68;2129.04,2688.06;2129.90,2673.42;2133.34,2663.94;2136.79,2624.32;2141.10,2497.70;2143.68,2390.03;2147.99,2299.59;2149.71,2271.16;2151.43,2222.06;2143.68,2153.16;2138.51,2074.77;2133.34,1970.55;2129.04,1846.51;2126.45,1742.28;2121.28,1655.29;2117.84,1542.45;2116.12,1498.52;2113.53,1484.74;2114.39,1448.56;2112.67,1439.09;2113.53,1426.16;2104.06,1371.04;2096.31,1283.18;2080.80,1185.84;2080.80,1104.01;2079.08,1042.86;2069.60,961.03;2064.43,887.81;2061.85,827.52;2062.71,786.17;2057.54,743.97;2050.65,663.00;2045.48,589.78;2038.59,513.12;2037.73,481.25;2040.32,419.23;2041.18,352.91;2038.59,259.02;2035.15,200.44;2038.59,63.49;2039.43,0.00" z_order="0">
+
+ 
+
+    </polygon>
+    <box label="shop" source="manual" occluded="0" xtl="423.54" ytl="180.43" xbr="1898.50" ybr="472.20" z_order="0">
+      <attribute name="text">WHOLE FOODS MARKET</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="288.83" ytl="1006.53" xbr="1864.34" ybr="1163.27" z_order="0">
+      <attribute name="text">CHEF PLATE MEAL $10 2 @ $10.00 ea $20.00 F</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="288.91" ytl="920.32" xbr="1853.94" ybr="1005.67" z_order="0">
+      <attribute name="text">BRAIDED BRIOCHE $6.99 F</attribute>
+    </box>
+  </image>
+  <image id="6" name="images/6.JPG" width="1200" height="1600">
+    <box label="date_time" source="manual" occluded="0" xtl="367.72" ytl="1249.69" xbr="774.70" ybr="1300.01" z_order="0">
+      <attribute name="text">26/01/2015 16:14</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="178.83" ytl="652.52" xbr="1025.18" ybr="694.81" z_order="0">
+      <attribute name="text">1 Woman 0</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="173.00" ytl="781.00" xbr="1034.17" ybr="821.00" z_order="0">
+      <attribute name="text">1 Mineral Water 13, 000</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="176.11" ytl="695.89" xbr="1026.63" ybr="737.36" z_order="0">
+      <attribute name="text">2 Ham Cheese 74, 000</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="169.26" ytl="825.13" xbr="1038.72" ybr="865.17" z_order="0">
+      <attribute name="text">1 Black &amp; White 72, 000</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="119.09,0.00;104.81,84.02;96.84,167.48;91.99,236.98;82.59,381.39;76.90,504.73;68.35,659.11;58.95,773.62;45.85,908.35;34.46,1012.03;17.65,1116.29;0.00,1226.84;0.00,1481.07;142.41,1484.30;335.53,1487.72;515.27,1488.58;584.49,1490.85;594.74,1475.47;604.14,1474.62;613.25,1488.58;783.31,1491.14;980.70,1492.56;1114.29,1494.56;1200.00,1487.81;1200.00,1271.48;1190.63,1214.27;1170.98,1094.92;1139.36,893.54;1122.55,756.53;1106.32,542.61;1090.94,360.60;1080.68,215.90;1074.13,157.22;1071.28,75.19;1063.49,0.00" z_order="0">
+    </polygon>
+    <box label="shop" source="manual" occluded="0" xtl="301.44" ytl="91.12" xbr="885.93" ybr="188.80" rotation="1.40" z_order="0">
+      <attribute name="text">MOMI TOY'S CREPERIE</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="200.23" ytl="1004.10" xbr="1058.44" ybr="1047.22" z_order="0">
+      <attribute name="text">TOTAL 175, 000</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="176.26" ytl="738.32" xbr="1030.04" ybr="780.46" z_order="0">
+      <attribute name="text">1 Ice Java Tea 16, 000</attribute>
+    </box>
+  </image>
+  <image id="7" name="images/7.jpg" width="598" height="1600">
+    <box label="item" source="manual" occluded="0" xtl="127.92" ytl="478.43" xbr="534.02" ybr="497.42" z_order="0">
+      <attribute name="text">6 WING PLATE 020108870398 3.98 P</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="196.65" ytl="1221.04" xbr="434.52" ybr="1240.50" rotation="0.50" z_order="0">
+      <attribute name="text">11/13/17 12:34:11</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.78" ytl="498.73" xbr="534.57" ybr="518.20" z_order="0">
+      <attribute name="text">ASST 27 063099656595 4.88 X</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.56" ytl="519.98" xbr="533.99" ybr="539.21" z_order="0">
+      <attribute name="text">CUTIE CAR 063099656644 12.88 X</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="149.13" ytl="273.42" xbr="427.23" ybr="327.97" z_order="0">
+      <attribute name="text">Walmart</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="91.14,63.22;267.46,60.38;403.61,57.24;501.60,55.53;587.05,53.54;591.61,121.05;591.61,214.19;592.18,300.21;593.32,401.05;594.46,501.31;594.74,613.25;595.31,725.20;596.73,817.20;598.00,873.33;598.00,1504.78;490.49,1501.68;377.41,1499.11;261.76,1496.84;147.25,1494.56;46.70,1491.99;43.29,1441.86;41.86,1400.56;41.58,1353.27;46.13,1264.69;52.97,1164.42;54.96,1104.61;58.67,1010.04;62.65,910.91;70.63,676.77;73.48,563.69;77.47,488.21;75.47,326.13;78.04,220.17;82.02,125.89;86.58,76.90" z_order="0">
+    </polygon>
+    <box label="total" source="manual" occluded="0" xtl="350.09" ytl="604.74" xbr="513.59" ybr="622.12" z_order="0">
+      <attribute name="text">TOTAL 23.19</attribute>
+    </box>
+  </image>
+  <image id="8" name="images/8.jpg" width="463" height="929">
+    <box label="item" source="manual" occluded="0" xtl="46.80" ytl="279.95" xbr="378.20" ybr="297.31" rotation="357.10" z_order="0">
+      <attribute name="text">E 6333561 KS DICED TOM 6.49 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="101.87" ytl="383.16" xbr="383.10" ybr="400.53" rotation="357.10" z_order="0">
+      <attribute name="text">404609 ECO HALF PAN 6.49 A</attribute>
+    </box>
+    <box label="shop" source="manual" occluded="0" xtl="100.85" ytl="71.30" xbr="326.01" ybr="133.35" rotation="356.00" z_order="0">
+      <attribute name="text">Costco WHOLESALE</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="50.36" ytl="687.72" xbr="201.59" ybr="704.71" rotation="356.10" z_order="0">
+      <attribute name="text">04/20/2016 15:00</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="51.50" ytl="448.15" xbr="386.04" ybr="465.52" rotation="357.10" z_order="0">
+      <attribute name="text">E 22101 MONT JACK 2# 4.45 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="50.42" ytl="426.50" xbr="385.06" ybr="443.87" rotation="357.10" z_order="0">
+      <attribute name="text">E 263423 CHPD ONION 3.59 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="50.20" ytl="405.47" xbr="383.60" ybr="422.83" rotation="357.10" z_order="0">
+      <attribute name="text">E 55992 GRND TURKEY 18.47 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="49.00" ytl="363.52" xbr="382.10" ybr="380.89" rotation="357.10" z_order="0">
+      <attribute name="text">E 77053 GRAPE TOMATO 6.29 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="47.72" ytl="323.55" xbr="380.27" ybr="359.60" rotation="357.10" z_order="0">
+      <attribute name="text">3 @ 4.29 E 878137 18 CT EGGS 12.87 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="47.96" ytl="300.86" xbr="378.60" ybr="318.23" rotation="357.10" z_order="0">
+      <attribute name="text">E 967596 JACKORGSALSA 2.97 E</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="46.50" ytl="259.51" xbr="377.13" ybr="276.88" rotation="357.10" z_order="0">
+      <attribute name="text">E 673919 FF BS BREAST 23.99 E</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="24.09,28.80;36.04,28.92;48.33,33.97;52.00,30.75;55.45,33.51;105.64,29.15;175.12,24.55;254.60,17.20;332.24,11.92;384.84,7.90;390.35,118.04;396.10,221.52;402.41,346.14;409.88,459.04;414.13,532.77;421.25,598.47;426.99,710.22;435.61,838.85;436.30,918.44;410.68,919.59;327.65,917.98;237.83,916.84;133.89,917.07;57.28,916.15;38.56,905.12;30.06,896.85;27.31,888.24;25.70,835.98;26.27,786.94;23.17,673.35;25.82,587.56;26.62,507.62;23.40,357.51;20.19,197.63;19.15,76.81;21.40,50.60" z_order="0">
+    </polygon>
+    <box label="total" source="manual" occluded="0" xtl="78.12" ytl="510.43" xbr="371.43" ybr="527.15" rotation="357.30" z_order="0">
+      <attribute name="text">**** TOTAL 89.13</attribute>
+    </box>
+  </image>
+  <image id="9" name="images/9.jpg" width="562" height="1000">
+    <box label="shop" source="manual" occluded="0" xtl="186.01" ytl="118.44" xbr="375.10" ybr="174.41" rotation="5.20" z_order="0">
+      <attribute name="text">WinCo FOODS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="81.70" ytl="811.41" xbr="444.00" ybr="825.23" rotation="1.20" z_order="0">
+      <attribute name="text">SUNBEAN BUNS 7763306333 1.98 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="129.45" ytl="438.80" xbr="418.61" ybr="464.95" rotation="0.20" z_order="0">
+      <attribute name="text">EYE RND STK FP 20148200000 8.24 FS</attribute>
+    </box>
+    <box label="date_time" source="manual" occluded="0" xtl="136.25" ytl="268.90" xbr="405.49" ybr="290.98" rotation="1.50" z_order="0">
+      <attribute name="text">09/08/14 11:16:24</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="126.61" ytl="451.29" xbr="418.81" ybr="478.04" rotation="0.20" z_order="0">
+      <attribute name="text">BEEF FOR STEW 20254300000 10.48 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="124.82" ytl="467.09" xbr="419.70" ybr="491.08" rotation="0.20" z_order="0">
+      <attribute name="text">PORK 1/2 LOIN 20323300000 8.12 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="123.83" ytl="482.00" xbr="421.39" ybr="504.55" rotation="0.30" z_order="0">
+      <attribute name="text">B/BEST S STEAK 4497921020 1.00 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="139.98" ytl="294.80" xbr="413.61" ybr="326.52" rotation="1.20" z_order="0">
+      <attribute name="text">N/YORK TX GRLC 7045900558 2.18 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="133.90" ytl="395.70" xbr="416.85" ybr="424.93" rotation="0.20" z_order="0">
+      <attribute name="text">PORK LOIN CHOP 20337400000 9.91 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="139.59" ytl="306.40" xbr="413.22" ybr="338.13" rotation="1.20" z_order="0">
+      <attribute name="text">CHICKEN WINGS 26840100000 5.39 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="138.88" ytl="318.60" xbr="412.90" ybr="358.33" rotation="1.20" z_order="0">
+      <attribute name="text">PICSWEET BLEND 7056096902 2.68 FS 2 @ 1.34</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="137.46" ytl="343.34" xbr="414.70" ybr="384.13" rotation="1.20" z_order="0">
+      <attribute name="text">PICSWEET GREENS 7056087677 2.56 FS 2 @ 1.28</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="82.89" ytl="843.93" xbr="443.94" ybr="858.46" rotation="1.60" z_order="0">
+      <attribute name="text">WINCO HOMO MILK 7055240600 2.48 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="84.12" ytl="860.64" xbr="443.08" ybr="876.50" rotation="1.60" z_order="0">
+      <attribute name="text">EGGS 7003837280 1.37 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="91.30" ytl="740.82" xbr="443.72" ybr="774.68" rotation="1.30" z_order="0">
+      <attribute name="text">HUNTS MANWICH 2700044212 1.64 FS 2@ .82</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="94.36" ytl="723.05" xbr="443.18" ybr="740.12" rotation="1.30" z_order="0">
+      <attribute name="text">DM SPAG SAUCE 2400052363 .71 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="96.60" ytl="706.83" xbr="442.31" ybr="721.70" rotation="0.50" z_order="0">
+      <attribute name="text">RESERS POT SLD 7111719300 .98 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="100.10" ytl="689.00" xbr="441.40" ybr="703.87" rotation="0.50" z_order="0">
+      <attribute name="text">TURKEY FRANK 4222281210 .88 FS</attribute>
+    </box>
+    <polygon label="receipt" source="manual" occluded="0" points="137.11,72.58;144.28,70.60;174.07,68.50;181.25,69.86;200.28,71.34;216.11,70.47;248.62,71.83;293.01,76.16;345.80,79.25;397.60,81.23;433.70,80.36;438.77,213.02;443.34,362.98;453.72,507.87;454.84,534.83;463.86,608.14;467.08,631.75;468.07,646.22;474.00,669.09;479.32,682.56;483.52,730.65;486.86,774.30;484.76,814.60;483.02,896.44;482.41,955.17;420.47,954.55;292.14,949.60;190.39,944.78;115.35,941.57;55.88,938.35;55.14,858.86;55.14,823.87;51.56,810.52;52.42,801.62;57.99,771.95;68.99,720.64;82.22,640.41;94.83,541.87;101.26,481.29;108.30,415.89;116.22,343.08;118.32,301.29;118.32,300.30;123.51,236.26;125.74,170.86;128.95,96.93" z_order="0">
+    </polygon>
+    <box label="item" source="manual" occluded="0" xtl="135.70" ytl="369.19" xbr="416.14" ybr="399.24" rotation="0.20" z_order="0">
+      <attribute name="text">CHIKEN WINGS 26840100000 5.48 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="102.70" ytl="671.65" xbr="440.42" ybr="687.44" rotation="0.50" z_order="0">
+      <attribute name="text">KEEB TOWNHOUSE 3010010055 1.98 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="105.94" ytl="637.20" xbr="438.70" ybr="653.14" z_order="0">
+      <attribute name="text">L\D OATMEL CRM 2430004101 1.25 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="108.24" ytl="621.16" xbr="437.46" ybr="636.04" rotation="359.50" z_order="0">
+      <attribute name="text">L/D NUTTY BARS 2430004120 1.25 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="110.20" ytl="604.88" xbr="436.25" ybr="620.39" rotation="359.50" z_order="0">
+      <attribute name="text">EGGO WAFFLE 3800037435 1.96 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="115.76" ytl="558.32" xbr="429.17" ybr="577.70" rotation="358.20" z_order="0">
+      <attribute name="text">THNDRBRD CHIX BR 3737101318 5.98 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="134.60" ytl="381.78" xbr="416.11" ybr="411.82" rotation="0.20" z_order="0">
+      <attribute name="text">DIET LN GRND B 20167400000 10.87 FS</attribute>
+    </box>
+    <box label="total" source="manual" occluded="0" xtl="186.84" ytl="930.67" xbr="415.00" ybr="948.10" rotation="1.50" z_order="0">
+      <attribute name="text">TOTAL 121.92</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="120.10" ytl="527.22" xbr="425.79" ybr="558.39" rotation="358.20" z_order="0">
+      <attribute name="text">WINCO NOODLES 7055280303 1.68 FS 2 @ .84</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="120.91" ytl="513.30" xbr="423.44" ybr="536.47" rotation="358.20" z_order="0">
+      <attribute name="text">O/M HAM 4470001903 3.99 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="114.17" ytl="572.79" xbr="431.59" ybr="605.10" rotation="358.90" z_order="0">
+      <attribute name="text">KRFT DELUXE MAC 2100065886 3.64 FS 2 @ 1.82</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="104.26" ytl="654.60" xbr="439.20" ybr="669.93" z_order="0">
+      <attribute name="text">LINKS MILD 74295503660 5.78 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="132.51" ytl="408.60" xbr="417.34" ybr="438.65" rotation="0.20" z_order="0">
+      <attribute name="text">DRUMSTICKS 26841800000 9.91 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="122.23" ytl="495.60" xbr="422.39" ybr="518.13" rotation="0.20" z_order="0">
+      <attribute name="text">BAR S MEAT FRNK 1590013401 .88 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="82.79" ytl="827.67" xbr="443.85" ybr="842.20" rotation="1.20" z_order="0">
+      <attribute name="text">WINCO SNDWCH WT 7055200115 .91 FS</attribute>
+    </box>
+    <box label="item" source="manual" occluded="0" xtl="84.40" ytl="776.94" xbr="445.25" ybr="810.80" rotation="1.30" z_order="0">
+      <attribute name="text">DM PNAPL CHNKY 2400000164 1.96 FS 2 @ .98</attribute>
+    </box>
+  </image>
+</annotations>
+
+
+
