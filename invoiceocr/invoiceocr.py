@@ -51,22 +51,44 @@ def extract_date(extracted_list):
     # Return date
     return date
 
-if __name__ == "__main__":
-    image_path = "./invoiceocr/kaggle/images/5.jpg"
-    # Text count
-    #print("Text count: ", len(read(image_path)))
-    # Read text to json
-    #read_to_json(image_path, "./data.json")
-    #print(extract_date(read(image_path)))
+def extract_total(extracted_list):
+    # Collect all texts and coordinates (single level list)
+    ocr_data = []
+    for line in extracted_list:
+        if line and len(line) >= 2:
+            coords = line[0]
+            text = line[1][0].lower()
+            ocr_data.append({
+                "text": text,
+                "x": coords[0][0],  # Top left X
+                "y": coords[0][1],  # Top left Y
+                "width": coords[1][0] - coords[0][0]  # Width
+            })
 
-    # Extract "Date" data from each image
+    # Find rows containing TOTAL (case-insensitive)
+    total_lines = [item for item in ocr_data if "total" in item["text"]]
 
-    # Number of images
-    NUM_IMAGES = 20
-    dates = []
+    # Logic to find the most probable TOTAL
+    for total_item in sorted(total_lines, key=lambda x: x["y"], reverse=True):
+        # 1. Search for numbers in the same line
+        same_line_match = re.search(r"\d+\.\d{2}", total_item["text"])
+        if same_line_match:
+            return float(same_line_match.group())
+        
+        # 2. Search on the right side (same Y axis ±5 pixels)
+        right_candidates = [
+            item for item in ocr_data
+            if (abs(item["y"] - total_item["y"]) < 5) and
+               (item["x"] > total_item["x"] + total_item["width"])
+        ]
+        
+        # Filter numeric values
+        for candidate in sorted(right_candidates, key=lambda x: x["x"]):
+            amount_match = re.search(r"\d+\.\d{2}", candidate["text"])
+            if amount_match:
+                return float(amount_match.group())
 
-    for i in range(NUM_IMAGES):
-        # Image path
-        image_path = f"./invoiceocr/kaggle/images/{i}.jpg"
-        dates.append(extract_date(read(image_path)))
-    print(dates)
+    # 3. Last resort: Search full text
+    full_text = " ".join([item["text"] for item in ocr_data])
+    last_resort_match = re.search(r"total.*?(\d+\.\d{2})", full_text, re.I)
+    return float(last_resort_match.group(1)) if last_resort_match else None
