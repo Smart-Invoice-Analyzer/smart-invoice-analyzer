@@ -110,54 +110,7 @@ const Help: React.FC = () => {
             </Accordion>
           </Box>
 
-          {/* Contact Support Section */}
-          <Box sx={{ marginBottom: 4 }}>
-            <Typography variant="h6" gutterBottom>
-              Contact Support
-            </Typography>
-            <form>
-              <TextField
-                fullWidth
-                label="Email Address"
-                type="email"
-                variant="outlined"
-                margin="normal"
-                required
-                InputProps={{ style: { color: theme.text } }}
-                InputLabelProps={{ style: { color: theme.text } }}
-              />
-              <TextField
-                fullWidth
-                label="Subject"
-                type="text"
-                variant="outlined"
-                margin="normal"
-                required
-                InputProps={{ style: { color: theme.text } }}
-                InputLabelProps={{ style: { color: theme.text } }}
-              />
-              <TextField
-                fullWidth
-                label="Message"
-                type="text"
-                multiline
-                rows={4}
-                variant="outlined"
-                margin="normal"
-                required
-                InputProps={{ style: { color: theme.text } }}
-                InputLabelProps={{ style: { color: theme.text } }}
-              />
-              <Button
-                variant="contained"
-                fullWidth
-                type="submit"
-                sx={{ backgroundColor: theme.button, color: theme.buttonText }}
-              >
-                Send Message
-              </Button>
-            </form>
-          </Box>
+          
 
           {/* Feedback Section */}
           <Box>

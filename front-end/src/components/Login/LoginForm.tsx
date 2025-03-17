@@ -20,6 +20,8 @@ export interface User {
   password: string;
   username: string;
   userId: string;
+  gender: string;
+  age: string;
 }
 
 interface LoginFormInputs {
@@ -67,45 +69,48 @@ const LoginForm: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    const user = validUsers.find(user => user.email === data.email);
-    const pass = validUsers.find(user => user.password === data.password)
+  const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
+  
+    try {
+      const response = await axios.post('https://smart-invoice-analyzer-server.onrender.com/users/login', {
+        username_or_email: data.email, // API username veya email kabul ediyordu.
+        password: data.password
+      });
+  
+      if (response.status === 200) {
+        const userData = response.data; // API'den dönen kullanıcı verisi
+  
+        if (savePassword) {
+          localStorage.setItem('credentials', JSON.stringify(data));
+        } else {
+          localStorage.removeItem('credentials');
+        }
+  
+        dispatch(login({
+          email: userData.email,
+          name: userData.name,
+          surname: userData.surname,
+          username: userData.username,
+          userId: userData.userId,
+          token: userData.token,
+          password: '',
+          age: userData.age,
+          gender: userData.gender
+        
 
-    if (user && pass) {
-
-      if (savePassword) {
-        const savedCredentials = {
-         email: data.email,
-         password: data.password,
-   };
-  localStorage.setItem('credentials', JSON.stringify(savedCredentials));
-      } else {
-        localStorage.removeItem('credentials');
+        }));
+  
+        navigate('/home');
       }
-
-      setTimeout(() => {
-        dispatch(login({ 
-           email: user.email,
-           name: user.name, 
-           password: user.password,
-           username: user.username,
-           surname: user.surname,
-           userId: user.userId}));
-
-      navigate('/home');
+    } catch (error) {
+      console.error('Login error:', error);
+      setOpenSnackbar(true);
+    } finally {
       setLoading(false);
-      }, 2000);
-      
-    } else {
-      setTimeout(() => {
-        setLoading(false);
-        setOpenSnackbar(true);
-      }, 2000);
-      setOpenSnackbar(false);
-      
     }
   };
+  
 
   useEffect(() => {
     const savedCredentials = localStorage.getItem('credentials');

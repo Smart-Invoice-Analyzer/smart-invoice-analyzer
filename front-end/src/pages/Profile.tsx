@@ -20,8 +20,9 @@ const ProfilePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const [editing, setEditing] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [new_password, setNewPassword] = useState('');
+  const [current_password,setCurrentPassword] = useState('');
+  const [confirm_password, setConfirmNewPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -36,26 +37,40 @@ const ProfilePage: React.FC = () => {
     const schema = Yup.object().shape({
       name: Yup.string().required('Name is required'),
       surname: Yup.string().required('Surname is required'),
-      email: Yup.string().email('Invalid email').required('Email is required'),
-      password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required'),
+      new_email: Yup.string().email('Invalid email').required('Email is required'),
+      current_password: Yup.string().min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+      new_password: Yup.string().min(8, 'Password must be at least 8 characters')
+          .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+          .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+          .matches(/[0-9]/, 'Password must contain at least one number')
+          .matches(/[@?b]/, 'Password must contain at least one special character (@, ?, or b)')
+          .required('Password is required'),
+      confirm_password: Yup.string()
+              .oneOf([Yup.ref('new_password'), undefined], 'Passwords must match')
+              .required('Confirm password is required'),
+      
     });
   
     const updatedProfile = {
       name,
       surname,
-      email,
-      password: newPassword,
+      new_email,
+      gender,
+      age,
+      current_password,
+      confirm_password,
+      new_password
+      
     };
   
     try {
       // Yup ile doğrulama
       await schema.validate(updatedProfile, { abortEarly: false });
   
-      if (newPassword === confirmNewPassword) {
+      if (new_password === confirm_password) {
         axios
-          .post('http://localhost:5000/users/update', updatedProfile)
+          .put('https://smart-invoice-analyzer-server.onrender.com/users/update_user', updatedProfile)
           .then((response) => {
             setSnackbarMessage('Profile updated successfully.');
             setSnackbarOpen(true);
@@ -93,7 +108,7 @@ const ProfilePage: React.FC = () => {
     setIsModalOpen(false);
     if (confirmed) {
       
-      navigate('/');
+     
       // Hesabı silme işlemi burada
     }
   };
@@ -101,8 +116,9 @@ const ProfilePage: React.FC = () => {
   const [name, setName] = useState<string | null>(useSelector((state: RootState) => state.auth.userName) || '');
   const [surname, setSurname] = useState<string | null>(useSelector((state: RootState) => state.auth.surname) || '');
 
-  const email = useSelector((state: RootState) => state.auth.user);
-  const [password,setPassword] = useState <string | null> (useSelector((state: RootState) => state.auth.password) || '');
+  const new_email = useSelector((state: RootState) => state.auth.user);
+  const gender = useSelector((state:RootState) => state.auth.gender);
+  const age = Number(useSelector((state:RootState) => state.auth.age))
  
   
 
@@ -163,7 +179,7 @@ const ProfilePage: React.FC = () => {
             <TextField
               fullWidth
               label="Email"
-              value={email}
+              value={new_email}
               variant="outlined"
             />
           </Grid>
@@ -183,10 +199,11 @@ const ProfilePage: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Current Password"
-                  type="password"
-                  value={password}
+                  type='password'
+                  value={current_password}
+                  onChange={(e) => (setCurrentPassword(e.target.value) )}
                   variant="outlined"
-                  disabled
+                  
                 />
               </Grid>
 
@@ -196,8 +213,8 @@ const ProfilePage: React.FC = () => {
                   fullWidth
                   label="New Password"
                   type="password"
-                  value={newPassword}
-                  onChange={(e) => (setNewPassword(e.target.value) ,setPassword(e.target.value) )}
+                  value={new_password}
+                  onChange={(e) => (setNewPassword(e.target.value) )}
                   variant="outlined"
                 />
               </Grid>
@@ -207,7 +224,7 @@ const ProfilePage: React.FC = () => {
                   fullWidth
                   label="Confirm New Password"
                   type="password"
-                  value={confirmNewPassword}
+                  value={confirm_password}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
                   variant="outlined"
                 />

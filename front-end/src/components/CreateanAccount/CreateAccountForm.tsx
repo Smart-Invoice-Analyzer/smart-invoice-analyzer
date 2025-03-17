@@ -13,8 +13,10 @@ interface CreateAccountInputs {
   surname: string;
   username: string;
   email: string;
-  password: string;
+  password_hash: string;
   confirmPassword: string;
+  gender: string;
+  age: number;
 }
 
 const CreateAccountForm: React.FC = () => {
@@ -32,13 +34,24 @@ const CreateAccountForm: React.FC = () => {
     surname: Yup.string().required('Surname is required'),
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    age: Yup.number()
+    .transform((value, originalValue) => (originalValue ? Number(originalValue) : NaN))
+    .typeError('Age must be a number')
+    .required('Age is required'),
+    gender: Yup.string().required('Gender is required'),
+
+    password_hash: Yup.string().min(8, 'Password must be at least 8 characters')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[0-9]/, 'Password must contain at least one number')
+    .matches(/[@?b]/, 'Password must contain at least one special character (@, ?, or b)')
+    .required('Password is required'),
     confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
+        .oneOf([Yup.ref('password_hash'), undefined], 'Passwords must match')
         .required('Confirm password is required'),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm<CreateAccountInputs>({
+  const {register, handleSubmit, formState: { errors } } = useForm<CreateAccountInputs>({
     resolver: yupResolver(schema),
   });
 
@@ -47,13 +60,15 @@ const CreateAccountForm: React.FC = () => {
     const userId = Math.floor(Math.random() * 1000000);
 
     // Axios POST request to create a new account
-    axios.post('http://localhost:5000/users', {
+    axios.post('https://smart-invoice-analyzer-server.onrender.com/users/add_user', {
       userId,
       name: data.name,
       surname: data.surname,
       username: data.username,
       email: data.email,
-      password: data.password
+      password_hash: data.password_hash,
+      age: data.age,
+      gender: data.gender
     }, { withCredentials: true })
     .then((response) => {
       // Set loading state to true
@@ -70,7 +85,7 @@ const CreateAccountForm: React.FC = () => {
     
     .catch(error => {
       if (error.response && error.response.status === 400) {
-        setSnackbarMessage('Email or Username already exists.');
+        setSnackbarMessage(error.response.data?.error || "Bir hata oluştu");
       } else {
         setSnackbarMessage('Error creating account. Please try again.');
       }
@@ -118,6 +133,26 @@ const CreateAccountForm: React.FC = () => {
         </Box>
         <Box mb={2}>
           <TextField
+            label="Gender"
+            {...register('gender')}
+            error={!!errors.gender}
+            helperText={errors.gender?.message}
+            fullWidth
+            hidden ={hidden}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Age"
+            {...register('age')}
+            error={!!errors.age}
+            helperText={errors.age?.message}
+            fullWidth
+            hidden ={hidden}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
             label="Email"
             {...register('email')}
             error={!!errors.email}
@@ -130,9 +165,9 @@ const CreateAccountForm: React.FC = () => {
           <TextField
             label="Password"
             type="password"
-            {...register('password')}
-            error={!!errors.password}
-            helperText={errors.password?.message}
+            {...register('password_hash')}
+            error={!!errors.password_hash}
+            helperText={errors.password_hash?.message}
             fullWidth
             hidden ={hidden}
           />

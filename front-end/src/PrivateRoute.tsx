@@ -7,7 +7,7 @@ interface PrivateRouteProps {
 
 // Local storage'de bir token olup olmadığını kontrol et
 const isAuthenticated = () => {
-  const token = localStorage.getItem('email');  // 'token' ile localStorage'de giriş bilgilerini saklıyorsun
+  const token = localStorage.getItem('token');  // 'token' ile localStorage'de giriş bilgilerini saklıyorsun
   return !!token;  // Token varsa true döner
 };
 

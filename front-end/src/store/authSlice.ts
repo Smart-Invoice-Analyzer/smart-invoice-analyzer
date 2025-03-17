@@ -7,6 +7,9 @@ interface AuthState {
   password: string | null;
   username: string | null;
   userId: string | null;
+  token: string | null;
+  age: string |null;
+  gender: string | null;
 }
 
 const initialState: AuthState = {
@@ -16,6 +19,9 @@ const initialState: AuthState = {
   surname: localStorage.getItem('surname'),
   password: localStorage.getItem('password'),
   username: localStorage.getItem('username'),
+  token: localStorage.getItem('token'),
+  age: localStorage.getItem('age'),
+  gender: localStorage.getItem('gender')
 };
 
 const authSlice = createSlice({
@@ -31,9 +37,13 @@ const authSlice = createSlice({
         username: string;
         surname: string;
         userId: string;
+        token: string;
+        age: string;
+        gender: string
+
       }>
     ) => {
-      const { email, name, password, username, surname, userId } = action.payload;
+      const { email, name, password, username, surname, userId,token, age, gender } = action.payload;
 
       // State güncelleme
       state.userId = userId;
@@ -42,6 +52,9 @@ const authSlice = createSlice({
       state.surname = surname;
       state.password = password;
       state.username = username;
+      state.token = token;
+      state.age = age;
+      state.gender = gender;
 
       // localStorage güncelleme
       localStorage.setItem('email', email);
@@ -50,6 +63,9 @@ const authSlice = createSlice({
       localStorage.setItem('username', username);
       localStorage.setItem('surname', surname);
       localStorage.setItem('userId', userId);
+      localStorage.setItem('token',token);
+      localStorage.setItem('age',age);
+      localStorage.setItem('gender',gender)
     },
     logout: (state) => {
       // State sıfırlama
@@ -67,6 +83,9 @@ const authSlice = createSlice({
       localStorage.removeItem('username');
       localStorage.removeItem('surname');
       localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('gender');
+      localStorage.removeItem('age')
     },
     updateProfile: (
       state,

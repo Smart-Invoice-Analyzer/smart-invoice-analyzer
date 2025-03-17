@@ -2,7 +2,7 @@
 import React from 'react';
 import './Modal.css'; // Modal için CSS
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/authSlice';
 
 interface ModalProps {
@@ -15,6 +15,8 @@ interface ModalProps {
 const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose,userId }) => {
   const dispatch = useDispatch();
 
+  const user_id = useSelector((state: any) => state.auth.userId);
+  console.log('userid',user_id)
     const logoutt = () => {
 
       dispatch(logout());
@@ -26,7 +28,7 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose,userId }) => {
   const handleAccountDeletion = async () => {
     try {
       
-      await axios.delete(`http://localhost:5000/users/${userId}`);
+      await axios.delete(`https://smart-invoice-analyzer-server.onrender.com/users/delete_user/${userId}`);
       alert('Your account has been successfully deleted.');
       logoutt()
       
