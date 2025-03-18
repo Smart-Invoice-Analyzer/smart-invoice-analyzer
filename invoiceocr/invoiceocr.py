@@ -10,6 +10,16 @@ from paddleocr import PaddleOCR
 # Create OCR object and disable GPU to avoid CUDA issues
 ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu = False)
 
+# An hidden function that extracts all texts from OCR output. It should not be called directly.
+def _all_texts(extracted_list):
+    # Merge all texts in OCR output
+    all_texts = []
+    for line in extracted_list:
+        if line:  # Boş satırları atla
+            text = line[1][0]  # Metin kısmı: line -> [[coordinates], (text, confidence)]
+            all_texts.append(text)
+    return all_texts
+
 # Apply OCR
 def read(image_path:str):
     # Open the image
@@ -22,6 +32,12 @@ def read(image_path:str):
     # Return extracted list
     return extracted_list
 
+# Read only texts
+def read_text(image_path:str):
+    extracted_list = read(image_path)
+    all_texts = _all_texts(extracted_list)
+    return all_texts
+
 def read_to_json(image_path:str, output_file:str):
     # Check if it is a json file
     if not output_file.lower().endswith(".json"):
@@ -32,15 +48,6 @@ def read_to_json(image_path:str, output_file:str):
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(extracted_list, f, ensure_ascii=False)
     return None
-
-def _all_texts(extracted_list):
-    # Merge all texts in OCR output
-    all_texts = []
-    for line in extracted_list:
-        if line:  # Boş satırları atla
-            text = line[1][0]  # Metin kısmı: line -> [[coordinates], (text, confidence)]
-            all_texts.append(text)
-    return all_texts
 
 def extract_date(extracted_list):
     # Concatenate into a single string
