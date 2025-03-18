@@ -21,7 +21,7 @@ def _all_texts(extracted_list):
     return all_texts
 
 # Apply OCR
-def read(image_path:str):
+def read(image_path:str, only_text=False):
     # Open the image
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -29,14 +29,11 @@ def read(image_path:str):
     extracted_list = ocr.ocr(image, cls=True)
     # Since it is one picture being read, there will be only one page. We can remove the unnecessary nested list
     extracted_list = extracted_list[0]
-    # Return extracted list
-    return extracted_list
-
-# Read only texts
-def read_text(image_path:str):
-    extracted_list = read(image_path)
-    all_texts = _all_texts(extracted_list)
-    return all_texts
+    # Check if only text is requested
+    if only_text:
+        return _all_texts(extracted_list)
+    else:
+        return extracted_list
 
 def read_to_json(image_path:str, output_file:str):
     # Check if it is a json file
