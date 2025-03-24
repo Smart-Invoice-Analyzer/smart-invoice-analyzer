@@ -19,15 +19,15 @@ export const useAuth = () => {
       // Redux'a kullanıcı bilgilerini kaydet
       dispatch(
         login({
-          userId: response.user.id,
+          user_id: response.user.id,
           username: response.user.username,
           email: response.user.email,
           name: response.user.name,
           surname: response.user.surname,
           password: response.user.password,
           token: response.user.token,
-          age: response.user.age,
-          gender: response.user.age
+          date_of_birth: response.user.date_of_birth,
+          gender: response.user.gender
           
         })
       );

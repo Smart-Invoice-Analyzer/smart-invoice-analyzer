@@ -27,7 +27,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/create" element={<CreateAccountPage />} />
         <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
         <Route path='/help' element={<PrivateRoute element={<Help />} />} />
-        <Route path='/invoices/:id' element={<PrivateRoute element={<Invoice />} />} />
+        <Route path='/invoices/invoice/:invoiceId' element={<PrivateRoute element={<Invoice />} />} />
         <Route path='/verify-email' element= {<VerifyEmailForm/>}/>
         <Route path='/404' element={<Page404 />} />
         <Route path='*' element={<Page404 />} /> 

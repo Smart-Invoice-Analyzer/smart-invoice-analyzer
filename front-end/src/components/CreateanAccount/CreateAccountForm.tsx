@@ -5,7 +5,11 @@ import * as Yup from 'yup';
 import { TextField, Button, Box, Snackbar, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { Controller } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers"
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { parseISO, format } from "date-fns";
 
 interface CreateAccountInputs {
   
@@ -16,7 +20,7 @@ interface CreateAccountInputs {
   password_hash: string;
   confirmPassword: string;
   gender: string;
-  age: number;
+  date_of_birth: string;
 }
 
 const CreateAccountForm: React.FC = () => {
@@ -34,10 +38,8 @@ const CreateAccountForm: React.FC = () => {
     surname: Yup.string().required('Surname is required'),
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    age: Yup.number()
-    .transform((value, originalValue) => (originalValue ? Number(originalValue) : NaN))
-    .typeError('Age must be a number')
-    .required('Age is required'),
+    date_of_birth: Yup.string()
+    .required("Doğum tarihi zorunludur"),
     gender: Yup.string().required('Gender is required'),
 
     password_hash: Yup.string().min(8, 'Password must be at least 8 characters')
@@ -57,17 +59,15 @@ const CreateAccountForm: React.FC = () => {
 
   const onSubmit = (data: CreateAccountInputs) => {
 
-    const userId = Math.floor(Math.random() * 1000000);
 
     // Axios POST request to create a new account
     axios.post('https://smart-invoice-analyzer-server.onrender.com/users/add_user', {
-      userId,
       name: data.name,
       surname: data.surname,
       username: data.username,
       email: data.email,
       password_hash: data.password_hash,
-      age: data.age,
+      date_of_birth: data.date_of_birth.split('-').reverse().join('-'),
       gender: data.gender
     }, { withCredentials: true })
     .then((response) => {
@@ -142,14 +142,20 @@ const CreateAccountForm: React.FC = () => {
           />
         </Box>
         <Box mb={2}>
-          <TextField
-            label="Age"
-            {...register('age')}
-            error={!!errors.age}
-            helperText={errors.age?.message}
-            fullWidth
-            hidden ={hidden}
-          />
+        <Box mb={2}>
+  <TextField
+    label="Doğum Tarihi"
+    type="date"
+    {...register("date_of_birth", {
+      setValueAs: (value) => (value ? value.split("-").join("-") : ""),
+    })}
+    error={!!errors.date_of_birth}
+    helperText={errors.date_of_birth?.message}
+    fullWidth
+    hidden={hidden}
+    InputLabelProps={{ shrink: true }}
+  />
+</Box>
         </Box>
         <Box mb={2}>
           <TextField

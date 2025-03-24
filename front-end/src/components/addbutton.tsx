@@ -13,7 +13,9 @@ interface AddButtonProps {
 const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
   const [scannerVisible, setScannerVisible] = useState(false);
 
-  const userID = useSelector((state: RootState) => state.auth.userId);
+  const userID = useSelector((state: RootState) => state.auth.user_id);
+  const token = useSelector((state: RootState) => state.auth.token);
+    console.log("token",token)
   
   useEffect(() => {
     if (scannerVisible) {
@@ -41,32 +43,37 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
   const handleQRCodeScan = async (qrCode: string) => {
     console.log('Taranan QR kod verisi:', qrCode);
-
+    
     try {
       const parsedData = typeof qrCode === 'string' ? JSON.parse(qrCode) : qrCode;
       
       const formattedInvoice = {
-        invoice_id: parsedData.invoice_code || "", 
-        user_id: userID, 
-        invoice_title: parsedData.gst_number || "", 
-        date: parsedData.created || "", 
-        amount: parsedData.total || null, 
-        currency: parsedData.currency || "USD", 
-        items: parsedData.line_items
-          ? [
-              {
-                description: parsedData.hsn_code || "",
-                quantity: parsedData.line_items || 0,
-                price: parsedData.total || 0,
-              },
-            ]
-          : [],
-        status: parsedData.payment === "COD" ? "unpaid" : "paid",
+        headers: {Authorization:`Bearer ${token}`},
+        date: parsedData.date || "",
+        total_amount: parsedData.total_amount || null,
+        currency: parsedData.currency || "USD",
+        qr_data: parsedData.qr_data || "",
+        vendor: {
+          name: parsedData.vendor?.name || "",
+          address: parsedData.vendor?.address || "",
+          country: parsedData.vendor?.country || "",
+          phone: parsedData.vendor?.phone || "",
+        },
+        items: Array.isArray(parsedData.items)
+  ? parsedData.items.map((item: any) => ({
+      description: item.description || "",
+      quantity: item.quantity || 0,
+      unit_price: item.unit_price || 0,
+      category: item.category || "",
+    }))
+  : [],
       };
+      
+      
 
       console.log("Formatlanmış fatura:", formattedInvoice);
 
-      const response = await axios.post("localhost:5000/invoices", formattedInvoice);
+      const response = await axios.post("https://smart-invoice-analyzer-server.onrender.com/invoices/add_invoice", formattedInvoice);
       console.log("Fatura başarıyla kaydedildi:", response.data);
     } catch (error) {
       console.error("QR kod işleme hatası:", error);

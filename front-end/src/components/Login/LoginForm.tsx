@@ -19,9 +19,9 @@ export interface User {
   surname: string;
   password: string;
   username: string;
-  userId: string;
+  user_id: string;
   gender: string;
-  age: string;
+  date_of_birth: string;
 }
 
 interface LoginFormInputs {
@@ -61,7 +61,18 @@ const LoginForm: React.FC = () => {
   }, []);
 
   const schema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
+    email: Yup.string()
+    .test(
+      "is-username-or-email",
+      "Please enter a valid username or email.",
+      (value) => {
+        if (!value) return false;
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        return usernameRegex.test(value) || emailRegex.test(value);
+      }
+    )
+    .required("Bu alan zorunludur."),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
@@ -92,10 +103,10 @@ const LoginForm: React.FC = () => {
           name: userData.name,
           surname: userData.surname,
           username: userData.username,
-          userId: userData.userId,
+          user_id: userData.user_id,
           token: userData.token,
           password: '',
-          age: userData.age,
+          date_of_birth: userData.date_of_birth,
           gender: userData.gender
         
 
@@ -149,7 +160,7 @@ const LoginForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb={2}>
           <TextField
-            label="Email"
+            label="Email or Username"
             {...register('email')}
             error={!!errors.email}
             helperText={errors.email?.message}

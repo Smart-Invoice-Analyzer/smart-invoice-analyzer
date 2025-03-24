@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 interface AuthState {
   user: string | null;
@@ -6,21 +7,21 @@ interface AuthState {
   surname: string | null;
   password: string | null;
   username: string | null;
-  userId: string | null;
+  user_id: string | null;
   token: string | null;
-  age: string |null;
+  date_of_birth: string |null;
   gender: string | null;
 }
 
 const initialState: AuthState = {
-  userId: localStorage.getItem('userId'),
+  user_id: localStorage.getItem('user_id'),
   userName: localStorage.getItem('name'),
   user: localStorage.getItem('email'),
   surname: localStorage.getItem('surname'),
   password: localStorage.getItem('password'),
   username: localStorage.getItem('username'),
   token: localStorage.getItem('token'),
-  age: localStorage.getItem('age'),
+  date_of_birth: localStorage.getItem('date_of_birth'),
   gender: localStorage.getItem('gender')
 };
 
@@ -36,24 +37,25 @@ const authSlice = createSlice({
         password: string;
         username: string;
         surname: string;
-        userId: string;
+        user_id: string;
         token: string;
-        age: string;
+        date_of_birth: string;
         gender: string
+        
 
       }>
     ) => {
-      const { email, name, password, username, surname, userId,token, age, gender } = action.payload;
+      const { email, name, password, username, surname, user_id,token, date_of_birth, gender } = action.payload;
 
       // State güncelleme
-      state.userId = userId;
+      state.user_id = user_id;
       state.user = email;
       state.userName = name;
       state.surname = surname;
       state.password = password;
       state.username = username;
       state.token = token;
-      state.age = age;
+      state.date_of_birth = date_of_birth;
       state.gender = gender;
 
       // localStorage güncelleme
@@ -62,10 +64,11 @@ const authSlice = createSlice({
       localStorage.setItem('password', password);
       localStorage.setItem('username', username);
       localStorage.setItem('surname', surname);
-      localStorage.setItem('userId', userId);
+      localStorage.setItem('user_Id', user_id);
       localStorage.setItem('token',token);
-      localStorage.setItem('age',age);
+      localStorage.setItem('date_of_birth',date_of_birth);
       localStorage.setItem('gender',gender)
+      axios.defaults.headers.common ['Authorization'] = `Bearer ${token}`
     },
     logout: (state) => {
       // State sıfırlama
@@ -73,7 +76,7 @@ const authSlice = createSlice({
       state.userName = null;
       state.username = null;
       state.password = null;
-      state.userId = null;
+      state.user_id = null;
       state.surname = null;
 
       // localStorage temizleme
@@ -82,7 +85,7 @@ const authSlice = createSlice({
       localStorage.removeItem('password');
       localStorage.removeItem('username');
       localStorage.removeItem('surname');
-      localStorage.removeItem('userId');
+      localStorage.removeItem('user_id');
       localStorage.removeItem('token');
       localStorage.removeItem('gender');
       localStorage.removeItem('age')
@@ -94,6 +97,7 @@ const authSlice = createSlice({
         surname: string;
         password: string;
         email: string;
+        userId: string
       }>
     ) => {
       const { name, surname, password, email } = action.payload;

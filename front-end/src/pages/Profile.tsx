@@ -14,7 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
-
+import api from '../api/api';
 
 const ProfilePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +26,7 @@ const ProfilePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const user_id = useSelector ((state: RootState) => state.auth.userId);
+  const user_id = useSelector ((state: RootState) => state.auth.user_id);
   const [snackbarMessage,setSnackbarMessage] = useState('');
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   
@@ -57,15 +57,16 @@ const ProfilePage: React.FC = () => {
       surname,
       new_email,
       gender,
-      age,
+      date_of_birth,
       current_password,
       confirm_password,
-      new_password
+      new_password,
+
       
     };
   
     try {
-      // Yup ile doğrulama
+      
       await schema.validate(updatedProfile, { abortEarly: false });
   
       if (new_password === confirm_password) {
@@ -118,7 +119,7 @@ const ProfilePage: React.FC = () => {
 
   const new_email = useSelector((state: RootState) => state.auth.user);
   const gender = useSelector((state:RootState) => state.auth.gender);
-  const age = Number(useSelector((state:RootState) => state.auth.age))
+  const date_of_birth = Number(useSelector((state:RootState) => state.auth.date_of_birth))
  
   
 
