@@ -161,7 +161,7 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
     if model == "llama3":
         prompt = f"""
         Analyze the receipt text below and output the purchased products in JSON format.
-        Add fields 'description', 'quantity', 'unit_price' for each product.
+        Include 'description', 'quantity', and 'unit_price' fields only, with the product name as 'description'.
 
         Receipt text:
         {text}
