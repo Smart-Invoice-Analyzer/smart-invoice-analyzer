@@ -137,7 +137,7 @@ def extract_total(extracted_list):
     return float(last_resort_match.group(1)) if last_resort_match else None
 
 # Extract the items using Large Language Model, then save to a json file
-def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
+def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
     # This function requires to check only_texts parameter of the variable 'extracted_list', we will have to check it
     isOnlyTexts:bool
     if type(extracted_list[0]) == str:
@@ -152,7 +152,7 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
     # Check if parameter jsonfile is a json file
     if not jsonfile.lower().endswith(".json"):
         raise ValueError("Output file must be a JSON file")
-    available_models = ["llama3"]
+    available_models = ["analyzer", "llama3"]
     # Check if model is a correct string
     if model not in available_models:
         raise ValueError(f"The model must be one of our available models: {available_models}")
@@ -161,15 +161,17 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
     if model == "llama3":
         prompt = f"""
         Analyze the receipt text below and output the purchased products in JSON format.
-        Include 'description', 'quantity', and 'unit_price' fields only, with the product name as 'description'.
+        Include 'description', 'quantity', and 'unit_price' fields only, with the product name as 'description'. Don't include anything else in the JSON.
 
         Receipt text:
         {text}
 
         Respond in JSON format. Do NOT provide anything else.
         """
+    elif model == "analyzer":
+        prompt = f"{text}"
     # Call the LLM API
-    response = ollama.chat(model="llama3", messages=[{"role": "user", "content": prompt}])
+    response = ollama.chat(model=model, messages=[{"role": "user", "content": prompt}])
     json_output = response["message"]["content"]
     # Save the output to the jsonfile
     with open(jsonfile, "w", encoding="utf-8") as f:
