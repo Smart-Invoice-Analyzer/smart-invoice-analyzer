@@ -41,14 +41,14 @@ def read(image_path:str, only_texts=False):
     else:
         return extracted_list
 
-def read_to_json(image_path:str, output_file:str):
-    # Check if it is a json file
-    if not output_file.lower().endswith(".json"):
+def read_to_json(image_path:str, jsonfile:str):
+    # Check if parameter jsonfile is a json file
+    if not jsonfile.lower().endswith(".json"):
         raise ValueError("Output file must be a JSON file")
     # Apply OCR
     extracted_list = read(image_path)
     # Save to a .json file
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(jsonfile, "w", encoding="utf-8") as f:
         json.dump(extracted_list, f, ensure_ascii=False)
     return None
 
@@ -135,3 +135,33 @@ def extract_total(extracted_list):
     full_text = " ".join([item["text"] for item in ocr_data])
     last_resort_match = re.search(r"total.*?(\d+\.\d{2})", full_text, re.I)
     return float(last_resort_match.group(1)) if last_resort_match else None
+
+# Extract the items using Large Language Model, then save to a json file
+def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
+    # Check if parameter jsonfile is a json file
+    if not jsonfile.lower().endswith(".json"):
+        raise ValueError("Output file must be a JSON file")
+    available_models = ["llama3"]
+    # Check if model is a correct string
+    if model not in available_models:
+        raise ValueError(f"The model must be one of our available models: {available_models}")
+    # Read the text
+    text = " ".join(read("invoiceocr/kaggle/images/7.jpg", only_text=True))
+    # Define prompt
+    prompt:str
+    if model == "llama3":
+        prompt = f"""
+        Analyze the receipt text below and output the purchased products in JSON format.
+        Add fields 'description', 'quantity', 'unit_price' for each product.
+
+        Receipt text:
+        {text}
+
+        Respond in JSON format. Do NOT provide anything else.
+        """
+    # Call the LLM API
+    response = ollama.chat(model="llama3", messages=[{"role": "user", "content": prompt}])
+    json_output = response["message"]["content"]
+    # Save the output to the jsonfile
+    with open(jsonfile, "w", encoding="utf-8") as f:
+            f.write(json_output)
