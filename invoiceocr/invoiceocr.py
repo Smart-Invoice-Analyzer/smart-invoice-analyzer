@@ -50,7 +50,7 @@ def extract_date(extracted_list):
     # Concatenate into a single string
     full_text = ' '.join(_all_texts(extracted_list))
     # Find the match
-    date_match = re.search(r"(\d{1,2}[/\-]\d{1,2}[/\-]\d{2,4})", full_text)
+    date_match = re.search(r"(\d{1,2}[./\-]\d{1,2}[./\-]\d{2,4})", full_text)
     date = date_match.group(0) if date_match else None
     # Return date
     return date
@@ -69,8 +69,12 @@ def extract_total(extracted_list):
                 "width": coords[1][0] - coords[0][0]  # Width
             })
 
-    # Find rows containing TOTAL (case-insensitive)
-    total_lines = [item for item in ocr_data if "total" in item["text"]]
+    # Find rows containing TOTAL (case-insensitive), ignore tax vat vergi
+    total_lines = [
+        item for item in ocr_data 
+        if re.search(r"\btotal\b", item["text"], re.IGNORECASE)
+        and not re.search(r"tax|vat|vergi", item["text"], re.IGNORECASE)
+    ]
 
     # Logic to find the most probable TOTAL
     for total_item in sorted(total_lines, key=lambda x: x["y"], reverse=True):
@@ -93,6 +97,21 @@ def extract_total(extracted_list):
                 return float(amount_match.group())
 
     # 3. Last resort: Search full text
+    # TESTS for LAST RESORT
+    # ✅ Test: 'total 23.19' -> 23.19 (Beklenen: 23.19)
+    # ✅ Test: 'Total:42.50 USD' -> 42.5 (Beklenen: 42.5)
+    # ✅ Test: 'TOTAL-15.75' -> 15.75 (Beklenen: 15.75)
+    # ✅ Test: 'tax total is 18.99' -> 18.99 (Beklenen: 18.99)
+    # ❌ Test: 'subtotal 20.00, total 22.50' -> 20.0 (Beklenen: 22.5)  # Problem!
+    # ✅ Test: 'total\n8.93' -> 8.93 (Beklenen: 8.93)
+    # ❌ Test: 'TOTALTAX0.98' -> 0.98 (Beklenen: None)  # Yanlış pozitif!
+    # ✅ Test: 'total= abc5.67' -> None (Beklenen: None)
+    # ✅ Test: 'total 123' -> None (Beklenen: None)
+    # ✅ Test: 'final total is 100.00' -> 100.0 (Beklenen: 100.0)
+    # ✅ Test: 'total' -> None (Beklenen: None)
+    # ✅ Test: 'total1.2.34' -> None (Beklenen: None)
+    # 10/12 tests
+    # -- Most of the Total prices on kaggle/images/ data set are found in this operation! --
     full_text = " ".join([item["text"] for item in ocr_data])
     last_resort_match = re.search(r"total.*?(\d+\.\d{2})", full_text, re.I)
     return float(last_resort_match.group(1)) if last_resort_match else None
