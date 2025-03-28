@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import json
 import re
+import ollama
 from paddleocr import PaddleOCR
 
 # Create OCR object and disable GPU to avoid CUDA issues
@@ -15,13 +16,17 @@ def _all_texts(extracted_list):
     # Merge all texts in OCR output
     all_texts = []
     for line in extracted_list:
-        if line:  # Boş satırları atla
-            text = line[1][0]  # Metin kısmı: line -> [[coordinates], (text, confidence)]
+        if line:
+            text = line[1][0] # [coordinates], (text, confidence)]
             all_texts.append(text)
     return all_texts
 
 # Apply OCR
-def read(image_path:str, only_text=False):
+def read(image_path:str, only_texts=False):
+    """
+    Core read function.
+    Returns a list of extracted data, named "extracted_list"
+    """
     # Open the image
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -29,9 +34,10 @@ def read(image_path:str, only_text=False):
     extracted_list = ocr.ocr(image, cls=True)
     # Since it is one picture being read, there will be only one page. We can remove the unnecessary nested list
     extracted_list = extracted_list[0]
-    # Check if only text is requested
-    if only_text:
+    # Check if only the texts are requested, return only the texts in a list
+    if only_texts:
         return _all_texts(extracted_list)
+    # Else return full list in the shape of [[coordinates], (text, confidence)]
     else:
         return extracted_list
 
@@ -47,8 +53,17 @@ def read_to_json(image_path:str, output_file:str):
     return None
 
 def extract_date(extracted_list):
-    # Concatenate into a single string
-    full_text = ' '.join(_all_texts(extracted_list))
+    # This function requires to check only_texts parameter of the variable 'extracted_list', we will have to check it
+    isOnlyTexts:bool
+    if type(extracted_list[0]) == str:
+        isOnlyTexts = True
+    else:
+        isOnlyTexts = False
+    # Concatenate into a single string, here it depends if it is only texts or not. If not, we will have to change it to only_texts
+    if not isOnlyTexts: 
+        full_text = ' '.join(_all_texts(extracted_list))
+    else:
+        full_text = ' '.join(extracted_list)
     # Find the match
     date_match = re.search(r"(\d{1,2}[./\-]\d{1,2}[./\-]\d{2,4})", full_text)
     date = date_match.group(0) if date_match else None
@@ -56,6 +71,15 @@ def extract_date(extracted_list):
     return date
 
 def extract_total(extracted_list):
+    # This function requires to check only_texts parameter of the variable 'extracted_list', we will have to check it
+    isOnlyTexts:bool
+    if type(extracted_list[0]) == str:
+        isOnlyTexts = True
+    else:
+        isOnlyTexts = False
+    # We need isOnlyTexts to be False to make the function work because we will need the coordinates. If it is only texts, raise Error
+    if isOnlyTexts:
+        raise ValueError("Extracted list must be a full list and include coordinates. Generate a new one using read() function with the function parameter only_texts=False")
     # Collect all texts and coordinates (single level list)
     ocr_data = []
     for line in extracted_list:
@@ -68,14 +92,12 @@ def extract_total(extracted_list):
                 "y": coords[0][1],  # Top left Y
                 "width": coords[1][0] - coords[0][0]  # Width
             })
-
-    # Find rows containing TOTAL (case-insensitive), ignore tax vat vergi
+    # Find rows containing TOTAL (case-insensitive), ignore these words: tax vat vergi
     total_lines = [
         item for item in ocr_data 
         if re.search(r"\btotal\b", item["text"], re.IGNORECASE)
         and not re.search(r"tax|vat|vergi", item["text"], re.IGNORECASE)
     ]
-
     # Logic to find the most probable TOTAL
     for total_item in sorted(total_lines, key=lambda x: x["y"], reverse=True):
         # 1. Search for numbers in the same line
@@ -89,13 +111,11 @@ def extract_total(extracted_list):
             if (abs(item["y"] - total_item["y"]) < 5) and
                (item["x"] > total_item["x"] + total_item["width"])
         ]
-        
         # Filter numeric values
         for candidate in sorted(right_candidates, key=lambda x: x["x"]):
             amount_match = re.search(r"\d+\.\d{2}", candidate["text"])
             if amount_match:
                 return float(amount_match.group())
-
     # 3. Last resort: Search full text
     # TESTS for LAST RESORT
     # ✅ Test: 'total 23.19' -> 23.19 (Beklenen: 23.19)
