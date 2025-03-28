@@ -138,6 +138,17 @@ def extract_total(extracted_list):
 
 # Extract the items using Large Language Model, then save to a json file
 def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
+    # This function requires to check only_texts parameter of the variable 'extracted_list', we will have to check it
+    isOnlyTexts:bool
+    if type(extracted_list[0]) == str:
+        isOnlyTexts = True
+    else:
+        isOnlyTexts = False
+    # Concatenate into a single string, here it depends if it is only texts or not. If not, we will have to change it to only_texts
+    if isOnlyTexts: 
+        text = ' '.join(extracted_list)
+    else:
+        text = ' '.join(_all_texts(extracted_list))
     # Check if parameter jsonfile is a json file
     if not jsonfile.lower().endswith(".json"):
         raise ValueError("Output file must be a JSON file")
@@ -145,8 +156,6 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="llama3"):
     # Check if model is a correct string
     if model not in available_models:
         raise ValueError(f"The model must be one of our available models: {available_models}")
-    # Read the text
-    text = " ".join(read("invoiceocr/kaggle/images/7.jpg", only_text=True))
     # Define prompt
     prompt:str
     if model == "llama3":
