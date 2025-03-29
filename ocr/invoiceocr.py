@@ -152,27 +152,20 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
     # Check if parameter jsonfile is a json file
     if not jsonfile.lower().endswith(".json"):
         raise ValueError("Output file must be a JSON file")
-    available_models = ["analyzer", "llama3"]
+    available_models = ["analyzer"]
     # Check if model is a correct string
     if model not in available_models:
         raise ValueError(f"The model must be one of our available models: {available_models}")
     # Define prompt
     prompt:str
-    if model == "llama3":
-        prompt = f"""
-        Analyze the receipt text below and output the purchased products in JSON format.
-        Include 'description', 'quantity', and 'unit_price' fields only, with the product name as 'description'. Don't include anything else in the JSON.
-
-        Receipt text:
-        {text}
-
-        Respond in JSON format. Do NOT provide anything else.
-        """
-    elif model == "analyzer":
+    if model == "analyzer":
         prompt = f"{text}"
     # Call the LLM API
-    response = ollama.chat(model=model, messages=[{"role": "user", "content": prompt}])
-    json_output = response["message"]["content"]
+    response = ollama.generate(
+        model=model,
+        prompt=prompt
+    )
+    json_output = response["response"]
     # Save the output to the jsonfile
     with open(jsonfile, "w", encoding="utf-8") as f:
             f.write(json_output)
