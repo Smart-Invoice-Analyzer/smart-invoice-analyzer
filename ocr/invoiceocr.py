@@ -176,3 +176,5 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
     # Save the output to the jsonfile
     with open(jsonfile, "w", encoding="utf-8") as f:
             f.write(json_output)
+    # Return the json output
+    return json_output
