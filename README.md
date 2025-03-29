@@ -77,7 +77,7 @@ All these features work seamlessly because the backend server is deployed on **R
 
 ## 🤝 Contributors
 
-- [Farid Bayramov](https://github.com/fariddbayramov)
+- [Fərid Bayramov](https://github.com/fariddbayramov)
 - [Yunus Ege Küçük](https://github.com/yegekucuk)
 - [Emir Binçe](https://github.com/emirxk)
 
