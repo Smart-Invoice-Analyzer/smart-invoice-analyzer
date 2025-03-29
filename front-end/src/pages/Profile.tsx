@@ -44,7 +44,7 @@ const ProfilePage: React.FC = () => {
           .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
           .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
           .matches(/[0-9]/, 'Password must contain at least one number')
-          .matches(/[@?b]/, 'Password must contain at least one special character (@, ?, or b)')
+          .matches(/[!@#$%&*?]/, 'Password must contain at least one special character (!, @, #, $, %, &, *, ?)')
           .required('Password is required'),
       confirm_password: Yup.string()
               .oneOf([Yup.ref('new_password'), undefined], 'Passwords must match')

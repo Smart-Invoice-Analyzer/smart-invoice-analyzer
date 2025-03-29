@@ -45,8 +45,8 @@ const CreateAccountForm: React.FC = () => {
     password_hash: Yup.string().min(8, 'Password must be at least 8 characters')
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .matches(/[0-9]/, 'Password must contain at least one number')
-    .matches(/[@?b]/, 'Password must contain at least one special character (@, ?, or b)')
+    .matches(/[0-9]/, 'Password must contain at least one number')    
+    .matches(/[!@#$%&*?]/, 'Password must contain at least one special character (!, @, #, $, %, &, *, ?)')
     .required('Password is required'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password_hash'), undefined], 'Passwords must match')
@@ -67,7 +67,7 @@ const CreateAccountForm: React.FC = () => {
       username: data.username,
       email: data.email,
       password_hash: data.password_hash,
-      date_of_birth: data.date_of_birth.split('-').reverse().join('-'),
+      date_of_birth: data.date_of_birth, //.split('-').reverse().join('-'), // this part was changed by me -Emir
       gender: data.gender
     }, { withCredentials: true })
     .then((response) => {
