@@ -14,7 +14,7 @@ if __name__ == '__main__':
     my_text=my_text.replace("”", "")
     my_text=my_text.replace("'", "")
     my_text=my_text.replace('"', "")
-    my_text=my_text.split()
+    my_text=my_text.lower().split()
     my_words=[]
     for word in my_text:
         my_words.append(''.join(c for c in word if (c not in punctuation) or (c == '-')))
