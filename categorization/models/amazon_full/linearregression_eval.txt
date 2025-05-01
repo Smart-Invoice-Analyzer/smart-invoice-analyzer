@@ -1,0 +1,26 @@
+                         precision    recall  f1-score   support
+
+            accessories       0.88      0.95      0.91     46242
+             appliances       0.94      0.97      0.96     13209
+         bags & luggage       0.70      0.46      0.55      4248
+        beauty & health       0.85      0.87      0.86      4023
+        car & motorbike       0.89      0.82      0.85      2818
+grocery & gourmet foods       0.83      0.89      0.86      1337
+         home & kitchen       0.81      0.81      0.81      5763
+    home, kitchen, pets       0.00      0.00      0.00        11
+    industrial supplies       0.80      0.63      0.71      1624
+          kids' fashion       0.80      0.71      0.75      5367
+         men's clothing       0.95      0.98      0.97     30696
+            men's shoes       0.87      0.95      0.91     23077
+                  music       0.90      0.59      0.71       400
+           pet supplies       0.97      0.86      0.91       646
+       sports & fitness       0.76      0.65      0.70      4969
+                 stores       0.66      0.40      0.50     13146
+   toys & baby products       0.87      0.80      0.83      2491
+    tv, audio & cameras       0.96      0.98      0.97     27487
+       women's clothing       0.95      0.98      0.96     30824
+          women's shoes       0.89      0.89      0.89      2256
+
+               accuracy                           0.90    220634
+              macro avg       0.81      0.76      0.78    220634
+           weighted avg       0.89      0.90      0.89    220634
