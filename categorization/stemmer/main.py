@@ -19,8 +19,11 @@ if __name__ == '__main__':
     for word in my_text:
         my_words.append(''.join(c for c in word if (c not in punctuation) or (c == '-')))
     # Print words before stemming
-    print(my_words)
+    print("Original: \n",my_words)
     # Apply stemming to the list of words
-    my_words = my_stemmer.stem_words(my_words)
+    my_words2 = my_stemmer.stem_words(my_words)
     # Print words after stemming
-    print(my_words)
+    print("After stemming: \n",my_words2)
+
+    for i in range(len(my_words)):
+        print(f"{my_words[i]} -> {my_words2[i]}")
