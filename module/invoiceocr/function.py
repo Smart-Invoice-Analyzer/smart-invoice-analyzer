@@ -9,12 +9,18 @@ import ollama
 from paddleocr import PaddleOCR
 
 __all__ = [
-    "read", "read_to_json", "extract_date", "extract_total",
+    "init", "read", "read_to_json", "extract_date", "extract_total",
     "extract_items_with_llm", "to_list_of_texts"
 ]
 
 # Create OCR object and disable GPU to avoid CUDA issues
-ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu = False)
+ocr = None
+def init():
+    """
+    Initialize the OCR
+    """
+    global ocr
+    ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu = False)
 
 # An hidden function that extracts all texts from OCR output. It should not be called directly.
 def to_list_of_texts(extracted_list):
