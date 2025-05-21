@@ -9,3 +9,4 @@ ollama==0.4.7
 opencv-python
 matplotlib
 seaborn
+googletrans
