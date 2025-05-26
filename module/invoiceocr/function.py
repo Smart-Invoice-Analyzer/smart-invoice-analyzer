@@ -45,6 +45,12 @@ def read(image_path:str, only_texts=False):
     extracted_list = ocr.ocr(image, cls=True)
     # Since it is one picture being read, there will be only one page. We can remove the unnecessary nested list
     extracted_list = extracted_list[0]
+    texts = to_list_of_texts(extracted_list)
+    for i, text in enumerate(texts):
+        if text.startswith("*Trade Markup: 18%"):
+            texts[i] = text[len("*Trade Markup: 18%"):].lstrip()
+        elif text.startswith("*VAT: 18%"):
+            texts[i] = text[len("*VAT: 18%"):].lstrip()
     # Check if only the texts are requested, return only the texts in a list
     if only_texts:
         return to_list_of_texts(extracted_list)
@@ -172,12 +178,12 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
 
 
 # GET IMAGES USING HTTP REQUESTS
-import requests
 
 def get_id(url):
     return url.split("/")[-1].split("=")[1]
 
 def download_image(id, filename="receipt.jpg", csrf_token=None):
+    import requests
     database_url = "https://monitoring.e-kassa.gov.az/pks-monitoring/2.0.0/documents/"
     url = database_url + id
     headers = {
