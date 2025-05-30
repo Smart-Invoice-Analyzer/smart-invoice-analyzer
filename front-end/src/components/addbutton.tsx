@@ -42,43 +42,25 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
   }, [scannerVisible]);
 
   const handleQRCodeScan = async (qrCode: string) => {
-    console.log('Taranan QR kod verisi:', qrCode);
-    
-    try {
-      const parsedData = typeof qrCode === 'string' ? JSON.parse(qrCode) : qrCode;
-      
-      const formattedInvoice = {
-        headers: {Authorization:`Bearer ${token}`},
-        date: parsedData.date || "",
-        total_amount: parsedData.total_amount || null,
-        currency: parsedData.currency || "USD",
-        qr_data: parsedData.qr_data || "",
-        vendor: {
-          name: parsedData.vendor?.name || "",
-          address: parsedData.vendor?.address || "",
-          country: parsedData.vendor?.country || "",
-          phone: parsedData.vendor?.phone || "",
-        },
-        items: Array.isArray(parsedData.items)
-  ? parsedData.items.map((item: any) => ({
-      description: item.description || "",
-      quantity: item.quantity || 0,
-      unit_price: item.unit_price || 0,
-      category: item.category || "",
-    }))
-  : [],
-      };
-      
-      
+  console.log('Taranan QR kod verisi:', qrCode);
 
-      console.log("Formatlanmış fatura:", formattedInvoice);
+  try {
+    const formattedData = {
+      headers: { Authorization: `Bearer ${token}` },
+      qr_data: qrCode
+    };
 
-      const response = await axios.post("https://smart-invoice-analyzer-server.onrender.com/invoices/add_invoice", formattedInvoice);
-      console.log("Fatura başarıyla kaydedildi:", response.data);
-    } catch (error) {
-      console.error("QR kod işleme hatası:", error);
-    }
-  };
+    const response = await axios.post(
+      "https://smart-invoice-analyzer-server.onrender.com/invoices/process_qr",
+      formattedData
+    );
+
+    console.log("QR veri başarıyla gönderildi:", response.data);
+  } catch (error) {
+    console.error("QR kod gönderme hatası:", error);
+  }
+};
+
 
   return (
     <>
