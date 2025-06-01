@@ -1,33 +1,73 @@
 import React, { useState } from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, CircularProgress, Paper, Divider, LinearProgress } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Paper,
+  Divider,
+  Avatar,
+} from '@mui/material';
 import Sidebar from '../components/sidebar';
 import Topbar from '../components/topbar';
 import AddButton from '../components/addbutton';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
-import { motion } from 'framer-motion'; // Animasyon için
+import { motion } from 'framer-motion';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
+import InfoIcon from '@mui/icons-material/Info';
 
 const HomePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const { darkMode, toggleDarkMode } = useDarkMode();
+  const { darkMode } = useDarkMode();
+
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+
+  const cardStyle = {
+    backgroundColor: darkMode ? '#1e1e1e' : '#fff',
+    color: darkMode ? '#fff' : '#000',
+    boxShadow: 4,
+    borderRadius: 3,
+    p: 3,
+  };
+
+  const infoCards = [
+    {
+      icon: <InsertChartIcon fontSize="large" color="primary" />,
+      title: 'Invoice UpLoading Statistics',
+      content: 'Today: 4, This week: 12, This month: 50',
+    },
+    {
+      icon: <EmojiEventsIcon fontSize="large" color="warning" />,
+      title: 'Invoice Upload Quota',
+      content: 'Daily upload limit: 20 invoices.\nWhen the limit is reached, try again the next day.',
+    },
+    {
+      icon: <InfoIcon fontSize="large" color="info" />,
+      title: 'Add New Invoice',
+      content: 'Click the "+" icon in the bottom right to add a new invoice.',
+    },
+  ];
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#444' : '#e0e0e0' }}>
+    <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#121212' : '#f4f4f4' }}>
       <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+
       <Box
         sx={{
           flexGrow: 1,
-          backgroundColor: darkMode ? '#444' : '#e0e0e0',
           padding: 3,
           transition: 'margin-left 0.3s',
           marginLeft: sidebarOpen ? { xs: 0, sm: '200px' } : { xs: 0, sm: '60px' },
           position: 'relative',
+          minHeight: '100vh',
           overflow: 'hidden',
         }}
       >
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
 
-        {/* Background Video */}
+        {/* Arka Plan Videosu */}
         <video
           autoPlay
           loop
@@ -39,113 +79,75 @@ const HomePage: React.FC = () => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: 0.1, // Arka planda daha az dikkat çeker
+            opacity: 0.07,
             zIndex: -1,
           }}
         >
-          <source src="/qrcodeanimation-unscreen.gif" type="video/mp4" />
-          Tarayıcınız video etiketini desteklemiyor.
+          <source src="front-end/public/qrcodeanimation-unscreen.gif" type="video/mp4" />
         </video>
 
-        <Box sx={{ marginTop: '60px' }}>
-
-           
-       
+        {/* Dashboard Giriş */}
+        <Box sx={{ mt: 10 }}>
+          <Typography variant="h4" sx={{ color: darkMode ? '#fff' : '#000', mb: 4 }}>
+            Welcome to Smart Invoice Analyzer 👋
+          </Typography>
 
           <Grid container spacing={3}>
-
-          <Grid item xs={12} sm={12} md={8}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Card sx={{ backgroundColor: darkMode ? '#555' : '#fff', boxShadow: 3 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ color: darkMode ? 'white' : 'black' }}>
-                      Fatura Yükleme Limiti
-                    </Typography>
-                    <Paper sx={{ backgroundColor: darkMode ? '#444' : '#f5f5f5', padding: 2, marginTop: 2 }}>
-                      <Typography variant="body2" sx={{ color: darkMode ? 'white' : 'black' }}>
-                      Her kullanıcı, sistemimize günlük olarak en fazla 20 fatura yükleyebilir. Bu limit, işlemlerin düzgün ve verimli bir şekilde gerçekleşebilmesi için belirlenmiştir. Eğer günlük yükleme limitiniz dolarsa, bir sonraki gün yeniden fatura yüklemeye başlayabilirsiniz.
+            {infoCards.map((card, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 + index * 0.2 }}
+                >
+                  <Card sx={cardStyle}>
+                    <CardContent>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Avatar sx={{ bgcolor: 'transparent' }}>{card.icon}</Avatar>
+                        <Typography variant="h6" sx={{ ml: 2 }}>
+                          {card.title}
+                        </Typography>
+                      </Box>
+                      <Divider sx={{ mb: 2 }} />
+                      <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                        {card.content}
                       </Typography>
-                    </Paper>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Grid>
+            ))}
 
-          <Grid item xs={12} sm={12} md={8}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Card sx={{ backgroundColor: darkMode ? '#555' : '#fff', boxShadow: 3 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ color: darkMode ? 'white' : 'black' }}>
-                      Fatura Yükleme İstatistikleri
-                    </Typography>
-                    <Paper sx={{ backgroundColor: darkMode ? '#444' : '#f5f5f5', padding: 2, marginTop: 2 }}>
-                      <Typography variant="body2" sx={{ color: darkMode ? 'white' : 'black' }}>
-                        <strong>Bugün</strong>: 4 Yükleme, <strong>Bu Hafta</strong>: 12 Yükleme, <strong>Bu Ay</strong>: 50 Yükleme
-                      </Typography>
-                    </Paper>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-        
-            {/* Kısa Süreli İstatistikler Kartları */}
-            {/* <Grid item xs={12} sm={6} md={4}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Card sx={{ backgroundColor: darkMode ? '#555' : '#fff', boxShadow: 3 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ color: darkMode ? 'white' : 'black' }}>
-                      Bugünkü Yükleme Durumu
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
-                      <CircularProgress variant="determinate" value={10} size={50} sx={{ color: darkMode ? 'white' : 'black' }} />
-                      <Typography variant="body2" sx={{ color: darkMode ? 'white' : 'black', marginLeft: 2 }}>
-                        4 / 20 Yükleme Tamamlandı
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid> */}
-
-
-            
-
-            {/* Yükleme İstatistikleri */}
-            
-
-            {/* Yükleme Butonu */}
+            {/* Kullanıcıya Özel Bilgi Kutusu */}
             <Grid item xs={12}>
-              
-                <Paper sx={{ backgroundColor: darkMode ? '#333' : '#white', padding: 17, textAlign: 'center',marginTop:"20px" }}>
-                  <Box>
-                  <Typography variant="h5" sx={{ color: darkMode ? 'white' : 'black' }}>
-                    Yeni Fatura Yüklemek için sağ alt köşedeki artı butonuna tıklayın
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    backgroundColor: darkMode ? '#232323' : '#fff',
+                    color: darkMode ? '#fff' : '#000',
+                    padding: 4,
+                    textAlign: 'center',
+                    mt: 2,
+                    borderRadius: 3,
+                  }}
+                >
+                  <Typography variant="h5" sx={{ mb: 1 }}>
+                    User Panel
                   </Typography>
-                  <video
-        autoPlay
-        loop
-        muted
-        style={{
-          position: 'absolute',
-          top: 50,
-          left: "65%",
-         height:"70%",
-         width:"33.5%",
-          objectFit: 'cover',
-          opacity: 1, // Videonun arka planda görünmesini sağlamak için
-          
-        }}
-      >
-        <source src="/qrcodeanimation.mp4" type="video/mp4" />
-        Tarayıcınız video etiketini desteklemiyor.
-      </video></Box>
+                  <Typography variant="body1">
+                   From here, you can track, analyze and perform historical reporting on the invoices you have uploaded to your system.
+                  </Typography>
                 </Paper>
-              
+              </motion.div>
             </Grid>
           </Grid>
         </Box>
 
-        {/* Add Button with Hover Animation */}
         <AddButton darkMode={darkMode} />
       </Box>
     </Box>
