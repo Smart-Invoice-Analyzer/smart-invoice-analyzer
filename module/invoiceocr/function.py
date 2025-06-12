@@ -1,23 +1,26 @@
+import paddle
 import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import json
 import re
 import ollama
 from paddleocr import PaddleOCR
 
 __all__ = [
-    "read", "read_to_json", "extract_date", "extract_total",
+    "init", "read", "read_to_json", "extract_date", "extract_total",
     "extract_items_with_llm", "to_list_of_texts"
 ]
 
 # Create OCR object and disable GPU to avoid CUDA issues
-ocr = PaddleOCR(
-    use_angle_cls=True,
-    lang='en',
-    det_model_dir='app/models/det/en_PP-OCRv3_det_infer',
-    rec_model_dir='app/models/rec/en_PP-OCRv4_rec_infer',
-    cls_model_dir='app/models/cls/ch_ppocr_mobile_v2.0_cls_infer',
-    use_gpu = False
-)
+ocr = None
+def init():
+    """
+    Initialize the OCR
+    """
+    global ocr
+    ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu = False)
 
 # An hidden function that extracts all texts from OCR output. It should not be called directly.
 def to_list_of_texts(extracted_list):
@@ -42,6 +45,12 @@ def read(image_path:str, only_texts=False):
     extracted_list = ocr.ocr(image, cls=True)
     # Since it is one picture being read, there will be only one page. We can remove the unnecessary nested list
     extracted_list = extracted_list[0]
+    texts = to_list_of_texts(extracted_list)
+    for i, text in enumerate(texts):
+        if text.startswith("*Trade Markup: 18%"):
+            texts[i] = text[len("*Trade Markup: 18%"):].lstrip()
+        elif text.startswith("*VAT: 18%"):
+            texts[i] = text[len("*VAT: 18%"):].lstrip()
     # Check if only the texts are requested, return only the texts in a list
     if only_texts:
         return to_list_of_texts(extracted_list)
@@ -166,13 +175,15 @@ def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
     # Return the json output
     return json_output
 
+
+
 # GET IMAGES USING HTTP REQUESTS
-import requests
 
 def get_id(url):
     return url.split("/")[-1].split("=")[1]
 
 def download_image(id, filename="receipt.jpg", csrf_token=None):
+    import requests
     database_url = "https://monitoring.e-kassa.gov.az/pks-monitoring/2.0.0/documents/"
     url = database_url + id
     headers = {
