@@ -20,7 +20,14 @@ def init():
     Initialize the OCR
     """
     global ocr
-    ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu = False)
+    ocr = PaddleOCR(
+        use_angle_cls=True,
+        lang='en',
+        det_model_dir='app/models/det/en_PP-OCRv3_det_infer',
+        rec_model_dir='app/models/rec/en_PP-OCRv4_rec_infer',
+        cls_model_dir='app/models/cls/ch_ppocr_mobile_v2.0_cls_infer',
+        use_gpu = False
+    )
 
 # An hidden function that extracts all texts from OCR output. It should not be called directly.
 def to_list_of_texts(extracted_list):
@@ -33,7 +40,7 @@ def to_list_of_texts(extracted_list):
     return all_texts
 
 # Apply OCR
-def read(image_path:str, only_texts=False):
+def read(image_path:str, only_texts=True):
     """
     Core read function.
     Returns a list of extracted data, named "extracted_list"
@@ -45,15 +52,11 @@ def read(image_path:str, only_texts=False):
     extracted_list = ocr.ocr(image, cls=True)
     # Since it is one picture being read, there will be only one page. We can remove the unnecessary nested list
     extracted_list = extracted_list[0]
-    texts = to_list_of_texts(extracted_list)
-    for i, text in enumerate(texts):
-        if text.startswith("*Trade Markup: 18%"):
-            texts[i] = text.replace("*Trade Markup: 18%","")
-        elif text.startswith("*VAT: 18%"):
-            texts[i] = text.replace("*VAT: 18%","")
     # Check if only the texts are requested, return only the texts in a list
     if only_texts:
-        return to_list_of_texts(extracted_list)
+        texts = to_list_of_texts(extracted_list)
+        texts = [text for text in texts if not ("*Trade markup" in text or "*VAT" in text)]
+        return texts
     # Else return full list in the shape of [[coordinates], (text, confidence)]
     else:
         return extracted_list
