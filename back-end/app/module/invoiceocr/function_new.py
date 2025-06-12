@@ -48,9 +48,9 @@ def read(image_path:str, only_texts=False):
     texts = to_list_of_texts(extracted_list)
     for i, text in enumerate(texts):
         if text.startswith("*Trade Markup: 18%"):
-            texts[i] = text[len("*Trade Markup: 18%"):].lstrip()
+            texts[i] = text.replace("*Trade Markup: 18%","")
         elif text.startswith("*VAT: 18%"):
-            texts[i] = text[len("*VAT: 18%"):].lstrip()
+            texts[i] = text.replace("*VAT: 18%","")
     # Check if only the texts are requested, return only the texts in a list
     if only_texts:
         return to_list_of_texts(extracted_list)
