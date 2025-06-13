@@ -1,6 +1,9 @@
 venv/
 .env
-**/__pycache__
+# Pycache
+__pycache__/
+**/__pycache__/
+# Others
 datasets/
 models/
 llm_outputs/
