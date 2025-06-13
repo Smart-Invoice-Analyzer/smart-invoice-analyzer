@@ -7,6 +7,28 @@ from app.helper_functions import decode_jwt, convert_decimal, validate_phone, va
 import json
 from datetime import date
 import app.module.invoiceocr.function as function
+import pickle
+import os
+import re
+
+
+# Get the absolute path to the current script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Build paths relative to this script's directory
+VECTORIZER_PATH = os.path.join(BASE_DIR, "classification", "vectorizer.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "classification", "lr_full.pkl")
+LABEL_ENCODER_PATH = os.path.join(BASE_DIR, "classification", "labelencoder.pkl")
+
+# Load components
+with open(VECTORIZER_PATH, "rb") as f:
+    vectorizer = pickle.load(f)
+
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
+
+with open(LABEL_ENCODER_PATH, "rb") as f:
+    label_encoder = pickle.load(f)
 
 invoice_ns = Namespace(
     'invoices',
@@ -359,8 +381,6 @@ def add_invoice_from_data(invoice_data, user_id, db_session):
 
 
 def extract_data_from_link(link):
-    import os
-    from datetime import datetime
 
     image_id = function.get_id(link)
     image_path = f"images/{image_id}.jpg"
@@ -396,77 +416,7 @@ def extract_data_from_link(link):
 
 
 def extract_invoice_data(lines, link):
-        import re
         from datetime import datetime
-        def extract_invoice_items(ocr_text: str):
-            import re
-
-            lines = ocr_text.strip().splitlines()
-            items = []
-
-            # Find the start and end of the items section
-            try:
-                start_index = next(i for i, line in enumerate(lines)
-                                if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
-                end_index = next(i for i, line in enumerate(lines)
-                                if line.strip().lower().startswith('total'))
-            except StopIteration:
-                return []
-
-            i = start_index
-            while i < end_index:
-                # Collect description lines
-                description_lines = []
-                while i < end_index and not re.match(r"^\d+(\.\d+)?$", lines[i].strip()):
-                    description_lines.append(lines[i].strip())
-                    i += 1
-
-                description = " ".join(description_lines).strip()
-
-                # Initialize defaults
-                quantity = None
-                unit_price = None
-                total_price = None
-
-                # Try to extract quantity
-                if i < end_index:
-                    quantity_line = lines[i].strip()
-                    if re.match(r"^\d+(\.\d+)?$", quantity_line):
-                        quantity = float(quantity_line)
-                        i += 1
-
-                # Try to extract unit price and total price
-                if i < end_index:
-                    price_line = lines[i].strip()
-                    numbers = re.findall(r"\d+\.\d+", price_line)
-
-                    if len(numbers) == 2:
-                        unit_price = float(numbers[0])
-                        total_price = float(numbers[1])
-                        i += 1
-                    elif len(numbers) == 1:
-                        unit_price = float(numbers[0])
-                        i += 1
-                        # Try to find total price in next line
-                        if i < end_index:
-                            next_line = lines[i].strip()
-                            if re.match(r"^\d+\.\d+$", next_line):
-                                total_price = float(next_line)
-                                i += 1
-
-                # Add item if we have at least description, quantity, and unit price
-                if description and quantity is not None and unit_price is not None:
-                    items.append({
-                        "description": description,
-                        "quantity": quantity,
-                        "unit_price": unit_price,
-                        "category": None
-                    })
-                else:
-                    i += 1  # Skip problematic lines
-
-            return items
-
 
         def get_value_after(label):
             try:
@@ -511,3 +461,85 @@ def extract_invoice_data(lines, link):
         }
 
         return result
+
+
+def extract_invoice_items(ocr_text: str):
+    lines = ocr_text.strip().splitlines()
+    items = []
+
+    # Find the start and end of the items section
+    try:
+        start_index = next(i for i, line in enumerate(lines)
+                        if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
+        end_index = next(i for i, line in enumerate(lines)
+                        if line.strip().lower().startswith('total'))
+    except StopIteration:
+        return []
+
+    i = start_index
+    descriptions = []
+    temp_items = []
+
+    while i < end_index:
+        description_lines = []
+        while i < end_index and not re.match(r"^\d+(\.\d+)?$", lines[i].strip()):
+            description_lines.append(lines[i].strip())
+            i += 1
+
+        description = " ".join(description_lines).strip()
+
+        quantity = None
+        unit_price = None
+        total_price = None
+
+        if i < end_index:
+            quantity_line = lines[i].strip()
+            if re.match(r"^\d+(\.\d+)?$", quantity_line):
+                quantity = float(quantity_line)
+                i += 1
+
+        if i < end_index:
+            price_line = lines[i].strip()
+            numbers = re.findall(r"\d+\.\d+", price_line)
+
+            if len(numbers) == 2:
+                unit_price = float(numbers[0])
+                total_price = float(numbers[1])
+                i += 1
+            elif len(numbers) == 1:
+                unit_price = float(numbers[0])
+                i += 1
+                if i < end_index:
+                    next_line = lines[i].strip()
+                    if re.match(r"^\d+\.\d+$", next_line):
+                        total_price = float(next_line)
+                        i += 1
+
+        if description and quantity is not None and unit_price is not None:
+            descriptions.append(description)
+            temp_items.append({
+                "description": description,
+                "quantity": quantity,
+                "unit_price": unit_price,
+                "category": None
+            })
+        else:
+            i += 1
+
+    # Translate and predict categories
+    if descriptions:
+        translated = translate_az_to_en(descriptions)
+        X_vec = vectorizer.transform(translated)
+        y_pred = model.predict(X_vec)
+        predicted_labels = label_encoder.inverse_transform(y_pred)
+
+        for item, label in zip(temp_items, predicted_labels):
+            item["category"] = label
+
+    return temp_items
+
+
+def translate_az_to_en(text_list):
+    from deep_translator import GoogleTranslator
+    translator = GoogleTranslator(source='az', target='en')
+    return [translator.translate(text) for text in text_list]

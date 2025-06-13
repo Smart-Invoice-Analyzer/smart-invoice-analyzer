@@ -6,3 +6,6 @@ models/
 llm_outputs/
 categorization/
 ocr/other/
+back-end/app/data
+back-end/app/images
+back-end/test.py
