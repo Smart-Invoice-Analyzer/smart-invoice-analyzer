@@ -55,7 +55,7 @@ def read(image_path:str, only_texts=True):
     # Check if only the texts are requested, return only the texts in a list
     if only_texts:
         texts = to_list_of_texts(extracted_list)
-        texts = [text for text in texts if not ("*Trade markup" in text or "*VAT" in text)]
+        texts = [text for text in texts if not ("*Trade markup" in text or "*VAT" in text or text=="(pc)" or text=="pc")]
         return texts
     # Else return full list in the shape of [[coordinates], (text, confidence)]
     else:

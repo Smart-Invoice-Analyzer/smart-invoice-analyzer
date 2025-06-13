@@ -6,10 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app.helper_functions import decode_jwt, convert_decimal, validate_phone, validate_country, validate_currency, validate_positive_amount
 import json
 from datetime import date
-import os
-import app.module.invoiceocr.function_new as function
-from datetime import datetime
-import re
+import app.module.invoiceocr.function as function
 
 invoice_ns = Namespace(
     'invoices',
@@ -363,9 +360,7 @@ def add_invoice_from_data(invoice_data, user_id, db_session):
 
 def extract_data_from_link(link):
     import os
-    import app.module.invoiceocr.function as function
     from datetime import datetime
-    import re
 
     image_id = function.get_id(link)
     image_path = f"images/{image_id}.jpg"
@@ -387,63 +382,91 @@ def extract_data_from_link(link):
     content = function.read(image_path)
     text = function.to_list_of_texts(content)
 
-    def extract_invoice_data(lines):
+    result = extract_invoice_data(text, link)
+
+    # Cleanup: delete the image
+    try:
+        os.remove(image_path)
+    except FileNotFoundError:
+        pass
+    except Exception as e:
+        print(f"Warning: could not delete image file: {e}")
+
+    return result
+
+
+def extract_invoice_data(lines, link):
+        import re
+        from datetime import datetime
         def extract_invoice_items(ocr_text: str):
+            import re
+
             lines = ocr_text.strip().splitlines()
             items = []
 
+            # Find the start and end of the items section
             try:
                 start_index = next(i for i, line in enumerate(lines)
-                                   if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
+                                if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
                 end_index = next(i for i, line in enumerate(lines)
-                                 if line.strip().lower().startswith('total'))
+                                if line.strip().lower().startswith('total'))
             except StopIteration:
                 return []
 
             i = start_index
             while i < end_index:
+                # Collect description lines
                 description_lines = []
-
-                while i < end_index and not re.match(r"^\d+\.\d{1,3}$", lines[i].strip()):
+                while i < end_index and not re.match(r"^\d+(\.\d+)?$", lines[i].strip()):
                     description_lines.append(lines[i].strip())
                     i += 1
 
                 description = " ".join(description_lines).strip()
 
-                if i + 1 < end_index:
-                    try:
-                        quantity = float(lines[i].strip())
+                # Initialize defaults
+                quantity = None
+                unit_price = None
+                total_price = None
+
+                # Try to extract quantity
+                if i < end_index:
+                    quantity_line = lines[i].strip()
+                    if re.match(r"^\d+(\.\d+)?$", quantity_line):
+                        quantity = float(quantity_line)
                         i += 1
 
-                        price_line = lines[i].strip()
-                        price_line = re.sub(r"(\d+)\.(\d{2})\d*", r"\1.\2", price_line)
+                # Try to extract unit price and total price
+                if i < end_index:
+                    price_line = lines[i].strip()
+                    numbers = re.findall(r"\d+\.\d+", price_line)
+
+                    if len(numbers) == 2:
+                        unit_price = float(numbers[0])
+                        total_price = float(numbers[1])
                         i += 1
-
-                        prices = re.findall(r"\d+\.\d+", price_line)
-                        if len(prices) >= 1:
-                            unit_price = float(prices[0])
-                        else:
-                            continue
-
-                        if i < end_index and re.match(r"^\d+\.\d+$", lines[i].strip()):
-                            i += 1
-
-                        if i < end_index and "*VAT" in lines[i]:
-                            i += 1
-
-                        items.append({
-                            "description": description,
-                            "quantity": quantity,
-                            "unit_price": unit_price,
-                            "category": None
-                        })
-
-                    except ValueError:
+                    elif len(numbers) == 1:
+                        unit_price = float(numbers[0])
                         i += 1
+                        # Try to find total price in next line
+                        if i < end_index:
+                            next_line = lines[i].strip()
+                            if re.match(r"^\d+\.\d+$", next_line):
+                                total_price = float(next_line)
+                                i += 1
+
+                # Add item if we have at least description, quantity, and unit price
+                if description and quantity is not None and unit_price is not None:
+                    items.append({
+                        "description": description,
+                        "quantity": quantity,
+                        "unit_price": unit_price,
+                        "category": None
+                    })
                 else:
-                    break
+                    i += 1  # Skip problematic lines
 
             return items
+
 
         def get_value_after(label):
             try:
@@ -488,15 +511,3 @@ def extract_data_from_link(link):
         }
 
         return result
-
-    result = extract_invoice_data(text)
-
-    # Cleanup: delete the image
-    try:
-        os.remove(image_path)
-    except FileNotFoundError:
-        pass
-    except Exception as e:
-        print(f"Warning: could not delete image file: {e}")
-
-    return result
