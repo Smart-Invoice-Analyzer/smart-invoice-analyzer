@@ -1,12 +1,9 @@
-import paddle
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import json
 import re
-import ollama
-from paddleocr import PaddleOCR
 
 __all__ = [
     "init", "read", "read_to_json", "extract_date", "extract_total",
@@ -16,6 +13,8 @@ __all__ = [
 # Create OCR object and disable GPU to avoid CUDA issues
 ocr = None
 def init():
+    import paddle
+    from paddleocr import PaddleOCR
     """
     Initialize the OCR
     """
