@@ -103,8 +103,6 @@ class ProcessQR(Resource):
             # This function should return a Python dict matching your invoice schema
             invoice_data = extract_data_from_link_turkish(qr_data)
 
-            print(f"Extracted invoice data: {invoice_data}")
-
             if not isinstance(invoice_data, dict):
                 return {'error': 'Failed to extract invoice data from QR'}, 400
 
@@ -529,7 +527,7 @@ def extract_invoice_items(ocr_text: str):
 
     # Translate and predict categories
     if descriptions:
-        translated = translate_az_to_en(descriptions)
+        translated = translate_tr_to_en(descriptions)
         X_vec = vectorizer.transform(translated)
         y_pred = model.predict(X_vec)
         predicted_labels = label_encoder.inverse_transform(y_pred)
@@ -540,16 +538,29 @@ def extract_invoice_items(ocr_text: str):
     return temp_items
 
 
-def translate_az_to_en(text_list):
+def translate_tr_to_en(text_list):
     from deep_translator import GoogleTranslator
-    translator = GoogleTranslator(source='az', target='en')
-    return [translator.translate(text) for text in text_list]
-
+    # translate from turkish to english
+    try:
+        translated = GoogleTranslator(source='tr', target='en').translate_batch(text_list)
+        return translated
+    except Exception as e:
+        print(f"Translation error: {e}")
+        return []
+    
+def translate_googletrans(text_list):
+    from googletrans import Translator
+    translator = Translator()
+    result = translator.translate(text_list, src='tr', dest='en')
+    if isinstance(result, list):
+        return [res.text for res in result]
+    else:
+        return result.text
 
 def extract_data_from_link_turkish(link):
 
     import requests
-    import json
+    import time
 
     try:
 
@@ -575,6 +586,7 @@ def extract_data_from_link_turkish(link):
         try:
             response = requests.post(url, json=payload, headers=headers)
             response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
+            time.sleep(1)
         except requests.exceptions.RequestException as e:
             print(f"Request failed: {e}")
 
@@ -604,13 +616,36 @@ def extract_data_from_link_turkish(link):
 
         # Items
         extracted_data["items"] = []
+        item_descriptions_tr = []
+        original_items = [] # To store original item data for re-populating
+
         for item in invoice_data["AddedSaleItems"]:
-            extracted_data["items"].append({
+            item_descriptions_tr.append(item["Name"])
+            original_items.append({
                 "description": item["Name"],
                 "quantity": item["ItemQuantity"],
                 "unit_price": item["UnitPriceAmount"],
-                "category": None
+                "category": None # Placeholder for category
             })
+
+        # Translate item descriptions to English
+        translated_descriptions_en = translate_tr_to_en(item_descriptions_tr)
+        print(translated_descriptions_en)
+
+        # Predict categories for each translated item description
+        if translated_descriptions_en:
+            # Transform the translated descriptions using the loaded vectorizer
+            X_new = vectorizer.transform(translated_descriptions_en)
+            # Predict the categories
+            predictions = model.predict(X_new)
+            # Decode the numerical predictions back to original labels
+            predicted_categories = label_encoder.inverse_transform(predictions)
+
+            # Assign predicted categories back to the items
+            for i, item_data in enumerate(original_items):
+                item_data["category"] = predicted_categories[i]
+
+        extracted_data["items"] = original_items
 
         return extracted_data
 
