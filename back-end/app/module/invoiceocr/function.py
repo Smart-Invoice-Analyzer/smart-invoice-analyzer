@@ -1,11 +1,9 @@
-import paddle
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import json
 import re
-import ollama
 from paddleocr import PaddleOCR
 
 __all__ = [
@@ -141,47 +139,8 @@ def extract_total(extracted_list):
     last_resort_match = re.search(r"total.*?(\d+\.\d{2})", full_text, re.I)
     return float(last_resort_match.group(1)) if last_resort_match else None
 
-# Extract the items using Large Language Model, then save to a json file
-def extract_items_with_llm(extracted_list, jsonfile:str, model:str="analyzer"):
-    delimiter = "\n"
-    # This function requires to check only_texts parameter of the variable 'extracted_list', we will have to check it
-    isOnlyTexts:bool
-    if type(extracted_list[0]) == str:
-        isOnlyTexts = True
-    else:
-        isOnlyTexts = False
-    # Concatenate into a single string, here it depends if it is only texts or not. If not, we will have to change it to only_texts
-    if isOnlyTexts: 
-        text = delimiter.join(extracted_list)
-    else:
-        text = delimiter.join(to_list_of_texts(extracted_list))
-    # Check if parameter jsonfile is a json file
-    if not jsonfile.lower().endswith(".json"):
-        raise ValueError("Output file must be a JSON file")
-    available_models = ["analyzer"]
-    # Check if model is a correct string
-    if model not in available_models:
-        raise ValueError(f"The model must be one of our available models: {available_models}")
-    # Define prompt
-    prompt:str
-    if model == "analyzer":
-        prompt = f"{text}"
-    # Call the LLM API
-    response = ollama.generate(
-        model=model,
-        prompt=prompt
-    )
-    json_output = response["response"]
-    # Save the output to the jsonfile
-    with open(jsonfile, "w", encoding="utf-8") as f:
-            f.write(json_output)
-    # Return the json output
-    return json_output
-
-
 
 # GET IMAGES USING HTTP REQUESTS
-
 def get_id(url):
     return url.split("/")[-1].split("=")[1]
 

@@ -6,7 +6,6 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app.helper_functions import decode_jwt, convert_decimal, validate_phone, validate_country, validate_currency, validate_positive_amount
 import json
 from datetime import date
-import app.module.invoiceocr.function as function
 import pickle
 import os
 import re
@@ -102,7 +101,9 @@ class ProcessQR(Resource):
         # Process the QR data and add invoice
         try:
             # This function should return a Python dict matching your invoice schema
-            invoice_data = extract_data_from_link(qr_data)
+            invoice_data = extract_data_from_link_turkish(qr_data)
+
+            print(f"Extracted invoice data: {invoice_data}")
 
             if not isinstance(invoice_data, dict):
                 return {'error': 'Failed to extract invoice data from QR'}, 400
@@ -543,3 +544,75 @@ def translate_az_to_en(text_list):
     from deep_translator import GoogleTranslator
     translator = GoogleTranslator(source='az', target='en')
     return [translator.translate(text) for text in text_list]
+
+
+def extract_data_from_link_turkish(link):
+
+    import requests
+    import json
+
+    try:
+
+        # Extract InqueryHash from the link
+        InqueryHash = link.split("?q=")[1]
+
+        # Endpoint URL
+        url = "https://pavopay.pavo.com.tr/api/InquiryOperations/SaleInquiry/LoadSalesSummary"
+
+        # JSON payload
+        payload = {
+            "InqueryHash": InqueryHash,
+            "IsCheckStatus": False
+        }
+
+        # Optional headers, might be required depending on server expectations
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0"
+        }
+
+        # Send POST request
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+
+        invoice_data = response.json()
+
+        extracted_data = {}
+
+        # Using SaleDate and formatting it to "YYYY-MM-DD"
+        extracted_data["date"] = invoice_data["SaleDate"].split("T")[0]
+
+        # Total Amount
+        extracted_data["total_amount"] = invoice_data["TotalPrice"]
+
+        # Currency
+        extracted_data["currency"] = invoice_data["CurrencyCode"]
+
+        # QR Data
+        extracted_data["qr_data"] = link
+
+        # Vendor
+        extracted_data["vendor"] = {
+            "name": "None",
+            "address": None,
+            "country": None, 
+            "phone": None
+        }
+
+        # Items
+        extracted_data["items"] = []
+        for item in invoice_data["AddedSaleItems"]:
+            extracted_data["items"].append({
+                "description": item["Name"],
+                "quantity": item["ItemQuantity"],
+                "unit_price": item["UnitPriceAmount"],
+                "category": None
+            })
+
+        return extracted_data
+
+    except Exception as e:
+        return {"server_error": str(e)}
