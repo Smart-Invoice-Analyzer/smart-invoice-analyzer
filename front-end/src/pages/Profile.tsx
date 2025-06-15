@@ -159,7 +159,7 @@ if (current_password && new_password && confirm_password) {
         }}
       >
       
-        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar}/>
 
         <Grid container spacing={3} marginTop={'60px'}>
           <Grid item xs={12}>

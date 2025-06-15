@@ -99,7 +99,7 @@ const Invoice: React.FC = () => {
         transition: 'margin-left 0.3s ease-in-out',
       }}
     >
-      <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+      <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar} />
 
       {loading ? (
         <Box

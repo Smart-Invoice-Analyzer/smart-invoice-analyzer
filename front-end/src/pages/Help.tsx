@@ -60,7 +60,7 @@ const Help: React.FC = () => {
         }}
       >
         {/* Topbar */}
-        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar}/>
 
         <Box sx={{ maxWidth: '1200px', margin: '0 auto', padding: 3 }}>
           <Typography variant="h4" gutterBottom>

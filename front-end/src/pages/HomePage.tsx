@@ -129,7 +129,7 @@ data.invoices.forEach(invoice => {
           overflow: 'hidden',
         }}
       >
-        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar}/>
 
         {/* HERO / GİRİŞ BÖLÜMÜ */}
 {/* HERO / GİRİŞ BÖLÜMÜ */}

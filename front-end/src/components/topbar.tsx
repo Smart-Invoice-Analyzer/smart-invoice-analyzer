@@ -9,14 +9,16 @@ import { RootState } from '../store/store';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CircleNotificationsRoundedIcon from '@mui/icons-material/CircleNotificationsRounded';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface TopbarProps {
   sidebarOpen: boolean;
   darkMode: boolean;
+  toggleSidebar: () => void;
 }
 
 
-const Topbar: React.FC<TopbarProps> = ({ sidebarOpen}) => {
+const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
 
   const topbarname = useSelector ((state: RootState) => state.auth.username);
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
@@ -40,7 +42,16 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen}) => {
     
 
 
-      <Box></Box>
+      <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+  <IconButton
+    edge="start"
+    color="inherit"
+    aria-label="menu"
+    onClick={toggleSidebar}
+  >
+    <MenuIcon sx={{ color: darkMode ? '#fff' : '#000' }} />
+  </IconButton>
+</Box>
       <Box sx={{ display: 'flex', alignItems: 'center' , gap:"20px"}}>
         <CircleNotificationsRoundedIcon sx={{height:"36px",width:"36px",color: darkMode ? '#888' : '#000'}}></CircleNotificationsRoundedIcon>
         <Box sx={{display:"flex",alignItems:"center", gap:"10px"}}>

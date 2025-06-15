@@ -144,7 +144,7 @@ React.useEffect(() => {
         }}
       >
 
-        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar} />
         <Box sx={{ display: "flex", gap: "10px", width: "100%" }} >
           <Box sx={{ marginTop: "65px", width: '100%', zIndex: "999", position: "fixed", display: "flex", alignItems: "center", gap: "10px" }}>
             <SearchBarr onSearch={handleSearch} />

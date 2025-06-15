@@ -154,7 +154,7 @@ const invoiceCountPerVendorData = Object.entries(invoiceCountPerVendor)
 
       <Box sx={{ flexGrow: 1, padding: 3, marginLeft: sidebarOpen ? { xs: 0, sm: '200px' } : { xs: 0, sm: '60px' }, overflowY: 'auto', position: 'relative' }}>
 
-        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
+        <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
     {/*main content*/}
 <Box sx={{ marginTop: "100px" }}>
   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4, justifyContent: 'center' }}>
@@ -169,7 +169,15 @@ const invoiceCountPerVendorData = Object.entries(invoiceCountPerVendor)
   </Box>
 
   {/* Grafikler */}  
-  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4 }}>
+  <Box
+  sx={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 3,
+    mb: 4,
+    flexDirection: { xs: 'column', md: 'row' },
+  }}
+>
     {[{
       title: <span style={{color:darkMode ? '#fff' : '#000'}}>Monthly Invoice Trend</span>,
       data: monthlyChartData,
