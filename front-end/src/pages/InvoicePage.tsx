@@ -15,35 +15,9 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link } from 'react-router-dom';
 import { api_url } from '../api/apiconfig';
+import { Invoice } from '../types';
 
 
-
-interface Vendor {
-  name: string;
-  address: string;
-  country: string;
-  phone: string;
-  email: string;
-}
-
-interface Item {
-  description: string;
-  quantity: number;
-  unit_price: number;
-  category: string;
-}
-
-interface Invoice {
-  id: number;
-  invoice_number: string;
-  date: string;  // YYYY-MM-DD formatında tarih
-  total_amount: number;
-  currency: string;
-  qr_data: string;
-  vendor: Vendor;
-  items: Item[];
-  status: string;
-}
 interface InvoicesResponse {
   invoices: Invoice[];
 }
@@ -148,7 +122,6 @@ React.useEffect(() => {
     return matchesSearch && matchesFilter;
   });
 
-  console.log(filteredInvoices,'filtered')
 
   return (
 

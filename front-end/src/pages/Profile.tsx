@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Grid, Typography, Button, TextField, IconButton, Divider, Snackbar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import EditIcon from '@mui/icons-material/Edit';
 import Sidebar from '../components/sidebar';
 import Topbar from '../components/topbar';
 import { useSelector } from 'react-redux';
@@ -10,11 +9,9 @@ import { RootState } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 import ModalComponent from '../components/Modal/Modal';
 import axios from 'axios';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
-import api from '../api/api';
 import { api_url } from '../api/apiconfig';
 
 const ProfilePage: React.FC = () => {

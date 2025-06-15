@@ -3,46 +3,30 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { TextField, Button, Snackbar, Alert, Box, circularProgressClasses, CircularProgress, FormGroup, FormControlLabel, Checkbox, InputAdornment, IconButton } from '@mui/material';
+import { TextField, Button, Snackbar, Box, CircularProgress, FormGroup, FormControlLabel, Checkbox, InputAdornment, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import '../../../src/styles/Login.css';
-import { CheckBox } from '@mui/icons-material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { api_url } from '../../api/apiconfig';
-
-
-export interface User {
-  email: string;
-  name: string;
-  surname: string;
-  password: string;
-  username: string;
-  user_id: string;
-  gender: string;
-  date_of_birth: string;
-}
-
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
+import { User } from '../../types';
+import { LoginFormInputs } from '../../types';
 
 const LoginForm: React.FC = () => {
 
   const [validUsers, setValidUsers] = useState<User[]>([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [loading,setLoading] = useState (false);
+  const [loading, setLoading] = useState(false);
   const [savePassword, setSavePassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-   useEffect(() => {
+  useEffect(() => {
     // Fetch user data
     axios.get<User[]>('/usersdata.json')
       .then(response => {
@@ -64,42 +48,42 @@ const LoginForm: React.FC = () => {
 
   const schema = Yup.object().shape({
     email: Yup.string()
-    .test(
-      "is-username-or-email",
-      "Please enter a valid username or email.",
-      (value) => {
-        if (!value) return false;
-        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
-        const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        return usernameRegex.test(value) || emailRegex.test(value);
-      }
-    )
-    .required("Bu alan zorunludur."),
+      .test(
+        "is-username-or-email",
+        "Please enter a valid username or email.",
+        (value) => {
+          if (!value) return false;
+          const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+          const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+          return usernameRegex.test(value) || emailRegex.test(value);
+        }
+      )
+      .required("Bu alan zorunludur."),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
-  const { register, handleSubmit, formState: { errors },setValue } = useForm<LoginFormInputs>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
-  
+
     try {
       const response = await axios.post(`${api_url}/users/login`, {
         username_or_email: data.email, // API username veya email kabul ediyordu.
         password: data.password
       });
-  
+
       if (response.status === 200) {
         const userData = response.data; // API'den dönen kullanıcı verisi
-  
+
         if (savePassword) {
           localStorage.setItem('credentials', JSON.stringify(data));
         } else {
           localStorage.removeItem('credentials');
         }
-  
+
         dispatch(login({
           email: userData.email,
           name: userData.name,
@@ -110,10 +94,10 @@ const LoginForm: React.FC = () => {
           password: '',
           date_of_birth: userData.date_of_birth,
           gender: userData.gender
-        
+
 
         }));
-  
+
         navigate('/home');
       }
     } catch (error) {
@@ -123,7 +107,7 @@ const LoginForm: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
 
   useEffect(() => {
     const savedCredentials = localStorage.getItem('credentials');
@@ -190,18 +174,18 @@ const LoginForm: React.FC = () => {
             sx={{ borderColor: '01579b' }}
           />
         </Box>
-        <Button type="submit" variant="contained" fullWidth 
-                sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#596e60' } }}
-                disabled={loading}>
-                {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Login'}
-          
+        <Button type="submit" variant="contained" fullWidth
+          sx={{ backgroundColor: '#01579b', color: '#fff', ':hover': { backgroundColor: '#596e60' } }}
+          disabled={loading}>
+          {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Login'}
+
         </Button>
         <FormGroup>
-  <FormControlLabel 
-  control={<Checkbox 
-  onChange={handleSavePasswordChange}/>} 
-  label="Save password" />
-</FormGroup>
+          <FormControlLabel
+            control={<Checkbox
+              onChange={handleSavePasswordChange} />}
+            label="Save password" />
+        </FormGroup>
       </form>
       <Snackbar open={openSnackbar} >
         <Alert onClose={handleCloseSnackbar} severity="error">

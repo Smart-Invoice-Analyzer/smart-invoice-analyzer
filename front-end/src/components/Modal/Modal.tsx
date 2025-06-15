@@ -29,7 +29,7 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose,userId }) => {
   const handleAccountDeletion = async () => {
     try {
       
-      await axios.delete(`${api_url}/${user_id}`);
+      await axios.delete(`${api_url}/users/delete_user/${user_id}`);
       alert('Your account has been successfully deleted.');
       logoutt()
       

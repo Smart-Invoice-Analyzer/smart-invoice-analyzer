@@ -10,33 +10,8 @@ import { RootState } from '../store/store';
 import axios from 'axios';
 import { api_url } from '../api/apiconfig';
 import { useExchangeRates } from '../hooks/useExchangeRates';
+import { Invoice } from '../types';
 
-interface Vendor {
-  name: string;
-  address: string;
-  country: string;
-  phone: string;
-  email: string;
-}
-
-interface Item {
-  description: string;
-  quantity: number;
-  unit_price: number;
-  category: string;
-}
-
-interface Invoice {
-  id: number;
-  invoice_number: string;
-  date: string;  
-  total_amount: number;
-  currency: string;
-  qr_data: string;
-  vendor: Vendor;
-  items: Item[];
-  status: string;
-}
 interface InvoicesResponse {
   invoices: Invoice[];
 }
@@ -184,7 +159,7 @@ const invoiceCountPerVendorData = Object.entries(invoiceCountPerVendor)
 <Box sx={{ marginTop: "100px" }}>
   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4, justifyContent: 'center' }}>
     {[['Total Invoices', totalInvoices], ['Total Amount (USD)', convertedInvoices.reduce((sum, inv) => sum + inv.converted_total, 0).toFixed(2)]].map(([label, value], index) => (
-      <Card key={index} sx={{ flex: '1 1 calc(25% - 24px)', p: 2, minWidth: '250px', backgroundColor: darkMode ? '#555' : '#fff', color: darkMode ? '#fff' : '#000' }}>
+      <Card key={index} sx={{ flex: '1 1 calc(25% - 24px)', p: 2, minWidth: '250px', backgroundColor: darkMode ? '#555' : '#fff', color: darkMode ? '#fff' : '#000',boxShadow:3,borderRadius:4 }}>
         <CardContent>
           <Typography variant="h6">{label}</Typography>
           <Typography variant="h4">{value}</Typography>

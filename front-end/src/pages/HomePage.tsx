@@ -5,7 +5,6 @@ import {
   Grid,
   Card,
   CardContent,
-  Paper,
   Divider,
   Avatar,
 } from '@mui/material';
@@ -15,13 +14,77 @@ import AddButton from '../components/addbutton';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
 import { motion } from 'framer-motion';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import InsertChartIcon from '@mui/icons-material/InsertChart';
 import InfoIcon from '@mui/icons-material/Info';
 import AddIcon from '@mui/icons-material/Add'
+import { Invoice } from '../types';
+import axios from 'axios';
+import { api_url } from '../api/apiconfig';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
+
+
+interface InvoicesResponse {
+  added_today: number;
+  invoices: Invoice[];
+}
 const HomePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { darkMode } = useDarkMode();
+  const [invoices,setInvoices] = useState<Invoice[]>([]);
+  const [invoiceIds, setInvoiceIds] = useState<number[]>();
+  const [loading, setLoading] = useState(true);
+  const token = useSelector((state: RootState) => state.auth.token);
+  const username = useSelector((state: RootState) => state.auth.userName);
+  const [addedToday, setAddedToday] = useState<number>(0);
+  const [addedThisWeek, setAddedThisWeek] = useState(0);
+  const [addedThisMonth, setAddedThisMonth] = useState(0);
+
+  
+  React.useEffect(() => {
+  setLoading(true);
+  axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then((response) => {
+      const data = response.data;
+
+      if (Array.isArray(data.invoices)) {
+        setInvoices(data.invoices);
+        setInvoiceIds(data.invoices.map(invoice => invoice.id));
+        setAddedToday(data.added_today);
+
+        const now = new Date();
+const startOf7DaysAgo = new Date();
+startOf7DaysAgo.setDate(now.getDate() - 6); // bugün dahil son 7 gün
+
+const startOf30DaysAgo = new Date();
+startOf30DaysAgo.setDate(now.getDate() - 29); // bugün dahil son 30 gün
+
+let weekCount = 0;
+let monthCount = 0;
+
+data.invoices.forEach(invoice => {
+  if (invoice.created_at) {
+    const createdDate = new Date(invoice.created_at);
+    if (createdDate >= startOf7DaysAgo) weekCount++;
+    if (createdDate >= startOf30DaysAgo) monthCount++;
+  }
+});
+
+        setAddedThisWeek(weekCount);
+        setAddedThisMonth(monthCount);
+      } else {
+        console.error("Received data is not an array:", data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching invoice data:", error);
+    })
+    .finally(() => {
+      setLoading(false); // HER DURUMDA LOADING DURUMU KAPATILIR
+    });
+}, [username]);
 
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
@@ -36,8 +99,8 @@ const HomePage: React.FC = () => {
   const infoCards = [
     {
       icon: <EmojiEventsIcon fontSize="large" color="warning" />,
-      title: 'Invoice Upload Quota',
-      content: 'Invoice uploaded: Today: 4, This week: 12, This month: 50\nDaily upload limit: 20 invoices.\nWhen the limit is reached, try again the next day.',
+      title: 'Invoice Uploaded',
+      content: `Today: ${addedToday}\n This week: ${addedThisWeek}\n This month: ${addedThisMonth}`,
     },
     {
       icon: <InfoIcon fontSize="large" color="info" />,
