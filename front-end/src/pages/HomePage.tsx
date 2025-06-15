@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
             zIndex: -1,
           }}
         >
-          <source src="front-end/public/qrcodeanimation-unscreen.gif" type="video/mp4" />
+          <source src="front-end/public/tqrcodeanimation-unscreen.gif" type="video/mp4" />
         </video>
 
         {/* Dashboard Giriş */}

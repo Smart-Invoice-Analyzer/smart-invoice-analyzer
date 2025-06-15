@@ -41,18 +41,25 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
     }
   }, [scannerVisible]);
 
+  
+  
   const handleQRCodeScan = async (qrCode: string) => {
   console.log('Taranan QR kod verisi:', qrCode);
 
   try {
     const formattedData = {
-      headers: { Authorization: `Bearer ${token}` },
-      qr_data: qrCode
+           qr_data: qrCode
     };
 
+    const config = {
+  headers: {
+    Authorization: `Bearer ${token}` // Correctly formatted token
+  }};
+    
+
     const response = await axios.post(
-      "https://smart-invoice-analyzer-server.onrender.com/invoices/process_qr",
-      formattedData
+      "http://localhost:5000/invoices/process_qr",
+      formattedData,config
     );
 
     console.log("QR veri başarıyla gönderildi:", response.data);

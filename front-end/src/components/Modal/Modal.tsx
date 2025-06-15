@@ -4,6 +4,7 @@ import './Modal.css'; // Modal için CSS
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/authSlice';
+import { api_url } from '../../api/apiconfig';
 
 interface ModalProps {
   isOpen: boolean;
@@ -28,7 +29,7 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose,userId }) => {
   const handleAccountDeletion = async () => {
     try {
       
-      await axios.delete(`https://smart-invoice-analyzer-server.onrender.com/users/delete_user/${user_id}`);
+      await axios.delete(`${api_url}/${user_id}`);
       alert('Your account has been successfully deleted.');
       logoutt()
       

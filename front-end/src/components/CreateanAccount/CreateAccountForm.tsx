@@ -5,11 +5,7 @@ import * as Yup from 'yup';
 import { TextField, Button, Box, Snackbar, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Controller } from "react-hook-form";
-import { DatePicker } from "@mui/x-date-pickers"
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { parseISO, format } from "date-fns";
+import { api_url } from '../../api/apiconfig';
 
 interface CreateAccountInputs {
   
@@ -61,7 +57,7 @@ const CreateAccountForm: React.FC = () => {
 
 
     // Axios POST request to create a new account
-    axios.post('https://smart-invoice-analyzer-server.onrender.com/users/add_user', {
+    axios.post(`${api_url}/users/add_user`, {
       name: data.name,
       surname: data.surname,
       username: data.username,

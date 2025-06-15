@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { api_url } from '../api/apiconfig';
 
 // Önceki tipler
 interface Vendor {
@@ -52,7 +53,7 @@ const Invoice: React.FC = () => {
   
   useEffect(() => {
     setLoading(true);
-    axios.get<InvoicesResponse>('https://smart-invoice-analyzer-server.onrender.com/invoices/get_invoices', { headers: { Authorization: `Bearer ${token}` } })
+    axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         if (Array.isArray(response.data.invoices)) {
           setInvoices(response.data.invoices);

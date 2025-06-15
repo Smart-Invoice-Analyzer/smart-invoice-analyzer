@@ -12,6 +12,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import '../../../src/styles/Login.css';
 import { CheckBox } from '@mui/icons-material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { api_url } from '../../api/apiconfig';
+
 
 export interface User {
   email: string;
@@ -84,7 +86,7 @@ const LoginForm: React.FC = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post('https://smart-invoice-analyzer-server.onrender.com/users/login', {
+      const response = await axios.post(`${api_url}/users/login`, {
         username_or_email: data.email, // API username veya email kabul ediyordu.
         password: data.password
       });

@@ -14,6 +14,7 @@ import { useDarkMode } from '../DarkMode/DarkModeContext';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link } from 'react-router-dom';
+import { api_url } from '../api/apiconfig';
 
 
 
@@ -75,7 +76,7 @@ const InvoicePage: React.FC = () => {
 
   React.useEffect(() => {
     setLoading(true);
-    axios.get<InvoicesResponse>('https://smart-invoice-analyzer-server.onrender.com/invoices/get_invoices', { headers: { Authorization: `Bearer ${token}` } })
+    axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         console.log(response.data,'repsinse')
         if (Array.isArray(response.data.invoices)) {
@@ -101,7 +102,7 @@ const InvoicePage: React.FC = () => {
 
   const handleDeleteInvoice = () => {
     if (selectedInvoiceId !== null) {
-      axios.delete(`https://smart-invoice-analyzer-server.onrender.com/invoices/delete_invoice/${selectedInvoiceId}`, {
+      axios.delete(`${api_url}/invoices/delete_invoice/${selectedInvoiceId}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -175,28 +176,8 @@ const InvoicePage: React.FC = () => {
             <SearchBarr onSearch={handleSearch} />
             <Box>
               <FormGroup row>
-                <FormControlLabel
-                  control={<Checkbox
-                    name="Paid"
-                    checked={filters.Paid}
-                    onChange={handleFilterChange}
-                    sx={{
-                      "&.Mui-checked": {
-                        color: "#01579b"
-                      },
-                    }}
-                  />} label="Paid" />
-                <FormControlLabel
-                  control={<Checkbox
-                    name="Unpaid"
-                    checked={filters.Unpaid}
-                    onChange={handleFilterChange}
-                    sx={{
-                      "&.Mui-checked": {
-                        color: "#01579b"
-                      },
-                    }}
-                  />} label="Unpaid" />
+                
+               
 
               </FormGroup></Box>
           </Box>

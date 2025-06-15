@@ -8,6 +8,7 @@ import { useDarkMode } from '../DarkMode/DarkModeContext';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import axios from 'axios';
+import { api_url } from '../api/apiconfig';
 
 interface Vendor {
   name: string;
@@ -70,7 +71,7 @@ const ReportPage: React.FC = () => {
   });
   React.useEffect(() => {
     setLoading(true);
-    axios.get<InvoicesResponse>('https://smart-invoice-analyzer-server.onrender.com/invoices/get_invoices', { headers: { Authorization: `Bearer ${token}` } })
+    axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         console.log(response.data, 'repsinse')
         if (Array.isArray(response.data.invoices)) {

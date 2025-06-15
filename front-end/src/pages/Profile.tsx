@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
 import api from '../api/api';
+import { api_url } from '../api/apiconfig';
 
 const ProfilePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,7 +30,7 @@ const ProfilePage: React.FC = () => {
   const user_id = useSelector ((state: RootState) => state.auth.user_id);
   const [snackbarMessage,setSnackbarMessage] = useState('');
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  
+  const token = useSelector((state: RootState) => state.auth.token)
   
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
 
@@ -65,13 +66,19 @@ const ProfilePage: React.FC = () => {
       
     };
   
+    const config = {
+  headers: {
+    Authorization: `Bearer ${token}` // Correctly formatted token
+  }
+};
+
     try {
       
       await schema.validate(updatedProfile, { abortEarly: false });
   
       if (new_password === confirm_password) {
         axios
-          .put('https://smart-invoice-analyzer-server.onrender.com/users/update_user', updatedProfile)
+          .put(`${api_url}/users/update_user`, updatedProfile,config)
           .then((response) => {
             setSnackbarMessage('Profile updated successfully.');
             setSnackbarOpen(true);
