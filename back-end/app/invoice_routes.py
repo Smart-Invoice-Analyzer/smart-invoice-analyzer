@@ -639,7 +639,7 @@ def extract_data_from_link_turkish(link):
 
         # Translate item descriptions to English
         translated_descriptions_en = translate_tr_to_en(item_descriptions_tr)
-        print(translated_descriptions_en)
+        print("Translations: ", translated_descriptions_en)
 
         # Predict categories for each translated item description
         if translated_descriptions_en:
@@ -649,7 +649,11 @@ def extract_data_from_link_turkish(link):
             predictions = model.predict(X_new)
             # Decode the numerical predictions back to original labels
             predicted_categories = label_encoder.inverse_transform(predictions)
-
+            # The words with all 0 vectors are unknown
+            for i in range(X_new.shape[0]):
+                if X_new[i].nnz == 0: 
+                    predicted_categories[i] = "Unknown" 
+            print("Predicted categories: ", predicted_categories)
             # Assign predicted categories back to the items
             for i, item_data in enumerate(original_items):
                 item_data["category"] = predicted_categories[i]
