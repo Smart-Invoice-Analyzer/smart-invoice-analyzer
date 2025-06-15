@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import InfoIcon from '@mui/icons-material/Info';
+import AddIcon from '@mui/icons-material/Add'
 
 const HomePage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,29 +30,29 @@ const HomePage: React.FC = () => {
     color: darkMode ? '#fff' : '#000',
     boxShadow: 4,
     borderRadius: 3,
-    p: 3,
+   
   };
 
   const infoCards = [
     {
-      icon: <InsertChartIcon fontSize="large" color="primary" />,
-      title: 'Invoice UpLoading Statistics',
-      content: 'Today: 4, This week: 12, This month: 50',
-    },
-    {
       icon: <EmojiEventsIcon fontSize="large" color="warning" />,
       title: 'Invoice Upload Quota',
-      content: 'Daily upload limit: 20 invoices.\nWhen the limit is reached, try again the next day.',
+      content: 'Invoice uploaded: Today: 4, This week: 12, This month: 50\nDaily upload limit: 20 invoices.\nWhen the limit is reached, try again the next day.',
     },
     {
       icon: <InfoIcon fontSize="large" color="info" />,
+      title: 'Tips & Tricks 🎯',
+      content: 'Upload invoices via drag & drop. Don’t forget to check out the Reports tab for analytics!',
+    },
+    {
+      icon: <AddIcon fontSize="large" color="info" />,
       title: 'Add New Invoice',
       content: 'Click the "+" icon in the bottom right to add a new invoice.',
     },
   ];
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#121212' : '#f4f4f4' }}>
+    <Box sx={{ display: 'flex',backgroundColor: darkMode ? '#444' : '#e0e0e0'}}>
       <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <Box
@@ -67,86 +68,86 @@ const HomePage: React.FC = () => {
       >
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} />
 
-        {/* Arka Plan Videosu */}
-        <video
-          autoPlay
-          loop
-          muted
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: 0.07,
-            zIndex: -1,
-          }}
-        >
-          <source src="front-end/public/tqrcodeanimation-unscreen.gif" type="video/mp4" />
-        </video>
+        {/* HERO / GİRİŞ BÖLÜMÜ */}
+{/* HERO / GİRİŞ BÖLÜMÜ */}
 
-        {/* Dashboard Giriş */}
-        <Box sx={{ mt: 10 }}>
-          <Typography variant="h4" sx={{ color: darkMode ? '#fff' : '#000', mb: 4 }}>
-            Welcome to Smart Invoice Analyzer 👋
-          </Typography>
+<Grid
+  container
+  spacing={4}
+  alignItems="center"
+  justifyContent="center"
+  sx={{
+    mt: 10,
+    mb: 6,
+    px: { xs: 2, sm: 6, md: 10 },
+    py: 6,
+    borderRadius: 4,
+    background: darkMode
+      ? 'linear-gradient(135deg, #1e1e1e 0%, #333 100%)'
+      : 'linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%)',
+    boxShadow: 3,
+    ml: { xs: 0},
+    width:"auto"
+  }}
+>
+  <Grid item xs={12} md={6}>
+    <Box sx={{ textAlign: { xs: 'center', md: 'left' }, pl: { md: 3 } }}>
+      <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ color: darkMode ? '#fff' : '#000' }}>
+        Welcome back 👋
+      </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          maxWidth: 500,
+          color: darkMode ? '#ccc' : '#333',
+          mt: 2,
+        }}
+      >
+        Manage, analyze, and keep track of your invoices with ease. Start exploring now!
+      </Typography>
+    </Box>
+  </Grid>
 
-          <Grid container spacing={3}>
-            {infoCards.map((card, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 + index * 0.2 }}
-                >
-                  <Card sx={cardStyle}>
-                    <CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Avatar sx={{ bgcolor: 'transparent' }}>{card.icon}</Avatar>
-                        <Typography variant="h6" sx={{ ml: 2 }}>
-                          {card.title}
-                        </Typography>
-                      </Box>
-                      <Divider sx={{ mb: 2 }} />
-                      <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                        {card.content}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
+  <Grid item xs={12} md={6}>
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <img
+        src="/data.svg"
+        alt="Dashboard Illustration"
+        style={{ maxHeight: 250, width: 'auto' }}
+      />
+    </Box>
+  </Grid>
+</Grid>
 
-            {/* Kullanıcıya Özel Bilgi Kutusu */}
-            <Grid item xs={12}>
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-              >
-                <Paper
-                  elevation={3}
-                  sx={{
-                    backgroundColor: darkMode ? '#232323' : '#fff',
-                    color: darkMode ? '#fff' : '#000',
-                    padding: 4,
-                    textAlign: 'center',
-                    mt: 2,
-                    borderRadius: 3,
-                  }}
-                >
-                  <Typography variant="h5" sx={{ mb: 1 }}>
-                    User Panel
-                  </Typography>
-                  <Typography variant="body1">
-                   From here, you can track, analyze and perform historical reporting on the invoices you have uploaded to your system.
-                  </Typography>
-                </Paper>
-              </motion.div>
-            </Grid>
-          </Grid>
-        </Box>
+
+
+{/* BİLGİ KARTLARI */}
+<Grid container spacing={3} sx={{ mb: 5 }}>
+  {infoCards.map((card, index) => (
+    <Grid item xs={12} sm={6} md={4} key={index}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 + index * 0.2 }}
+      >
+        <Card sx={{ ...cardStyle, minHeight: 180 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Avatar sx={{ bgcolor: 'transparent' }}>{card.icon}</Avatar>
+              <Typography variant="h6" sx={{ ml: 2 }}>
+                {card.title}
+              </Typography>
+            </Box>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+              {card.content}
+            </Typography>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </Grid>
+  ))}
+</Grid>
 
         <AddButton darkMode={darkMode} />
       </Box>

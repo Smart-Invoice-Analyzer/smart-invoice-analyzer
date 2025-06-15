@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import axios from 'axios';
 import { api_url } from '../api/apiconfig';
+import { useExchangeRates } from '../hooks/useExchangeRates';
 
 interface Vendor {
   name: string;
@@ -28,7 +29,7 @@ interface Item {
 interface Invoice {
   id: number;
   invoice_number: string;
-  date: string;  // YYYY-MM-DD formatında tarih
+  date: string;  
   total_amount: number;
   currency: string;
   qr_data: string;
@@ -40,17 +41,11 @@ interface InvoicesResponse {
   invoices: Invoice[];
 }
 
-const STATUS_COLORS: Record<Invoice['status'], string> = {
-  Paid: '#4CAF50',
-  Pending: '#FF9800',
-  Overdue: '#F44336'
-};
 
 const ReportPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { darkMode } = useDarkMode();
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<'all' | 'paid' | 'unpaid' | 'overdue'>('all');
   const userId = useSelector((state: RootState) => state.auth.user_id);
   const username = useSelector((state: RootState) => state.auth.userName)
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -86,9 +81,6 @@ const ReportPage: React.FC = () => {
   }, [username]);
   // Özet verileri
   const totalInvoices = invoices.length;
-  const paidInvoices = invoices.filter((i: Invoice) => i.status === 'paid').length || 7;
-  const unpaidInvoices = invoices.filter((i: Invoice) => i.status === 'unpaid').length|| 3;
-  const overdueInvoices = invoices.filter((i: Invoice) => i.status === 'overdue').length|| 3;
   const colors = [
     '#4CAF50', '#FF9800', '#F44336', '#2196F3', '#9C27B0',
     '#00BCD4', '#E91E63', '#8BC34A', '#FFC107', '#795548',
@@ -96,13 +88,23 @@ const ReportPage: React.FC = () => {
     '#1E88E5', '#D32F2F', '#43A047', '#FDD835', '#5E35B1'
   ];
 
+const rates = useExchangeRates('USD');
 
+const convertedInvoices = invoices.map((invoice) => {
+  const rate = rates[invoice.currency] || 1;
+  return {
+    ...invoice,
+    converted_total: invoice.total_amount / rate, 
+  };
+});
   // En büyük 5 tedarikçi
-  const topVendors = invoices.reduce((acc: Record<string, number>, invoice: Invoice) => {
-    const vendorName = invoice.vendor.name;
-    acc[vendorName] = (acc[vendorName] || 0) + invoice.total_amount;
-    return acc;
-  }, {});
+  const topVendors = convertedInvoices.reduce((acc: Record<string, number>, invoice: Invoice & { converted_total: number }) => {
+  const vendorName = invoice.vendor.name;
+  acc[vendorName] = (acc[vendorName] || 0) + invoice.converted_total;
+  return acc;
+}, {});
+
+
   const topVendorsData = Object.entries(topVendors)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5)
@@ -156,12 +158,19 @@ const ReportPage: React.FC = () => {
   const monthlyChartData = Object.entries(monthlyInvoices).map(([month, count]) => ({ month, count }));
   const byCategoryChartData = Object.entries(InvoicesCategory).map(([category, count]) => ({ category, count }));
 
-  // Fatura durumları için pasta grafiği
-  const pieChartData = [
-    { name: 'Paid', value: paidInvoices || 7, color: STATUS_COLORS.Paid },
-    { name: 'Pending', value: unpaidInvoices || 3, color: STATUS_COLORS.Pending },
-    { name: 'Overdue', value: overdueInvoices || 3, color: STATUS_COLORS.Overdue }
-  ];
+  const invoiceCountPerVendor = invoices.reduce((acc: Record<string, number>, invoice: Invoice) => {
+  const vendorName = invoice.vendor.name;
+  acc[vendorName] = (acc[vendorName] || 0) + 1;
+  return acc;
+}, {});
+
+const invoiceCountPerVendorData = Object.entries(invoiceCountPerVendor)
+  .sort(([, a], [, b]) => b - a)
+  .map(([vendor, count]) => ({ vendor, count }))
+  .slice(0,5);
+
+
+
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', backgroundColor: darkMode ? '#444' : '#e0e0e0', overflow: 'hidden' }}>
@@ -174,7 +183,7 @@ const ReportPage: React.FC = () => {
     {/*main content*/}
 <Box sx={{ marginTop: "100px" }}>
   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4, justifyContent: 'center' }}>
-    {[['Total Invoices', totalInvoices], ['Paid', paidInvoices], ['Pending', unpaidInvoices], ['Overdue', overdueInvoices]].map(([label, value], index) => (
+    {[['Total Invoices', totalInvoices], ['Total Amount (USD)', convertedInvoices.reduce((sum, inv) => sum + inv.converted_total, 0).toFixed(2)]].map(([label, value], index) => (
       <Card key={index} sx={{ flex: '1 1 calc(25% - 24px)', p: 2, minWidth: '250px', backgroundColor: darkMode ? '#555' : '#fff', color: darkMode ? '#fff' : '#000' }}>
         <CardContent>
           <Typography variant="h6">{label}</Typography>
@@ -225,6 +234,20 @@ const ReportPage: React.FC = () => {
           </BarChart>
         </ResponsiveContainer>
       ),
+    },
+    {
+      title: <span style={{color:darkMode ? '#fff' : '#000'}}>Top 5 Vendors by Amount of Invoice </span>,
+      data: invoiceCountPerVendorData,
+      chart: (
+        <ResponsiveContainer width="100%" height={250}>
+          <BarChart data={invoiceCountPerVendorData}>
+            <XAxis dataKey="vendor" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="count" fill="#cbb94a" />
+          </BarChart>
+        </ResponsiveContainer>
+      ),
     }, {
       title: <span style={{color:darkMode ? '#fff' : '#000'}}>Top 5 Expensive Categories</span>,
       data: topCategoriesData,
@@ -249,20 +272,6 @@ const ReportPage: React.FC = () => {
             </Pie>
             <Tooltip />
             <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      ),
-    }, {
-      title: <span style={{color:darkMode ? '#fff' : '#000'}}>Invoice Status Distribution</span>,
-      data: pieChartData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <PieChart>
-            <Pie data={pieChartData} dataKey="value" nameKey="name" outerRadius={80}>
-              {pieChartData.map((entry, index) => <Cell key={index} fill={entry.color} />)}
-            </Pie>
-            <Tooltip />
-            <Legend/>
           </PieChart>
         </ResponsiveContainer>
       ),

@@ -35,36 +35,46 @@ const ProfilePage: React.FC = () => {
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
 
   const handleSaveProfile = async () => {
-    const schema = Yup.object().shape({
-      name: Yup.string().required('Name is required'),
-      surname: Yup.string().required('Surname is required'),
-      new_email: Yup.string().email('Invalid email').required('Email is required'),
-      current_password: Yup.string().min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-      new_password: Yup.string().min(8, 'Password must be at least 8 characters')
-          .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-          .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-          .matches(/[0-9]/, 'Password must contain at least one number')
-          .matches(/[!@#$%&*?]/, 'Password must contain at least one special character (!, @, #, $, %, &, *, ?)')
-          .required('Password is required'),
-      confirm_password: Yup.string()
-              .oneOf([Yup.ref('new_password'), undefined], 'Passwords must match')
-              .required('Confirm password is required'),
-      
-    });
-  
-    const updatedProfile = {
-      name,
-      surname,
-      new_email,
-      gender,
-      date_of_birth,
-      current_password,
-      confirm_password,
-      new_password,
+const schema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  surname: Yup.string().required('Surname is required'),
+  new_email: Yup.string().email('Invalid email').required('Email is required'),
 
-      
-    };
+  // Şifre alanları isteğe bağlı ama biri girildiyse, diğerleri zorunlu olur
+  current_password: Yup.string().when('new_password', {
+    is: (val: string) => !!val,
+    then: (schema) =>
+      schema.required('Current password is required').min(6, 'Must be at least 6 characters'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+
+  new_password: Yup.string()
+    .nullable()
+    .notRequired()
+    .matches(/[A-Z]/, 'Must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Must contain at least one lowercase letter')
+    .matches(/[0-9]/, 'Must contain at least one number')
+    .matches(/[!@#$%&*?]/, 'Must contain at least one special character')
+    .min(8, 'Must be at least 8 characters'),
+
+  confirm_password: Yup.string().oneOf([Yup.ref('new_password'), ''], 'Passwords must match'),
+});
+
+
+  
+const updatedProfile: any = {
+  name,
+  surname,
+  new_email,
+  gender,
+  date_of_birth,
+};
+
+if (current_password && new_password && confirm_password) {
+  updatedProfile.current_password = current_password;
+  updatedProfile.new_password = new_password;
+  updatedProfile.confirm_password = confirm_password;
+}
   
     const config = {
   headers: {

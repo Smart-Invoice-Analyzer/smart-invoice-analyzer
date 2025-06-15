@@ -74,26 +74,27 @@ const InvoicePage: React.FC = () => {
   const [openDialog, setOpenDialog] = useState(false);  // Dialog state
 
 
-  React.useEffect(() => {
-    setLoading(true);
-    axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, { headers: { Authorization: `Bearer ${token}` } })
-      .then((response) => {
-        console.log(response.data,'repsinse')
-        if (Array.isArray(response.data.invoices)) {
-          setInvoices(response.data.invoices);
-          const invoiceIds = response.data.invoices.map(invoice => invoice.id);
-      
-      // Bu array'ı bir state'e set edebilirsin
-      setInvoiceIds(invoiceIds);
-        } else {
-          console.error("Received data is not an array:", response.data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching invoice data:", error);
-      });
-  }, [username]);
+React.useEffect(() => {
+  setLoading(true);
+  axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then((response) => {
+      if (Array.isArray(response.data.invoices)) {
+        setInvoices(response.data.invoices);
+        setInvoiceIds(response.data.invoices.map(invoice => invoice.id));
+      } else {
+        console.error("Received data is not an array:", response.data);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching invoice data:", error);
+    })
+    .finally(() => {
+      setLoading(false); // HER DURUMDA LOADING DURUMU KAPATILIR
+    });
+}, [username]);
+
 
   const handleDeleteClick = (invoiceId: number) => {
     setSelectedInvoiceId(invoiceId);  // Set selected invoice ID
