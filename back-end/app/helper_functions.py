@@ -68,6 +68,7 @@ def generate_jwt(user_id):
         'exp': expiration_time
     }
     return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    
 
 # Function to decode JWT token
 def decode_jwt(token):

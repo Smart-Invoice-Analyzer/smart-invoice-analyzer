@@ -6,10 +6,28 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app.helper_functions import decode_jwt, convert_decimal, validate_phone, validate_country, validate_currency, validate_positive_amount
 import json
 from datetime import date
+import pickle
 import os
-import app.module.invoiceocr.function_new as function
-from datetime import datetime
 import re
+
+
+# Get the absolute path to the current script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Build paths relative to this script's directory
+VECTORIZER_PATH = os.path.join(BASE_DIR, "classification", "vectorizer.pkl")
+MODEL_PATH = os.path.join(BASE_DIR, "classification", "lr_full.pkl")
+LABEL_ENCODER_PATH = os.path.join(BASE_DIR, "classification", "labelencoder.pkl")
+
+# Load components
+with open(VECTORIZER_PATH, "rb") as f:
+    vectorizer = pickle.load(f)
+
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
+
+with open(LABEL_ENCODER_PATH, "rb") as f:
+    label_encoder = pickle.load(f)
 
 invoice_ns = Namespace(
     'invoices',
@@ -83,7 +101,7 @@ class ProcessQR(Resource):
         # Process the QR data and add invoice
         try:
             # This function should return a Python dict matching your invoice schema
-            invoice_data = extract_data_from_link(qr_data)
+            invoice_data = extract_data_from_link_turkish(qr_data)
 
             if not isinstance(invoice_data, dict):
                 return {'error': 'Failed to extract invoice data from QR'}, 400
@@ -362,10 +380,6 @@ def add_invoice_from_data(invoice_data, user_id, db_session):
 
 
 def extract_data_from_link(link):
-    import os
-    import app.module.invoiceocr.function as function
-    from datetime import datetime
-    import re
 
     image_id = function.get_id(link)
     image_path = f"images/{image_id}.jpg"
@@ -387,63 +401,21 @@ def extract_data_from_link(link):
     content = function.read(image_path)
     text = function.to_list_of_texts(content)
 
-    def extract_invoice_data(lines):
-        def extract_invoice_items(ocr_text: str):
-            lines = ocr_text.strip().splitlines()
-            items = []
+    result = extract_invoice_data(text, link)
 
-            try:
-                start_index = next(i for i, line in enumerate(lines)
-                                   if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
-                end_index = next(i for i, line in enumerate(lines)
-                                 if line.strip().lower().startswith('total'))
-            except StopIteration:
-                return []
+    # Cleanup: delete the image
+    try:
+        os.remove(image_path)
+    except FileNotFoundError:
+        pass
+    except Exception as e:
+        print(f"Warning: could not delete image file: {e}")
 
-            i = start_index
-            while i < end_index:
-                description_lines = []
+    return result
 
-                while i < end_index and not re.match(r"^\d+\.\d{1,3}$", lines[i].strip()):
-                    description_lines.append(lines[i].strip())
-                    i += 1
 
-                description = " ".join(description_lines).strip()
-
-                if i + 1 < end_index:
-                    try:
-                        quantity = float(lines[i].strip())
-                        i += 1
-
-                        price_line = lines[i].strip()
-                        price_line = re.sub(r"(\d+)\.(\d{2})\d*", r"\1.\2", price_line)
-                        i += 1
-
-                        prices = re.findall(r"\d+\.\d+", price_line)
-                        if len(prices) >= 1:
-                            unit_price = float(prices[0])
-                        else:
-                            continue
-
-                        if i < end_index and re.match(r"^\d+\.\d+$", lines[i].strip()):
-                            i += 1
-
-                        if i < end_index and "*VAT" in lines[i]:
-                            i += 1
-
-                        items.append({
-                            "description": description,
-                            "quantity": quantity,
-                            "unit_price": unit_price,
-                            "category": None
-                        })
-
-                    except ValueError:
-                        i += 1
-                else:
-                    break
-
-            return items
+def extract_invoice_data(lines, link):
+        from datetime import datetime
 
         def get_value_after(label):
             try:
@@ -489,14 +461,193 @@ def extract_data_from_link(link):
 
         return result
 
-    result = extract_invoice_data(text)
 
-    # Cleanup: delete the image
+def extract_invoice_items(ocr_text: str):
+    lines = ocr_text.strip().splitlines()
+    items = []
+
+    # Find the start and end of the items section
     try:
-        os.remove(image_path)
-    except FileNotFoundError:
-        pass
-    except Exception as e:
-        print(f"Warning: could not delete image file: {e}")
+        start_index = next(i for i, line in enumerate(lines)
+                        if 'Quantity' in line and 'Price' in line and 'Total' in line) + 1
+        end_index = next(i for i, line in enumerate(lines)
+                        if line.strip().lower().startswith('total'))
+    except StopIteration:
+        return []
 
-    return result
+    i = start_index
+    descriptions = []
+    temp_items = []
+
+    while i < end_index:
+        description_lines = []
+        while i < end_index and not re.match(r"^\d+(\.\d+)?$", lines[i].strip()):
+            description_lines.append(lines[i].strip())
+            i += 1
+
+        description = " ".join(description_lines).strip()
+
+        quantity = None
+        unit_price = None
+        total_price = None
+
+        if i < end_index:
+            quantity_line = lines[i].strip()
+            if re.match(r"^\d+(\.\d+)?$", quantity_line):
+                quantity = float(quantity_line)
+                i += 1
+
+        if i < end_index:
+            price_line = lines[i].strip()
+            numbers = re.findall(r"\d+\.\d+", price_line)
+
+            if len(numbers) == 2:
+                unit_price = float(numbers[0])
+                total_price = float(numbers[1])
+                i += 1
+            elif len(numbers) == 1:
+                unit_price = float(numbers[0])
+                i += 1
+                if i < end_index:
+                    next_line = lines[i].strip()
+                    if re.match(r"^\d+\.\d+$", next_line):
+                        total_price = float(next_line)
+                        i += 1
+
+        if description and quantity is not None and unit_price is not None:
+            descriptions.append(description)
+            temp_items.append({
+                "description": description,
+                "quantity": quantity,
+                "unit_price": unit_price,
+                "category": None
+            })
+        else:
+            i += 1
+
+    # Translate and predict categories
+    if descriptions:
+        translated = translate_tr_to_en(descriptions)
+        X_vec = vectorizer.transform(translated)
+        y_pred = model.predict(X_vec)
+        predicted_labels = label_encoder.inverse_transform(y_pred)
+
+        for item, label in zip(temp_items, predicted_labels):
+            item["category"] = label
+
+    return temp_items
+
+
+def translate_tr_to_en(text_list):
+    from deep_translator import GoogleTranslator
+    # translate from turkish to english
+    try:
+        translated = GoogleTranslator(source='tr', target='en').translate_batch(text_list)
+        return translated
+    except Exception as e:
+        print(f"Translation error: {e}")
+        return []
+    
+def translate_googletrans(text_list):
+    from googletrans import Translator
+    translator = Translator()
+    result = translator.translate(text_list, src='tr', dest='en')
+    if isinstance(result, list):
+        return [res.text for res in result]
+    else:
+        return result.text
+
+def extract_data_from_link_turkish(link):
+
+    import requests
+    import time
+
+    try:
+
+        # Extract InqueryHash from the link
+        InqueryHash = link.split("?q=")[1]
+
+        # Endpoint URL
+        url = "https://pavopay.pavo.com.tr/api/InquiryOperations/SaleInquiry/LoadSalesSummary"
+
+        # JSON payload
+        payload = {
+            "InqueryHash": InqueryHash,
+            "IsCheckStatus": False
+        }
+
+        # Optional headers, might be required depending on server expectations
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0"
+        }
+
+        # Send POST request
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
+            time.sleep(1)
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+
+        invoice_data = response.json()
+
+        extracted_data = {}
+
+        # Using SaleDate and formatting it to "YYYY-MM-DD"
+        extracted_data["date"] = invoice_data["SaleDate"].split("T")[0]
+
+        # Total Amount
+        extracted_data["total_amount"] = invoice_data["TotalPrice"]
+
+        # Currency
+        extracted_data["currency"] = invoice_data["CurrencyCode"]
+
+        # QR Data
+        extracted_data["qr_data"] = link
+
+        # Vendor
+        extracted_data["vendor"] = {
+            "name": "None",
+            "address": None,
+            "country": None, 
+            "phone": None
+        }
+
+        # Items
+        extracted_data["items"] = []
+        item_descriptions_tr = []
+        original_items = [] # To store original item data for re-populating
+
+        for item in invoice_data["AddedSaleItems"]:
+            item_descriptions_tr.append(item["Name"])
+            original_items.append({
+                "description": item["Name"],
+                "quantity": item["ItemQuantity"],
+                "unit_price": item["UnitPriceAmount"],
+                "category": None # Placeholder for category
+            })
+
+        # Translate item descriptions to English
+        translated_descriptions_en = translate_tr_to_en(item_descriptions_tr)
+        print(translated_descriptions_en)
+
+        # Predict categories for each translated item description
+        if translated_descriptions_en:
+            # Transform the translated descriptions using the loaded vectorizer
+            X_new = vectorizer.transform(translated_descriptions_en)
+            # Predict the categories
+            predictions = model.predict(X_new)
+            # Decode the numerical predictions back to original labels
+            predicted_categories = label_encoder.inverse_transform(predictions)
+
+            # Assign predicted categories back to the items
+            for i, item_data in enumerate(original_items):
+                item_data["category"] = predicted_categories[i]
+
+        extracted_data["items"] = original_items
+
+        return extracted_data
+
+    except Exception as e:
+        return {"server_error": str(e)}
