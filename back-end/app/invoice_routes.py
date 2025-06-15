@@ -247,6 +247,7 @@ class GetInvoices(Resource):
                     invoices.total_amount,
                     invoices.currency,
                     invoices.qr_data,
+                    invoices.created_at,
                     vendors.id AS vendor_id,
                     vendors.name AS vendor_name,
                     vendors.address AS vendor_address,
@@ -273,6 +274,9 @@ class GetInvoices(Resource):
             invoices = {}
             for row in result:
                 invoice_id = row['invoice_id']
+                created_at = row['created_at']
+                if isinstance(created_at, date):
+                    created_at = created_at.isoformat() if isinstance(created_at, date) else created_at
                 if invoice_id not in invoices:
                     invoices[invoice_id] = {
                         'id': row['invoice_id'],
@@ -280,6 +284,7 @@ class GetInvoices(Resource):
                         'total_amount': row['total_amount'],
                         'currency': row['currency'],
                         'qr_data': row['qr_data'],
+                        'created_at': created_at,
                         'vendor': {
                             'id': row['vendor_id'],
                             'name': row['vendor_name'],
@@ -306,8 +311,12 @@ class GetInvoices(Resource):
 
             if not invoices_list:
                 return {'error': 'No invoices found for the user'}, 404
-
-            return {'invoices': invoices_list}, 200
+            
+            # get number of invoices added today
+            today = date.today()
+            invoices_added_today = sum(1 for inv in invoices_list if inv['created_at'].startswith(today.isoformat()))
+            
+            return {'added_today': invoices_added_today, 'invoices': invoices_list}, 200
 
         except SQLAlchemyError:
             return {'error': 'An error occurred while fetching invoices. Please try again later.'}, 500
