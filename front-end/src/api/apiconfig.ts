@@ -1,4 +1,1 @@
-export const api_url = "http://localhost:5000"
-
-
-
+export const api_url = "https://smart-invoice-analyzer-server.onrender.com"

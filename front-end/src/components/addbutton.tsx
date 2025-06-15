@@ -5,6 +5,8 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { api_url } from '../api/apiconfig';
+
 
 interface AddButtonProps {
   darkMode: boolean;
@@ -55,10 +57,9 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
   headers: {
     Authorization: `Bearer ${token}` // Correctly formatted token
   }};
-    
 
     const response = await axios.post(
-      "http://localhost:5000/invoices/process_qr",
+      `${api_url}/invoices/process_qr`,
       formattedData,config
     );
 

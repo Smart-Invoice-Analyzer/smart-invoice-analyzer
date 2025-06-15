@@ -12,7 +12,7 @@ const VerifyEmailForm: React.FC = () => {
   const navigate = useNavigate();
 
   const handleVerify = () => {
-    axios.post('http://localhost:5000/users/verify', {
+    axios.post('https://smart-invoice-analyzer-server.onrender.com/users/verify', {
       email,
       verificationCode
     })
