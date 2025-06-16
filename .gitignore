@@ -1,0 +1,15 @@
+venv/
+.env
+# Pycache
+__pycache__/
+**/__pycache__/
+# Others
+datasets/
+models/
+llm_outputs/
+categorization/
+ocr/other/
+back-end/app/data/
+back-end/app/images
+back-end/test.py
+back-end/request_test.py
