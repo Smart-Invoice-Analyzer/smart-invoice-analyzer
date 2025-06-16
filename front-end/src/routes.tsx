@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import InvoicePage from './pages/InvoicePage';
@@ -18,7 +18,11 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={
+  localStorage.getItem("token") 
+    ? <Navigate to="/home" />
+    : <LoginPage />
+} />
         <Route element={<ProtectedRoute />}>
         <Route path="/home" element={<PrivateRoute element={<HomePage />} />} /> {/* PrivateRoute kullandık */}
         </Route>
