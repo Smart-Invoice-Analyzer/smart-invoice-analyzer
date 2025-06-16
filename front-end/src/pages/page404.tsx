@@ -39,15 +39,15 @@ const NotFoundPage: React.FC = () => {
   };
 
   const { darkMode, toggleDarkMode } = useDarkMode();
-  
+
   return (
-    <StyledBox sx={{background: darkMode ? '#444' : '#e0e0e0'}} >
+    <StyledBox sx={{ background: darkMode ? '#444' : '#e0e0e0' }} >
       <StyledTypography variant="h1">404</StyledTypography>
       <Typography variant="h6" color="textSecondary" gutterBottom>
-      Unfortunately, the page you were looking for was not found. You can return below.
+        Unfortunately, the page you were looking for was not found. You can return below.
       </Typography>
-      <StyledButton sx={{backgroundColor: darkMode ? '#888' : '#01579b'}} variant="contained" color="info" onClick={goHome}>
-      back to home page
+      <StyledButton sx={{ backgroundColor: darkMode ? '#888' : '#01579b' }} variant="contained" color="info" onClick={goHome}>
+        back to home page
       </StyledButton>
     </StyledBox>
   );

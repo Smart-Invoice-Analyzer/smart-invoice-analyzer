@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import authReducer from './authSlice'; // authSlice dosyasını doğru yoldan import edin
+import authReducer from './authSlice';
 
 const rootReducer = combineReducers({
-  auth: authReducer, // auth dilimini ekleyin
+  auth: authReducer, 
 });
 
-export type RootState = ReturnType<typeof rootReducer>; // rootReducer'ın türünü export edebilirsiniz
+export type RootState = ReturnType<typeof rootReducer>;
 export default rootReducer;

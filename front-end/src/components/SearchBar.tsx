@@ -9,34 +9,34 @@ interface SearchBarProps {
 }
 
 
-const SearchBarr : React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBarr: React.FC<SearchBarProps> = ({ onSearch }) => {
 
-  const { darkMode } = useDarkMode(); 
+  const { darkMode } = useDarkMode();
 
   return (
     <><TextField
-    placeholder="Search invoice"
-    variant="outlined"
-    onChange={(e) => onSearch(e.target.value)}
-    InputProps={{
-      endAdornment: (
-        <InputAdornment position="end">
-          <IconButton>
-            <SearchIcon sx={{ color: darkMode ? 'gray' : '#000' }}/>
-          </IconButton>
-        </InputAdornment>
-      ),
-      sx: {
-        backgroundColor: '#fff',
-        borderRadius: '50px',
-        width: { xs: '100%', sm: '400px' },
-        input: {
-          color: darkMode ? 'gray' : '#000', // Metin rengi
+      placeholder="Search invoice"
+      variant="outlined"
+      onChange={(e) => onSearch(e.target.value)}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton>
+              <SearchIcon sx={{ color: darkMode ? 'gray' : '#000' }} />
+            </IconButton>
+          </InputAdornment>
+        ),
+        sx: {
+          backgroundColor: '#fff',
+          borderRadius: '50px',
+          width: { xs: '100%', sm: '400px' },
+          input: {
+            color: darkMode ? 'gray' : '#000', // Metin rengi
+          },
         },
-      },
-      
-    }}
-  /></>
+
+      }}
+    /></>
   )
 }
 

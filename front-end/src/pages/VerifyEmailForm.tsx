@@ -16,19 +16,19 @@ const VerifyEmailForm: React.FC = () => {
       email,
       verificationCode
     })
-    .then(response => {
-      setSnackbarMessage('Email successfully verified!');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-    })
-    .catch(error => {
-      setSnackbarMessage('Invalid verification code.');
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
-    });
+      .then(response => {
+        setSnackbarMessage('Email successfully verified!');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      })
+      .catch(error => {
+        setSnackbarMessage('Invalid verification code.');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+      });
   };
 
   const handleCloseSnackbar = () => {

@@ -17,8 +17,8 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
   const userID = useSelector((state: RootState) => state.auth.user_id);
   const token = useSelector((state: RootState) => state.auth.token);
-    console.log("token",token)
-  
+  console.log("token", token)
+
   useEffect(() => {
     if (scannerVisible) {
       const timer = setTimeout(() => {
@@ -43,31 +43,32 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
     }
   }, [scannerVisible]);
 
-  
-  
+
+
   const handleQRCodeScan = async (qrCode: string) => {
-  console.log('Taranan QR kod verisi:', qrCode);
+    console.log('Taranan QR kod verisi:', qrCode);
 
-  try {
-    const formattedData = {
-           qr_data: qrCode
-    };
+    try {
+      const formattedData = {
+        qr_data: qrCode
+      };
 
-    const config = {
-  headers: {
-    Authorization: `Bearer ${token}` // Correctly formatted token
-  }};
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}` // Correctly formatted token
+        }
+      };
 
-    const response = await axios.post(
-      `${api_url}/invoices/process_qr`,
-      formattedData,config
-    );
+      const response = await axios.post(
+        `${api_url}/invoices/process_qr`,
+        formattedData, config
+      );
 
-    console.log("QR veri başarıyla gönderildi:", response.data);
-  } catch (error) {
-    console.error("QR kod gönderme hatası:", error);
-  }
-};
+      console.log("QR veri başarıyla gönderildi:", response.data);
+    } catch (error) {
+      console.error("QR kod gönderme hatası:", error);
+    }
+  };
 
 
   return (
