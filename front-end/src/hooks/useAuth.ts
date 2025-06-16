@@ -28,7 +28,7 @@ export const useAuth = () => {
           token: response.user.token,
           date_of_birth: response.user.date_of_birth,
           gender: response.user.gender
-          
+
         })
       );
     } catch (error) {

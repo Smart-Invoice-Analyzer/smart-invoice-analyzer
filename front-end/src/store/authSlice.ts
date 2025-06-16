@@ -9,7 +9,7 @@ interface AuthState {
   username: string | null;
   user_id: string | null;
   token: string | null;
-  date_of_birth: string |null;
+  date_of_birth: string | null;
   gender: string | null;
 }
 
@@ -41,11 +41,11 @@ const authSlice = createSlice({
         token: string;
         date_of_birth: string;
         gender: string
-        
+
 
       }>
     ) => {
-      const { email, name, password, username, surname, user_id,token, date_of_birth, gender } = action.payload;
+      const { email, name, password, username, surname, user_id, token, date_of_birth, gender } = action.payload;
 
       // State güncelleme
       state.user_id = user_id;
@@ -65,10 +65,10 @@ const authSlice = createSlice({
       localStorage.setItem('username', username);
       localStorage.setItem('surname', surname);
       localStorage.setItem('user_Id', user_id);
-      localStorage.setItem('token',token);
-      localStorage.setItem('date_of_birth',date_of_birth);
-      localStorage.setItem('gender',gender)
-      axios.defaults.headers.common ['Authorization'] = `Bearer ${token}`
+      localStorage.setItem('token', token);
+      localStorage.setItem('date_of_birth', date_of_birth);
+      localStorage.setItem('gender', gender)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     },
     logout: (state) => {
       // State sıfırlama

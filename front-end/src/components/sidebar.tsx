@@ -33,7 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   const logoutAndRedirect = () => {
     dispatch(logout());
     navigate('/');
-    
+
   };
 
   const sidebarContent = (
@@ -53,9 +53,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
           display: 'flex',
           justifyContent: 'flex-start',
           mb: 3,
-          
-          ml: "10px", 
-          
+
+          ml: "10px",
+
         }}
       >
         <IconButton
@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             ml: '18px',
             border: '0px',
             pl: sidebarOpen ? 0 : 0,
-          
+
             cursor: 'pointer',
             color: darkMode ? '#fff' : '#333'
           }}
@@ -94,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             backgroundColor: 'transparent',
             border: '0px',
             pl: sidebarOpen ? 0 : 0,
-            
+
             cursor: 'pointer',
             color: darkMode ? '#fff' : '#333'
           }}
@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             backgroundColor: 'transparent',
             border: '0px',
             pl: sidebarOpen ? 0 : 0,
-            
+
             cursor: 'pointer',
             color: darkMode ? '#fff' : '#333'
           }}
@@ -128,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             backgroundColor: 'transparent',
             border: '0px',
             pl: sidebarOpen ? 0 : 0,
-            
+
             cursor: 'pointer',
             color: darkMode ? '#fff' : '#333'
           }}
@@ -145,7 +145,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             backgroundColor: 'transparent',
             border: '0px',
             pl: sidebarOpen ? 0 : 0,
-            
+
             cursor: 'pointer',
             color: darkMode ? '#fff' : '#333'
           }}

@@ -5,11 +5,11 @@ import Page404 from "./pages/page404";
 const router = createBrowserRouter([
 
    {
-    path: `/404`,
-    element: <Page404 />
-   } 
+      path: `/404`,
+      element: <Page404 />
+   }
 
-               
+
 
 
 ])

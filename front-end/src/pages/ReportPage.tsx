@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, Typography, TextField, Select, MenuItem, Button } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import Sidebar from '../components/sidebar';
 import Topbar from '../components/topbar';
@@ -21,7 +21,6 @@ const ReportPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { darkMode } = useDarkMode();
   const [search, setSearch] = useState('');
-  const userId = useSelector((state: RootState) => state.auth.user_id);
   const username = useSelector((state: RootState) => state.auth.userName)
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [filters, setFilters] = useState({ Paid: false, Unpaid: false });
@@ -31,14 +30,6 @@ const ReportPage: React.FC = () => {
 
 
   // Arama ve filtreleme
-  const filteredInvoices = invoices.filter((invoice) => {
-    const matchesSearch = invoice.vendor.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter =
-      (!filters.Paid && !filters.Unpaid) || // Hiçbir checkbox seçili değilse hepsini göster
-      (filters.Paid && invoice.status === 'paid') ||
-      (filters.Unpaid && invoice.status === 'unpaid');
-    return matchesSearch && matchesFilter;
-  });
   React.useEffect(() => {
     setLoading(true);
     axios.get<InvoicesResponse>(`${api_url}/invoices/get_invoices`, { headers: { Authorization: `Bearer ${token}` } })
@@ -180,124 +171,124 @@ const ReportPage: React.FC = () => {
             ))}
           </Box>
 
-          {/* Grafikler */}
-         {/* Grafikler */}
-<Box
-  sx={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 3,
-    mb: 4,
-    flexDirection: { xs: 'column', md: 'row' },
-  }}
->
-  {[
-    {
-      title: 'Monthly Invoice Trend',
-      data: monthlyChartData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={monthlyChartData}>
-            <XAxis dataKey="month" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <Tooltip />
-            <Bar dataKey="count" fill={darkMode ? '#81C784' : '#4CAF50'} />
-          </BarChart>
-        </ResponsiveContainer>
-      ),
-    },
-    {
-      title: 'Invoices by Product Category',
-      data: byCategoryChartData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={byCategoryChartData}>
-            <XAxis dataKey="category" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <Tooltip />
-            <Bar dataKey="count" fill={darkMode ? '#64B5F6' : '#2196F3'} />
-          </BarChart>
-        </ResponsiveContainer>
-      ),
-    },
-    {
-      title: 'Top 5 Vendors by Total Amount (USD)',
-      data: topVendorsData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={topVendorsData}>
-            <XAxis dataKey="vendor" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <Tooltip />
-            <Bar dataKey="amount" fill={darkMode ? '#CE93D8' : '#9C27B0'} />
-          </BarChart>
-        </ResponsiveContainer>
-      ),
-    },
-    {
-      title: 'Top 5 Vendors by Amount of Invoice',
-      data: invoiceCountPerVendorData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={invoiceCountPerVendorData}>
-            <XAxis dataKey="vendor" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <Tooltip />
-            <Bar dataKey="count" fill={darkMode ? '#FDD835' : '#cbb94a'} />
-          </BarChart>
-        </ResponsiveContainer>
-      ),
-    },
-    {
-      title: 'Top 5 Expensive Categories',
-      data: topCategoriesData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={topCategoriesData}>
-            <XAxis dataKey="category" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
-            <Tooltip />
-            <Bar dataKey="avgPrice" fill={darkMode ? '#EF9A9A' : '#D32F2F'} />
-          </BarChart>
-        </ResponsiveContainer>
-      ),
-    },
-    {
-      title: 'Currency Distribution',
-      data: currencyData,
-      chart: (
-        <ResponsiveContainer width="100%" height={250}>
-          <PieChart>
-            <Pie data={currencyData} dataKey="value" nameKey="name" outerRadius={80}>
-              {currencyData.map((entry, index) => (
-                <Cell key={index} fill={getColor(index, darkMode)} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      ),
-    },
-  ].map((chartData, index) => (
-    <Card
-      key={index}
-      sx={{
-        flex: '1 1 calc(25% - 24px)',
-        p: 2,
-        backgroundColor: darkMode ? '#2C2C2C' : '#fff',
-        color: darkMode ? '#fff' : '#000',
-        boxShadow: 3,
-        borderRadius: 4,
-      }}
-    >
-      <Typography variant="h6" gutterBottom>
-        {chartData.title}
-      </Typography>
-      {chartData.chart}
-    </Card>
-  ))}
-</Box>
+          {/* Graphs */}
+          
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 3,
+              mb: 4,
+              flexDirection: { xs: 'column', md: 'row' },
+            }}
+          >
+            {[
+              {
+                title: 'Monthly Invoice Trend',
+                data: monthlyChartData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={monthlyChartData}>
+                      <XAxis dataKey="month" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <Tooltip />
+                      <Bar dataKey="count" fill={darkMode ? '#81C784' : '#4CAF50'} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ),
+              },
+              {
+                title: 'Invoices by Product Category',
+                data: byCategoryChartData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={byCategoryChartData}>
+                      <XAxis dataKey="category" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <Tooltip />
+                      <Bar dataKey="count" fill={darkMode ? '#64B5F6' : '#2196F3'} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ),
+              },
+              {
+                title: 'Top 5 Vendors by Total Amount (USD)',
+                data: topVendorsData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={topVendorsData}>
+                      <XAxis dataKey="vendor" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <Tooltip />
+                      <Bar dataKey="amount" fill={darkMode ? '#CE93D8' : '#9C27B0'} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ),
+              },
+              {
+                title: 'Top 5 Vendors by Amount of Invoice',
+                data: invoiceCountPerVendorData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={invoiceCountPerVendorData}>
+                      <XAxis dataKey="vendor" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <Tooltip />
+                      <Bar dataKey="count" fill={darkMode ? '#FDD835' : '#cbb94a'} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ),
+              },
+              {
+                title: 'Top 5 Expensive Categories',
+                data: topCategoriesData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={topCategoriesData}>
+                      <XAxis dataKey="category" tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <YAxis tick={{ fill: darkMode ? '#ccc' : '#333' }} />
+                      <Tooltip />
+                      <Bar dataKey="avgPrice" fill={darkMode ? '#EF9A9A' : '#D32F2F'} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ),
+              },
+              {
+                title: 'Currency Distribution',
+                data: currencyData,
+                chart: (
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie data={currencyData} dataKey="value" nameKey="name" outerRadius={80}>
+                        {currencyData.map((entry, index) => (
+                          <Cell key={index} fill={getColor(index, darkMode)} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ),
+              },
+            ].map((chartData, index) => (
+              <Card
+                key={index}
+                sx={{
+                  flex: '1 1 calc(25% - 24px)',
+                  p: 2,
+                  backgroundColor: darkMode ? '#2C2C2C' : '#fff',
+                  color: darkMode ? '#fff' : '#000',
+                  boxShadow: 3,
+                  borderRadius: 4,
+                }}
+              >
+                <Typography variant="h6" gutterBottom>
+                  {chartData.title}
+                </Typography>
+                {chartData.chart}
+              </Card>
+            ))}
+          </Box>
         </Box>
         <AddButton darkMode={darkMode} />
       </Box>

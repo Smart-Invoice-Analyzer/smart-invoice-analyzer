@@ -14,15 +14,15 @@ interface TopbarProps {
 }
 
 
-const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
+const Topbar: React.FC<TopbarProps> = ({ sidebarOpen, toggleSidebar }) => {
 
-  const topbarname = useSelector ((state: RootState) => state.auth.username);
+  const topbarname = useSelector((state: RootState) => state.auth.username);
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
 
   const [openNotif, setOpenNotif] = useState(false);
   const anchorRef = useRef(null);
 
-    const handleToggleNotif = () => {
+  const handleToggleNotif = () => {
     setOpenNotif((prev) => !prev);
   };
 
@@ -30,7 +30,7 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
     setOpenNotif(false);
   };
 
-  
+
   return (
     <Box sx={{
       position: 'fixed',
@@ -44,35 +44,35 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
       alignItems: 'center',
       padding: 2,
       transition: 'left 0.3s',
-      height:"60px",
-      
+      height: "60px",
+
     }}>
-    
+
 
 
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-  <IconButton
-    edge="start"
-    color="inherit"
-    aria-label="menu"
-    onClick={toggleSidebar}
-  >
-    <MenuIcon sx={{ color: darkMode ? '#fff' : '#000' }} />
-  </IconButton>
-</Box>
-<Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ display: 'flex', alignItems: 'center' , gap:"5px"}}>
-     <IconButton onClick={handleToggleNotif} ref={anchorRef}>  <CircleNotificationsRoundedIcon sx={{height:"36px",width:"36px",color: darkMode ? '#888' : '#000'}}></CircleNotificationsRoundedIcon></IconButton> 
-       
-       
-        <Box sx={{display:"flex",alignItems:"center", gap:"10px"}}>
-        <Avatar sx={{height:"30px",width:"30px",bgcolor:darkMode ? '#888' : '#000'}}>
-          <PersonIcon sx={{color:darkMode ? " black" : "white"}} />
-        </Avatar>
-        <Typography variant="body1" sx={{ marginRight: 2,color: darkMode ? "white" : "black" }} fontFamily={'Jaro'}>
-          {topbarname}
-        </Typography>
-       
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={toggleSidebar}
+        >
+          <MenuIcon sx={{ color: darkMode ? '#fff' : '#000' }} />
+        </IconButton>
+      </Box>
+      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: "5px" }}>
+        <IconButton onClick={handleToggleNotif} ref={anchorRef}>  <CircleNotificationsRoundedIcon sx={{ height: "36px", width: "36px", color: darkMode ? '#888' : '#000' }}></CircleNotificationsRoundedIcon></IconButton>
+
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Avatar sx={{ height: "30px", width: "30px", bgcolor: darkMode ? '#888' : '#000' }}>
+            <PersonIcon sx={{ color: darkMode ? " black" : "white" }} />
+          </Avatar>
+          <Typography variant="body1" sx={{ marginRight: 2, color: darkMode ? "white" : "black" }} fontFamily={'Jaro'}>
+            {topbarname}
+          </Typography>
+
         </Box>
       </Box>
     </Box>
