@@ -30,12 +30,29 @@ const ProfilePage: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token)
   
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
+    const colors = {
+    light: {
+      background: '#e0e0e0',
+      text: '#000',
+      card: '#fff',
+      button: '#01579b',
+      buttonText: '#fff'
+    },
+    dark: {
+      background: '#444',
+      text: '#e0e0e0',
+      card: '#1e1e1e',
+      button: '#888',
+      buttonText: '#000'
+    }
+  };
+  const theme = darkMode ? colors.dark : colors.light;
 
   const handleSaveProfile = async () => {
 const schema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   surname: Yup.string().required('Surname is required'),
-  new_email: Yup.string().email('Invalid email').required('Email is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'), // Changed new_email to email
 
   // Şifre alanları isteğe bağlı ama biri girildiyse, diğerleri zorunlu olur
   current_password: Yup.string().when('new_password', {
@@ -62,12 +79,13 @@ const schema = Yup.object().shape({
 const updatedProfile: any = {
   name,
   surname,
-  new_email,
-  gender,
-  date_of_birth,
+  email,
+  gender, // Assuming gender is already defined or fetched
+  date_of_birth, // Assuming date_of_birth is already defined or fetched
+  username
 };
 
-if (current_password && new_password && confirm_password) {
+if (current_password || new_password || confirm_password) { // Only add password fields if any are being changed
   updatedProfile.current_password = current_password;
   updatedProfile.new_password = new_password;
   updatedProfile.confirm_password = confirm_password;
@@ -90,6 +108,9 @@ if (current_password && new_password && confirm_password) {
             setSnackbarMessage('Profile updated successfully.');
             setSnackbarOpen(true);
             setEditing(false);
+            setCurrentPassword(''); // Clear password fields on success
+            setNewPassword('');
+            setConfirmNewPassword('');
           })
           .catch((error) => {
             console.error('Error updating profile:', error);
@@ -112,39 +133,39 @@ if (current_password && new_password && confirm_password) {
   
 
 
-
   const handleDeleteAccount = () => {
     
-   setIsModalOpen(true);
+    setIsModalOpen(true);
     
   };
 
   const handleModalClose = (confirmed: boolean) => {
     setIsModalOpen(false);
     if (confirmed) {
-      
-     
       // Hesabı silme işlemi burada
+      // This part would typically involve an API call to delete the user
     }
   };
 
   const [name, setName] = useState<string | null>(useSelector((state: RootState) => state.auth.userName) || '');
   const [surname, setSurname] = useState<string | null>(useSelector((state: RootState) => state.auth.surname) || '');
+  const [username, setUsername] = useState<string | null>(useSelector((state: RootState) => state.auth.username) || '');
 
-  const new_email = useSelector((state: RootState) => state.auth.user);
+  
+
+  const [email, setEmail] = useState<string | null>(useSelector((state: RootState) => state.auth.user) || '');
   const gender = useSelector((state:RootState) => state.auth.gender);
   const date_of_birth = Number(useSelector((state:RootState) => state.auth.date_of_birth))
  
   
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#444' : '#e0e0e0' }}>
+    <Box sx={{ display: 'flex', backgroundColor: darkMode ? '#444' : '#e0e0e0' ,
+        color: theme.text, minHeight: '100vh' }}> {/* Added minHeight for full page coverage */}
       
       <Sidebar
         sidebarOpen={sidebarOpen}
-        
         toggleSidebar={toggleSidebar}
-        
       />
 
       <Box
@@ -155,13 +176,14 @@ if (current_password && new_password && confirm_password) {
           transition: 'margin-left 0.3s',
           marginLeft: sidebarOpen ? { xs: 0, sm: '200px' } : { xs: 0, sm: '60px' },
           position: 'relative',
-         
+          width: '100%', // Ensure it takes full width
+          boxSizing: 'border-box', // Include padding in width calculation
         }}
       >
       
         <Topbar sidebarOpen={sidebarOpen} darkMode={darkMode} toggleSidebar={toggleSidebar}/>
 
-        <Grid container spacing={3} marginTop={'60px'}>
+        <Grid container spacing={3} sx={{ marginTop: { xs: '20px', sm: '60px' } }}> {/* Adjusted margin top for small screens */}
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
               {editing ? 'Edit Profile' : 'Profile Information'}
@@ -189,13 +211,26 @@ if (current_password && new_password && confirm_password) {
             
             />
           </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Username"
+              value={username}
+              variant="outlined"
+              onChange={(e) => setUsername(e.target.value)} 
+              disabled // Keep disabled as per original
+            
+            />
+          </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="Email"
-              value={new_email}
+              value={email}
               variant="outlined"
+              onChange={(e) => setEmail(e.target.value)}
+              disabled // Keep disabled as per original
             />
           </Grid>
 
@@ -247,7 +282,13 @@ if (current_password && new_password && confirm_password) {
             </>
           )}
 
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
+          <Grid item xs={12} sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, // Stack buttons on extra-small, row on small and up
+            justifyContent: 'space-between', 
+            gap: { xs: 2, sm: 3 }, // Add gap for spacing between stacked buttons
+            marginTop: 3 
+          }}>
             {editing ? (
               <>
                 <Button
@@ -255,6 +296,7 @@ if (current_password && new_password && confirm_password) {
                   color="primary"
                   startIcon={<SaveIcon />}
                   onClick={handleSaveProfile}
+                  sx={{ width: { xs: '100%', sm: 'auto' } }} // Full width on xs, auto on sm
                 >
                   Save Changes
                 </Button>
@@ -262,31 +304,45 @@ if (current_password && new_password && confirm_password) {
                   variant="outlined"
                   color="secondary"
                   onClick={() => setEditing(false)}
+                  sx={{ width: { xs: '100%', sm: 'auto' } }} // Full width on xs, auto on sm
                 >
                   Cancel
                 </Button>
               </>
             ) : (
-              <> <Box sx={{display:"flex",gap:"20px"}}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<SaveIcon />}
-                  onClick={handleSaveProfile}
-                >
-                  Save Changes
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<LockResetIcon />}
-                  onClick={() => setEditing(true)}
-                >
-                  Change password
-                </Button> </Box>
-                <IconButton color="error" onClick={handleDeleteAccount}>
+              <> 
+                <Box sx={{
+                  display:"flex",
+                  flexDirection: { xs: 'column', sm: 'row' }, // Stack on xs, row on sm
+                  gap: { xs: '10px', sm: '20px' }, // Adjust gap for stacked buttons
+                  width: { xs: '100%', sm: 'auto' } // Full width on xs
+                }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<SaveIcon />}
+                    onClick={handleSaveProfile}
+                    sx={{ flexGrow: 1 }} // Allow buttons to grow and fill space
+                  >
+                    Save Changes
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<LockResetIcon />}
+                    onClick={() => setEditing(true)}
+                    sx={{ flexGrow: 1 }} // Allow buttons to grow and fill space
+                  >
+                    Change password
+                  </Button>
+                </Box>
+                <IconButton color="error" onClick={handleDeleteAccount} sx={{ 
+                  width: { xs: '100%', sm: 'auto' }, // Full width on xs, auto on sm
+                  justifyContent: { xs: 'center', sm: 'flex-end' }, // Center icon and text on xs
+                  borderRadius: { xs: '4px', sm: '50%' } // Make it a button shape on xs, circular on sm
+                }}>
                   <DeleteIcon />
-                  <Typography variant="button" color="error">
+                  <Typography variant="button" color="error" sx={{ marginLeft: 1 }}>
                     Delete Account
                   </Typography>
                 </IconButton>
@@ -298,13 +354,14 @@ if (current_password && new_password && confirm_password) {
         <ModalComponent
           isOpen={isModalOpen}
           onClose={handleModalClose} 
-          userId={user_id}        />
+          userId={user_id}         />
 
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={6000}
           onClose={() => setSnackbarOpen(false)}
           message={snackbarMessage}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Position snackbar responsively
         />
       </Box>
     </Box>

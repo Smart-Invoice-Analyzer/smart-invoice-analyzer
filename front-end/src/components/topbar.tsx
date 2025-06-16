@@ -1,12 +1,8 @@
-// Topbar.tsx
-import React from 'react';
-import { Box, TextField, InputAdornment, IconButton, Typography, Avatar } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import React, { useRef, useState } from 'react';
+import { Box, IconButton, Typography, Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import { useAuth } from '../hooks/useAuth';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import CircleNotificationsRoundedIcon from '@mui/icons-material/CircleNotificationsRounded';
 import { useDarkMode } from '../DarkMode/DarkModeContext';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,6 +18,18 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
 
   const topbarname = useSelector ((state: RootState) => state.auth.username);
   const { darkMode, toggleDarkMode } = useDarkMode(); // Context'ten alındı
+
+  const [openNotif, setOpenNotif] = useState(false);
+  const anchorRef = useRef(null);
+
+    const handleToggleNotif = () => {
+    setOpenNotif((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setOpenNotif(false);
+  };
+
   
   return (
     <Box sx={{
@@ -52,8 +60,11 @@ const Topbar: React.FC<TopbarProps> = ({ sidebarOpen,toggleSidebar}) => {
     <MenuIcon sx={{ color: darkMode ? '#fff' : '#000' }} />
   </IconButton>
 </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' , gap:"20px"}}>
-        <CircleNotificationsRoundedIcon sx={{height:"36px",width:"36px",color: darkMode ? '#888' : '#000'}}></CircleNotificationsRoundedIcon>
+<Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center' , gap:"5px"}}>
+     <IconButton onClick={handleToggleNotif} ref={anchorRef}>  <CircleNotificationsRoundedIcon sx={{height:"36px",width:"36px",color: darkMode ? '#888' : '#000'}}></CircleNotificationsRoundedIcon></IconButton> 
+       
+       
         <Box sx={{display:"flex",alignItems:"center", gap:"10px"}}>
         <Avatar sx={{height:"30px",width:"30px",bgcolor:darkMode ? '#888' : '#000'}}>
           <PersonIcon sx={{color:darkMode ? " black" : "white"}} />

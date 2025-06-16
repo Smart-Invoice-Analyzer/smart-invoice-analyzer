@@ -143,17 +143,17 @@ const Invoice: React.FC = () => {
     🏢 {invoiceDetail.vendor.name}
   </Typography>
 
-  <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+  <Typography variant="subtitle2" color={darkMode ? "#F5F5F5" : "#212121"}>
     🌍 <strong>Country:</strong> {invoiceDetail.vendor.country?.toUpperCase()}
   </Typography>
 
-  <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+  <Typography variant="subtitle2"  color={darkMode ? "#F5F5F5" : "#212121"}>
     📍 <strong>Address:</strong> {invoiceDetail.vendor.address}
   </Typography>
 
   <Divider sx={{ my: 1.5 }} />
 
-  <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+  <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }} color={darkMode ? "#F5F5F5" : "#212121"}>
     📞 {invoiceDetail.vendor.phone} | ✉️ {invoiceDetail.vendor.email}
   </Typography>
 </Box>
@@ -172,23 +172,23 @@ const Invoice: React.FC = () => {
       }}
     >
       <Box sx={{display:"flex",justifyContent: 'space-between' }}>
-      <Typography variant="h6">💰 Total</Typography>
-      <Typography>{invoiceDetail.total_amount} {invoiceDetail.currency}</Typography>
+      <Typography variant="h6" color={darkMode ? "#F5F5F5" : "#212121"}>💰 Total</Typography>
+      <Typography color={darkMode ? "#F5F5F5" : "#212121"}>{invoiceDetail.total_amount} {invoiceDetail.currency}</Typography>
 </Box>
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6" sx={{ marginBottom: 1 }}>
+      <Typography variant="h6" sx={{ marginBottom: 1 }}color={darkMode ? "#F5F5F5" : "#212121"}>
         🗓️ Date info
       </Typography>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-        <Typography variant="body2" color="text.secondary">Invoice Date:</Typography>
-        <Typography variant="body2">{invoiceDetail.date}</Typography>
+        <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"}>Invoice Date:</Typography>
+        <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"}>{invoiceDetail.date}</Typography>
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body2" color="text.secondary">Added Date:</Typography>
-        <Typography variant="body2">{formatDateTime(invoiceDetail.created_at)}</Typography>
+        <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"} >Added Date:</Typography>
+        <Typography variant="body2"color={darkMode ? "#F5F5F5" : "#212121"}>{formatDateTime(invoiceDetail.created_at)}</Typography>
       </Box>
     </Box>
   </Grid>
@@ -196,7 +196,7 @@ const Invoice: React.FC = () => {
 
 
           {/* Items */}
-          <Typography variant="h6" sx={{ marginBottom: 2 }}>
+          <Typography variant="h6" sx={{ marginBottom: 2 }} color={darkMode ? "#F5F5F5" : "#212121"}>
             🛒 Items:
           </Typography>
           <Grid container spacing={3}>
@@ -206,7 +206,7 @@ const Invoice: React.FC = () => {
                   sx={{
                     padding: 2,
                     borderRadius: 2,
-                    backgroundColor: darkMode ? '#424242' : '#fff',
+                    backgroundColor: darkMode ? '#2e2e2d' : '#fff',
                     boxShadow: 1,
                     transition: 'transform 0.2s',
                     '&:hover': {
@@ -214,10 +214,10 @@ const Invoice: React.FC = () => {
                     },
                   }}
                 >
-                  <Typography variant="subtitle1"><strong>{item.description}</strong></Typography>
-                  <Typography variant="body2">📦 Quantity: {item.quantity}</Typography>
-                  <Typography variant="body2">💵 Unit Price: {item.unit_price} {invoiceDetail.currency}</Typography>
-                  <Typography variant="body2">🏷️ Category: {item.category}</Typography>
+                  <Typography variant="subtitle1" color={darkMode ? "#F5F5F5" : "#212121"}><strong>{item.description}</strong></Typography>
+                  <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"}>📦 Quantity: {item.quantity}</Typography>
+                  <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"}>💵 Unit Price: {item.unit_price} {invoiceDetail.currency}</Typography>
+                  <Typography variant="body2" color={darkMode ? "#F5F5F5" : "#212121"}>🏷️ Category: {item.category}</Typography>
                 </Box>
               </Grid>
             ))}

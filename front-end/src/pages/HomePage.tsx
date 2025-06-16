@@ -115,7 +115,7 @@ data.invoices.forEach(invoice => {
   ];
 
   return (
-    <Box sx={{ display: 'flex',backgroundColor: darkMode ? '#444' : '#e0e0e0'}}>
+    <Box sx={{ display: 'flex'}}>
       <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <Box

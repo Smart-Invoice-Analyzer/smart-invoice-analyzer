@@ -88,7 +88,12 @@ const authSlice = createSlice({
       localStorage.removeItem('user_id');
       localStorage.removeItem('token');
       localStorage.removeItem('gender');
-      localStorage.removeItem('age')
+      localStorage.removeItem('age');
+      localStorage.setItem('darkMode', 'false');
+      localStorage.removeItem('darkMode')
+
+      window.location.reload();
+
     },
     updateProfile: (
       state,
