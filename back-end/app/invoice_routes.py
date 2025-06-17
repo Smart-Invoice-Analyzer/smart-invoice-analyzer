@@ -546,15 +546,6 @@ def translate_to_en(text_list, language='tr'):
     except Exception as e:
         print(f"Translation error: {e}")
         return []
-    
-def translate_googletrans(text_list):
-    from googletrans import Translator
-    translator = Translator()
-    result = translator.translate(text_list, src='tr', dest='en')
-    if isinstance(result, list):
-        return [res.text for res in result]
-    else:
-        return result.text
 
 def extract_data_from_link_turkish(link):
 
