@@ -11,9 +11,6 @@ import os
 import re
 import app.module.invoiceocr.function as function
 
-# Initialize the OCR function once at the start
-function.init()
-
 # Get the absolute path to the current script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -83,6 +80,7 @@ class ProcessQR(Resource):
     @invoice_ns.response(500, 'Internal server error')
     @invoice_ns.doc(security='Bearer')
     def post(self):
+        import traceback
         """Extract invoice from QR data and add it to the database."""
         # Extract JSON payload
         data = request.get_json()
@@ -104,6 +102,7 @@ class ProcessQR(Resource):
         # Process the QR data and add invoice
         try:
             # This function should return a Python dict matching your invoice schema
+            function.init()
             if 'monitoring.e-kassa.gov.az' in qr_data:
                 invoice_data = extract_data_from_link_azerbaijan(qr_data)
             else:
@@ -130,6 +129,7 @@ class ProcessQR(Resource):
 
         except Exception as e:
             # Handle any other unexpected error
+            traceback.print_exc()  # Log the traceback for debugging
             return {'error': f'Unexpected error: {str(e)}'}, 500
 
 
@@ -427,8 +427,16 @@ def extract_invoice_data_azerbaijan(lines, link):
         address = None
         for i in range(len(lines)):
             if lines[i].startswith("Object"):
-                name = lines[i].split(":", 1)[1].strip()
-                address = lines[i+1].split(":", 1)[1].strip() if i + 1 < len(lines) else None
+                if 'oba' in lines[i].lower():
+                    name = 'OBA MARKET SARAY'
+                elif 'araz' in lines[i].lower():
+                    name = 'ARAZ MARKET'
+                else:
+                    name = 'Vendor Unspecified'
+                try:
+                    address = lines[i+1].split(":", 1)[1].strip() if i + 1 < len(lines) else None
+                except IndexError:
+                    address = None
                 break
 
         total_amount_line = next((line.strip() for line in lines if line.strip().lower() == "total"), None)

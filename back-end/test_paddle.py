@@ -11,7 +11,7 @@ ocr = PaddleOCR(
 )
 
 # Image path
-image_path = 'app/images/B19ez5YAjXueWVMBGvxnN6oWQxf1vbWaXNbARUtEkmD7.jpg'
+image_path = 'app/images/B4GRGKAE9rj8W4fw5SC1hLQwhzjWL4xVMt5z5dXuBzVg.jpg'
 
 # Run OCR
 result = ocr.ocr(image_path, cls=True)
