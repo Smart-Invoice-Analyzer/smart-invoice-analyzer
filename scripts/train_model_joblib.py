@@ -35,7 +35,9 @@ def main():
     nltk.download('punkt')
     nltk.download('stopwords')
 
-    df = pd.read_csv("./datasets/df_55k.csv")
+    df = pd.read_csv("./datasets/data.csv")
+
+    print("Dataset shape:", df.shape)
 
     df["name"] = df["name"].str.replace(r'\d+', '', regex=True)
     df["name"] = df["name"].str.replace(r'[^\w\s]', '', regex=True)
