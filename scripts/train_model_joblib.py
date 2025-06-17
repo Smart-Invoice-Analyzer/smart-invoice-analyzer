@@ -61,9 +61,9 @@ def main():
 
     lr = train_and_eval(X, y, classes=le.classes_, model=lr)
 
-    save_model(lr, "lr_full.joblib")
-    save_model(cv, "vectorizer.joblib")
-    save_model(le, "labelencoder.joblib")
+    save_model(lr, "models/lr_full.joblib")
+    save_model(cv, "models/vectorizer.joblib")
+    save_model(le, "models/labelencoder.joblib")
 
 if __name__ == "__main__":
     main()
