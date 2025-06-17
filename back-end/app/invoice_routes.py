@@ -6,28 +6,31 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from app.helper_functions import decode_jwt, convert_decimal, validate_phone, validate_country, validate_currency, validate_positive_amount
 import json
 from datetime import date
-import pickle
+import joblib
 import os
 import re
+import app.module.invoiceocr.function as function
 
+# Initialize the OCR function once at the start
+function.init()
 
 # Get the absolute path to the current script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Build paths relative to this script's directory
-VECTORIZER_PATH = os.path.join(BASE_DIR, "classification", "vectorizer.pkl")
-MODEL_PATH = os.path.join(BASE_DIR, "classification", "lr_full.pkl")
-LABEL_ENCODER_PATH = os.path.join(BASE_DIR, "classification", "labelencoder.pkl")
+VECTORIZER_PATH = os.path.join(BASE_DIR, "classification", "vectorizer.joblib")
+MODEL_PATH = os.path.join(BASE_DIR, "classification", "lr_full.joblib")
+LABEL_ENCODER_PATH = os.path.join(BASE_DIR, "classification", "labelencoder.joblib")
 
 # Load components
 with open(VECTORIZER_PATH, "rb") as f:
-    vectorizer = pickle.load(f)
+    vectorizer = joblib.load(f)
 
 with open(MODEL_PATH, "rb") as f:
-    model = pickle.load(f)
+    model = joblib.load(f)
 
 with open(LABEL_ENCODER_PATH, "rb") as f:
-    label_encoder = pickle.load(f)
+    label_encoder = joblib.load(f)
 
 invoice_ns = Namespace(
     'invoices',
@@ -101,7 +104,10 @@ class ProcessQR(Resource):
         # Process the QR data and add invoice
         try:
             # This function should return a Python dict matching your invoice schema
-            invoice_data = extract_data_from_link_turkish(qr_data)
+            if 'monitoring.e-kassa.gov.az' in qr_data:
+                invoice_data = extract_data_from_link_azerbaijan(qr_data)
+            else:
+                invoice_data = extract_data_from_link_turkish(qr_data)
 
             if not isinstance(invoice_data, dict):
                 return {'error': 'Failed to extract invoice data from QR'}, 400
@@ -388,42 +394,23 @@ def add_invoice_from_data(invoice_data, user_id, db_session):
     return result.scalar()  # Return invoice ID
 
 
-def extract_data_from_link(link):
+def extract_data_from_link_azerbaijan(link):
 
     image_id = function.get_id(link)
-    image_path = f"images/{image_id}.jpg"
+    image_path = f"app/images/{image_id}.jpg"
 
     # Ensure images folder exists
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
 
-    # Download image and check success
-    try:
-        response = function.download_image(image_id, filename=image_path)
-    except Exception as e:
-        raise RuntimeError(f"Image download failed: {e}")
-
-    # Check that the file actually exists and is readable
-    if not os.path.isfile(image_path):
-        raise FileNotFoundError(f"Image file not found after download: {os.path.abspath(image_path)}")
-
     # Process image
     content = function.read(image_path)
-    text = function.to_list_of_texts(content)
 
-    result = extract_invoice_data(text, link)
-
-    # Cleanup: delete the image
-    try:
-        os.remove(image_path)
-    except FileNotFoundError:
-        pass
-    except Exception as e:
-        print(f"Warning: could not delete image file: {e}")
+    result = extract_invoice_data_azerbaijan(content, link)
 
     return result
 
 
-def extract_invoice_data(lines, link):
+def extract_invoice_data_azerbaijan(lines, link):
         from datetime import datetime
 
         def get_value_after(label):
@@ -536,22 +523,25 @@ def extract_invoice_items(ocr_text: str):
 
     # Translate and predict categories
     if descriptions:
-        translated = translate_tr_to_en(descriptions)
+        translated = translate_to_en(descriptions, language='az')
         X_vec = vectorizer.transform(translated)
         y_pred = model.predict(X_vec)
         predicted_labels = label_encoder.inverse_transform(y_pred)
-
+        # The words with all 0 vectors are unknown
+        for i in range(X_vec.shape[0]):
+            if X_vec[i].nnz == 0: 
+                predicted_labels[i] = "Unknown" 
         for item, label in zip(temp_items, predicted_labels):
             item["category"] = label
 
     return temp_items
 
 
-def translate_tr_to_en(text_list):
+def translate_to_en(text_list, language='tr'):
     from deep_translator import GoogleTranslator
     # translate from turkish to english
     try:
-        translated = GoogleTranslator(source='tr', target='en').translate_batch(text_list)
+        translated = GoogleTranslator(source=language, target='en').translate_batch(text_list)
         return translated
     except Exception as e:
         print(f"Translation error: {e}")
@@ -617,7 +607,7 @@ def extract_data_from_link_turkish(link):
 
         # Vendor
         extracted_data["vendor"] = {
-            "name": "None",
+            "name": "Vendor Unspecified",
             "address": None,
             "country": None, 
             "phone": None
@@ -638,7 +628,7 @@ def extract_data_from_link_turkish(link):
             })
 
         # Translate item descriptions to English
-        translated_descriptions_en = translate_tr_to_en(item_descriptions_tr)
+        translated_descriptions_en = translate_to_en(item_descriptions_tr)
         print("Translations: ", translated_descriptions_en)
 
         # Predict categories for each translated item description
@@ -653,7 +643,6 @@ def extract_data_from_link_turkish(link):
             for i in range(X_new.shape[0]):
                 if X_new[i].nnz == 0: 
                     predicted_categories[i] = "Unknown" 
-            print("Predicted categories: ", predicted_categories)
             # Assign predicted categories back to the items
             for i, item_data in enumerate(original_items):
                 item_data["category"] = predicted_categories[i]

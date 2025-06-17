@@ -1,14 +1,10 @@
 import cv2
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 import json
 import re
 from paddleocr import PaddleOCR
 
 __all__ = [
-    "init", "read", "read_to_json", "extract_date", "extract_total",
-    "extract_items_with_llm", "to_list_of_texts"
+    "init", "read", "read_to_json", "extract_date", "extract_total", "to_list_of_texts"
 ]
 
 # Create OCR object and disable GPU to avoid CUDA issues
@@ -19,12 +15,12 @@ def init():
     """
     global ocr
     ocr = PaddleOCR(
-        use_angle_cls=True,
-        lang='en',
-        det_model_dir='app/models/det/en_PP-OCRv3_det_infer',
-        rec_model_dir='app/models/rec/en_PP-OCRv4_rec_infer',
-        cls_model_dir='app/models/cls/ch_ppocr_mobile_v2.0_cls_infer',
-        use_gpu = False
+    use_textline_orientation=True,
+    lang='en',
+    cls_model_dir='app/models/cls/ch_ppocr_mobile_v2.0_cls_infer',
+    det_model_dir='app/models/det/en_PP-OCRv3_det_infer',
+    rec_model_dir='app/models/rec/en_PP-OCRv4_rec_infer',
+    use_angle_cls=True
     )
 
 # An hidden function that extracts all texts from OCR output. It should not be called directly.
