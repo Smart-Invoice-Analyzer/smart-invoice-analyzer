@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { api_url } from '../api/apiconfig';
+import { CircularProgress } from '@mui/material';
 
 
 interface AddButtonProps {
@@ -17,7 +18,13 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
   const userID = useSelector((state: RootState) => state.auth.user_id);
   const token = useSelector((state: RootState) => state.auth.token);
-  console.log("token", token)
+
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState('');
+  const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+
 
   useEffect(() => {
     if (scannerVisible) {
@@ -46,8 +53,8 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
 
   const handleQRCodeScan = async (qrCode: string) => {
-    console.log('Taranan QR kod verisi:', qrCode);
-
+    console.log('Scanned QR kod data:', qrCode);
+    setStatus('loading');
     try {
       const formattedData = {
         qr_data: qrCode
@@ -65,8 +72,24 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
       );
 
       console.log("QR veri başarıyla gönderildi:", response.data);
+      setStatus('success');
+      setNotification("Fatura başarıyla eklendi.");
+      setNotificationType("success");
+
+       setTimeout(() => {
+      setStatus('idle');
+      setScannerVisible(false);
+    }, 1500);
     } catch (error) {
       console.error("QR kod gönderme hatası:", error);
+      setStatus('error');
+      setNotification("Fatura eklenirken bir hata oluştu.");
+      setNotificationType("error");
+
+      setTimeout(() => {
+      setStatus('idle');
+      setScannerVisible(false);
+    }, 1500);
     }
   };
 
@@ -111,6 +134,44 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
           <div id="reader" style={{ width: '50%', height: '100%', overflow: "auto" }}></div>
         </Box>
       </Modal>
+      {status !== 'idle' && (
+  <Box sx={{
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 1300,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 2,
+    p: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 2,
+  }}>
+    {status === 'loading' && <CircularProgress />}
+
+    {status === 'success' && (
+      <>
+        <Box sx={{ fontSize: 48, color: 'green' }}>✔</Box>
+        <Box sx={{ fontWeight: 'bold', fontSize: 16, color: 'green' }}>
+          Başarıyla eklendi
+        </Box>
+      </>
+    )}
+
+    {status === 'error' && (
+      <>
+        <Box sx={{ fontSize: 48, color: 'red' }}>✖</Box>
+        <Box sx={{ fontWeight: 'bold', fontSize: 16, color: 'red' }}>
+          Hata oluştu
+        </Box>
+      </>
+    )}
+  </Box>
+)}
+
+
     </>
   );
 };

@@ -32,10 +32,6 @@ const InvoicePage: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const { darkMode, toggleDarkMode } = useDarkMode();
 
-  const toinvoice = () => {
-    window.location.href = (`www.facebook.com`);
-    console.log("hello world");
-  }
 
   const username = useSelector((state: RootState) => state.auth.userName);
 

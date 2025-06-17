@@ -16,7 +16,6 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose, userId }) => {
   const dispatch = useDispatch();
 
   const user_id = useSelector((state: any) => state.auth.user_id);
-  console.log('user', user_id)
   const logoutt = () => {
 
     dispatch(logout());
