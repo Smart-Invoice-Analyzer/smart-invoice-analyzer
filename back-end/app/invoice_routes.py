@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VECTORIZER_PATH = os.path.join(BASE_DIR, "classification", "vectorizer.joblib")
 MODEL_PATH = os.path.join(BASE_DIR, "classification", "lr_full.joblib")
 LABEL_ENCODER_PATH = os.path.join(BASE_DIR, "classification", "labelencoder.joblib")
+IMAGES_DIR = os.path.join(BASE_DIR, "images")
 
 # Load components
 with open(VECTORIZER_PATH, "rb") as f:
@@ -397,7 +398,7 @@ def add_invoice_from_data(invoice_data, user_id, db_session):
 def extract_data_from_link_azerbaijan(link):
 
     image_id = function.get_id(link)
-    image_path = f"app/images/{image_id}.jpg"
+    image_path = f"{IMAGES_DIR}/{image_id}.jpg"
 
     # Ensure images folder exists
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
