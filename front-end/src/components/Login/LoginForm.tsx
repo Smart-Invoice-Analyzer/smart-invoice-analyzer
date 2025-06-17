@@ -182,8 +182,12 @@ const LoginForm: React.FC = () => {
         </Button>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox
-              onChange={handleSavePasswordChange} />}
+            control={
+    <Checkbox
+      checked={savePassword}
+      onChange={handleSavePasswordChange}
+    />
+  }
             label="Save password" />
         </FormGroup>
       </form>

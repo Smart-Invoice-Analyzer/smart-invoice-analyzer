@@ -16,7 +16,6 @@ interface AddButtonProps {
 const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
   const [scannerVisible, setScannerVisible] = useState(false);
 
-  const userID = useSelector((state: RootState) => state.auth.user_id);
   const token = useSelector((state: RootState) => state.auth.token);
 
   const [loading, setLoading] = useState(false);
@@ -53,7 +52,6 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
 
 
   const handleQRCodeScan = async (qrCode: string) => {
-    console.log('Scanned QR kod data:', qrCode);
     setStatus('loading');
     try {
       const formattedData = {
@@ -71,9 +69,8 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
         formattedData, config
       );
 
-      console.log("QR veri başarıyla gönderildi:", response.data);
       setStatus('success');
-      setNotification("Fatura başarıyla eklendi.");
+      setNotification("Invoice Added Succesfully.");
       setNotificationType("success");
 
        setTimeout(() => {
@@ -81,9 +78,9 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
       setScannerVisible(false);
     }, 1500);
     } catch (error) {
-      console.error("QR kod gönderme hatası:", error);
+      console.error("QR code error:", error);
       setStatus('error');
-      setNotification("Fatura eklenirken bir hata oluştu.");
+      setNotification("An error occured while invoice adding");
       setNotificationType("error");
 
       setTimeout(() => {
@@ -155,7 +152,7 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
       <>
         <Box sx={{ fontSize: 48, color: 'green' }}>✔</Box>
         <Box sx={{ fontWeight: 'bold', fontSize: 16, color: 'green' }}>
-          Başarıyla eklendi
+          Invoice Added Succesfully
         </Box>
       </>
     )}
@@ -164,7 +161,7 @@ const AddButton: React.FC<AddButtonProps> = ({ darkMode }) => {
       <>
         <Box sx={{ fontSize: 48, color: 'red' }}>✖</Box>
         <Box sx={{ fontWeight: 'bold', fontSize: 16, color: 'red' }}>
-          Hata oluştu
+          An error occurred
         </Box>
       </>
     )}
