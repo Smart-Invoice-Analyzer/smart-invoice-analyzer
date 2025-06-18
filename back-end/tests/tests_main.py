@@ -2,7 +2,7 @@ import requests
 import json
 
 # Base URL for the API
-BASE_URL = "https://smart-invoice-analyzer-server.onrender.com"
+BASE_URL = "http://localhost:5000"
 # Alternate URL: https://smart-invoice-analyzer-server.onrender.com/
 
 # --- Test Data ---
