@@ -32,8 +32,9 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
 
   const logoutAndRedirect = () => {
     dispatch(logout());
-    navigate('/');
-
+    setTimeout(() => {
+      navigate('/');
+    }, 50);
   };
 
   const sidebarContent = (

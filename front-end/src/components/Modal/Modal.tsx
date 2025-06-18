@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/authSlice';
 import { api_url } from '../../api/apiconfig';
+import { useNavigate } from 'react-router-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -14,12 +15,15 @@ interface ModalProps {
 
 const ModalComponent: React.FC<ModalProps> = ({ isOpen, onClose, userId }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const user_id = useSelector((state: any) => state.auth.user_id);
   const logoutt = () => {
 
     dispatch(logout());
-    window.location.href = '/';
+    // window.location.href = '/';
+    setTimeout(() => {
+      navigate('/');
+    }, 50);
   }
   if (!isOpen) return null;
 

@@ -564,7 +564,14 @@ def extract_data_from_link_turkish(link):
     try:
 
         # Extract InqueryHash from the link
-        InqueryHash = link.split("?q=")[1]
+        try:
+            if "p.pavo.com" in link:
+                InqueryHash = link.split("/")[-1]
+            else:
+                InqueryHash = link.split("?q=")[1]
+        except IndexError:
+            return {"error": "Invalid link format. Could not extract InqueryHash."}
+            
 
         # Endpoint URL
         url = "https://pavopay.pavo.com.tr/api/InquiryOperations/SaleInquiry/LoadSalesSummary"

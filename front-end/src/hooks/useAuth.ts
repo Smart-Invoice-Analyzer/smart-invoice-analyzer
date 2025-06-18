@@ -2,11 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { login, logout } from "../store/authSlice";
 import { loginUserAPI } from "../api/auth";
+import { n } from "framer-motion/dist/types.d-B50aGbjN";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-
+  const navigate = useNavigate();
   const loginUser = async (username_or_email: string, password: string) => {
     try {
       const response = await loginUserAPI({ username_or_email, password });
@@ -38,8 +40,11 @@ export const useAuth = () => {
   };
 
   const logoutUser = () => {
-    localStorage.removeItem("token"); // Token'ı temizle
+    // localStorage.removeItem("token"); // Token'ı temizle
     dispatch(logout());
+    setTimeout(() => {
+      navigate('/');
+    }, 50);
   };
 
   return {
