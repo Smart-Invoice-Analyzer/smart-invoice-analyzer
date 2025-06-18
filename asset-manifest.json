@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.616f783f.css",
-    "main.js": "/static/js/main.f76e34a8.js",
-    "index.html": "/index.html",
-    "main.616f783f.css.map": "/static/css/main.616f783f.css.map",
-    "main.f76e34a8.js.map": "/static/js/main.f76e34a8.js.map"
+    "main.css": "/smart-invoice-analyzer/static/css/main.616f783f.css",
+    "main.js": "/smart-invoice-analyzer/static/js/main.95c5a727.js",
+    "index.html": "/smart-invoice-analyzer/index.html",
+    "main.616f783f.css.map": "/smart-invoice-analyzer/static/css/main.616f783f.css.map",
+    "main.95c5a727.js.map": "/smart-invoice-analyzer/static/js/main.95c5a727.js.map"
   },
   "entrypoints": [
     "static/css/main.616f783f.css",
-    "static/js/main.f76e34a8.js"
+    "static/js/main.95c5a727.js"
   ]
 }
