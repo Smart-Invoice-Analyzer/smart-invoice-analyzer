@@ -174,7 +174,7 @@ const HomePage: React.FC = () => {
           <Grid item xs={12} md={6}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <img
-                src="/data.svg"
+                src={`${process.env.PUBLIC_URL}/data.svg`}
                 alt="Dashboard Illustration"
                 style={{ maxHeight: 250, width: 'auto' }}
               />

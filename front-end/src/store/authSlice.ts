@@ -92,7 +92,7 @@ const authSlice = createSlice({
       localStorage.setItem('darkMode', 'false');
       localStorage.removeItem('darkMode')
 
-      window.location.reload();
+      // window.location.reload();
 
     },
     updateProfile: (
